@@ -64,6 +64,9 @@ void delete_shm(int shmid)
 	}
 }
 
+
+
+
 union semun
 {
 	int val;	//信号灯的初值
