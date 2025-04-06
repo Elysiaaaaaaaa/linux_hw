@@ -1,0 +1,3 @@
+/mnt/d/Code/c++/linux_hw/build/CMakeFiles/rebuild_cache.dir
+/mnt/d/Code/c++/linux_hw/build/CMakeFiles/edit_cache.dir
+/mnt/d/Code/c++/linux_hw/build/CMakeFiles/linux_hw.dir

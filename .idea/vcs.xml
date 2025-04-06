@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Linux-xmu-AI" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/linux-car" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/linux-ipc-wrappers" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/linux_hw" vcs="Git" />
   </component>
 </project>
