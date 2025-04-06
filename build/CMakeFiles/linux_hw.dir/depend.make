@@ -3,27 +3,33 @@
 
 CMakeFiles/linux_hw.dir/src/Car.cpp.o: ../include/Car.h
 CMakeFiles/linux_hw.dir/src/Car.cpp.o: ../include/ipc.h
+CMakeFiles/linux_hw.dir/src/Car.cpp.o: ../include/logger.h
 CMakeFiles/linux_hw.dir/src/Car.cpp.o: ../src/Car.cpp
 
 CMakeFiles/linux_hw.dir/src/Tunnel.cpp.o: ../include/Car.h
 CMakeFiles/linux_hw.dir/src/Tunnel.cpp.o: ../include/Logger.h
 CMakeFiles/linux_hw.dir/src/Tunnel.cpp.o: ../include/Tunnel.h
 CMakeFiles/linux_hw.dir/src/Tunnel.cpp.o: ../include/ipc.h
+CMakeFiles/linux_hw.dir/src/Tunnel.cpp.o: ../include/logger.h
 CMakeFiles/linux_hw.dir/src/Tunnel.cpp.o: ../include/mp.h
 CMakeFiles/linux_hw.dir/src/Tunnel.cpp.o: ../src/Tunnel.cpp
 
-CMakeFiles/linux_hw.dir/src/ipc.cpp.o: ../include/Logger.h
 CMakeFiles/linux_hw.dir/src/ipc.cpp.o: ../include/ipc.h
+CMakeFiles/linux_hw.dir/src/ipc.cpp.o: ../include/logger.h
 CMakeFiles/linux_hw.dir/src/ipc.cpp.o: ../src/ipc.cpp
 
 CMakeFiles/linux_hw.dir/src/logger.cpp.o: ../include/Logger.h
 CMakeFiles/linux_hw.dir/src/logger.cpp.o: ../src/logger.cpp
 
+CMakeFiles/linux_hw.dir/src/main.cpp.o: ../include/Car.h
+CMakeFiles/linux_hw.dir/src/main.cpp.o: ../include/Logger.h
+CMakeFiles/linux_hw.dir/src/main.cpp.o: ../include/Tunnel.h
 CMakeFiles/linux_hw.dir/src/main.cpp.o: ../include/ipc.h
 CMakeFiles/linux_hw.dir/src/main.cpp.o: ../include/logger.h
 CMakeFiles/linux_hw.dir/src/main.cpp.o: ../include/mp.h
 CMakeFiles/linux_hw.dir/src/main.cpp.o: ../src/main.cpp
 
+CMakeFiles/linux_hw.dir/src/mp.cpp.o: ../include/logger.h
 CMakeFiles/linux_hw.dir/src/mp.cpp.o: ../include/mp.h
 CMakeFiles/linux_hw.dir/src/mp.cpp.o: ../src/mp.cpp
 
