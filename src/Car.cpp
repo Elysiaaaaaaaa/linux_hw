@@ -7,50 +7,31 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <random>
 using namespace std;
 
 
 // Constructor
-Car::Car(int proj_id, const std::string& path, int shm_size, int car_id, Direction dir, txt_reader& reader)
-        : car_id_(car_id), direction_(dir) {
-    // Generate IPC key
-//    char* cwd = std::getenv("PWD");
-//    if (cwd == nullptr) {
-//        std::cerr << "无法获取当前工作目录" << std::endl;
-//        return;
-//    }
-//    std::string currentPath(cwd);
-//    // 计算父目录
-//    size_t lastSlash = currentPath.find_last_of('/');
-//    if (lastSlash == std::string::npos) {
-//        std::cerr << "无法找到父目录" << std::endl;
-//        return;
-//    }
-//    std::string parentPath = currentPath.substr(0, lastSlash);
-//    // 拼接目标路径
-//    std::string targetPath = parentPath;
-//    std::cout << "pwd::" << targetPath << std::endl;
-
-//    cout<<path.c_str()<<endl;
-    key_ = Ftok(proj_id, path.c_str());
+//Car::Car(int proj_id, const std::string& path, int shm_size, int car_id, Direction dir, txt_reader& reader)
+//        : car_id_(car_id), direction_(dir) {
+Car::Car(int semid, int car_id, Direction dir, txt_reader& reader)
+        : semid_(semid), car_id_(car_id), direction_(dir) {
+//    key_ = Ftok(proj_id, path.c_str());
     // Get or create a semaphore set with 1 semaphore, initialize to 1
-    semid_ = sem_get(key_, 1, true, 1);
+//    semid_ = sem_get(key_, 1, true, 1);
     // Get or create shared memory
-    shmid_ = shm_init(key_, shm_size, IPC_CREAT | 0666);
-    time = 0;
+//    shmid_ = shm_init(key_, shm_size, IPC_CREAT | 0666);
+    cost_time = int(tunnel_travel_time * (0.7 + (static_cast<double>(rand()) / RAND_MAX) * 0.6));
     state = State::WAITING;
     model_str = "";
     // Attach to shared memory
-    shmaddr_ = shm_conn(shmid_);
-//  init p
+//    shmaddr_ = shm_conn(shmid_);
+//  init p 指针为0
     m.resize(total_number_of_mailboxes);
     for (int i = 0; i < total_number_of_mailboxes; i++)
         m[i] = 0;
-    std::string str;
-    cout<<"1"<<endl;
+    string str;
     while (reader.buf >> str) {
-        cout<<str<<endl;
-
         if (str == "w") { // 写入
             std::string st;
             int t;
@@ -81,33 +62,30 @@ Car::Car(int proj_id, const std::string& path, int shm_size, int car_id, Directi
             op.length = len;
             addOperation(op);
         }else if (str=="end"){
-            cout<<"initfinish"<<endl;
             break;
         }else{
             Logger::log(LogLevel::ERROR, "unsupport model");
             break;
         }
     }
-    cout<<"initfinish"<<endl;
-
 }
 
 // Destructor
 Car::~Car()
 {
-    if (shmaddr_) {
-        shm_disconn(shmaddr_);
-        shmaddr_ = nullptr;
-    }
-    if (semid_ != -1) {
-        sem_del(semid_);
-    }
-    if (shmid_ != -1) {
-        if (shmctl(shmid_, IPC_RMID, nullptr) == -1) {
-            Logger::log(LogLevel::ERROR, "~Car.shmctl");
-            exit(EXIT_FAILURE);
-        }
-    }
+//    if (shmaddr_) {
+//        shm_disconn(shmaddr_);
+//        shmaddr_ = nullptr;
+//    }
+//    if (semid_ != -1) {
+//        sem_del(semid_);
+//    }
+//    if (shmid_ != -1) {
+//        if (shmctl(shmid_, IPC_RMID, nullptr) == -1) {
+//            Logger::log(LogLevel::ERROR, "~Car.shmctl");
+//            exit(EXIT_FAILURE);
+//        }
+//    }
 }
 
 // Request access (P operation)
@@ -118,7 +96,9 @@ void Car::enter()
         exit(1);
     }
     Logger::log(LogLevel::INFO, "[Car " + std::to_string(car_id_) + " (" + getDirectionStr() + ")] wants to enter.");
+//    等待隧道空
     Wait(semid_, 0);
+    start_time = time(0);
     state = State::INNER;
     Logger::log(LogLevel::INFO, "[Car " + to_string(car_id_) + " (" + getDirectionStr() + ")] entered.");
 }
@@ -132,14 +112,15 @@ void Car::leave()
     }
     Logger::log(LogLevel::INFO, "[Car " + to_string(car_id_) + " (" + getDirectionStr() + ")] is leaving.");
     state = State::OUT;
+//    隧道车--
     Signal(semid_, 0);
 }
 
 // Get pointer to shared memory
-void* Car::getSharedMemory()
-{
-    return shmaddr_;
-}
+//void* Car::getSharedMemory()
+//{
+//    return shmaddr_;
+//}
 
 // Get car id
 int Car::getCarId() const
@@ -164,15 +145,34 @@ std::string Car::getDirectionStr() const
 void Car::addOperation(const Operation& op) {
     operations.push_back(op);
 }
+bool Car::exet_op(){
+//    确保在隧道内
+    if(state!=State::INNER){
+        Logger::log(LogLevel::ERROR,"car state uncorrect");
+        exit(1);
+    }
 
+//    todo
+
+    return true;
+}
 // 实现 Car 类的 getOperations 方法
 const std::vector<Operation>& Car::getOperations() const {
     return operations;
 }
+bool Car::overtime(time_t ct){
+    if(ct==-1){
+        return (time(0) - start_time) > cost_time;
+    }else{
+        return (time(0) - start_time) > ct;
+    }
+}
 
 void Car::show() const {
+    std::cout << "-----------------------" << std::endl;
     std::cout << "Car ID: " << car_id_ << std::endl;
     std::cout << "Direction: " << getDirectionStr() << std::endl;
+    std::cout << "tunnel_travel_time:" << cost_time <<std::endl;
     std::cout << "Operations:" << std::endl;
     for (const auto& op : operations) {
         if (op.isWrite) {
@@ -188,4 +188,5 @@ void Car::show() const {
                       << "Length: " << op.length << std::endl;
         }
     }
+    std::cout << "-----------------------" << std::endl;
 }

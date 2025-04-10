@@ -21,11 +21,12 @@ private:
     Direction current_direction_; // 当前隧道中车的方向
     int car_count_;               // 隧道中车辆数量
 public:
-    Tunnel(int mutex_sid, int block_sid)
-            : mutex_(mutex_sid), block_(block_sid), car_count_(0) {}
-
+    Tunnel(int mutex_sid, int block_sid);
     void enter(Car &car);
     void leave(Car &car);
+public:
+//    控制隧道车数量
+    int semid_tunnel_car;
 };
 
 

@@ -5,6 +5,11 @@
 #include "../include/Tunnel.h"
 
 extern int maximum_number_of_cars_in_tunnel;
+Tunnel::Tunnel(int mutex_sid, int block_sid)
+        : mutex_(mutex_sid), block_(block_sid), car_count_(0) {
+//    设置控制车数量的信号量
+    semid_tunnel_car = sem_get(IPC_PRIVATE, 1, true, maximum_number_of_cars_in_tunnel);
+}
 void Tunnel::enter(Car &car) {
     Wait(mutex_, 0); // 加锁
 
