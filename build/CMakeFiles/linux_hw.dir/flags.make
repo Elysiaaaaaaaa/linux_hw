@@ -6,5 +6,5 @@ CXX_FLAGS =  -Wall -g   -std=gnu++11
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = 
+CXX_INCLUDES = -I/mnt/d/Code/c++/linux_hw/include 
 

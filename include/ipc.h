@@ -34,7 +34,7 @@ void sem_del(int semid);
 
 
 //共享内存区
-int shm_get(int key,int size,int oflag=IPC_CREAT|0666);
+int shm_init(int key,int size,int oflag=IPC_CREAT|0666);
 void* shm_conn(int shmid);
 void shm_disconn(void *shmaddr);
 void shm_del(int shmid);

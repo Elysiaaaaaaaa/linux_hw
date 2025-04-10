@@ -52,30 +52,63 @@ build cmake_object_order_depends_target_linux_hw: phony || CMakeFiles/linux_hw.d
 build CMakeFiles/linux_hw.dir/src/Car.cpp.obj: CXX_COMPILER__linux_hw_unscanned_Debug D$:/Code/c++/linux_hw/src/Car.cpp || cmake_object_order_depends_target_linux_hw
   DEP_FILE = CMakeFiles\linux_hw.dir\src\Car.cpp.obj.d
   FLAGS = -Wall -g -g -std=gnu++11 -fdiagnostics-color=always
+  INCLUDES = -ID:/Code/c++/linux_hw/include
   OBJECT_DIR = CMakeFiles\linux_hw.dir
   OBJECT_FILE_DIR = CMakeFiles\linux_hw.dir\src
 
 build CMakeFiles/linux_hw.dir/src/Tunnel.cpp.obj: CXX_COMPILER__linux_hw_unscanned_Debug D$:/Code/c++/linux_hw/src/Tunnel.cpp || cmake_object_order_depends_target_linux_hw
   DEP_FILE = CMakeFiles\linux_hw.dir\src\Tunnel.cpp.obj.d
   FLAGS = -Wall -g -g -std=gnu++11 -fdiagnostics-color=always
+  INCLUDES = -ID:/Code/c++/linux_hw/include
   OBJECT_DIR = CMakeFiles\linux_hw.dir
   OBJECT_FILE_DIR = CMakeFiles\linux_hw.dir\src
 
 build CMakeFiles/linux_hw.dir/src/ipc.cpp.obj: CXX_COMPILER__linux_hw_unscanned_Debug D$:/Code/c++/linux_hw/src/ipc.cpp || cmake_object_order_depends_target_linux_hw
   DEP_FILE = CMakeFiles\linux_hw.dir\src\ipc.cpp.obj.d
   FLAGS = -Wall -g -g -std=gnu++11 -fdiagnostics-color=always
+  INCLUDES = -ID:/Code/c++/linux_hw/include
+  OBJECT_DIR = CMakeFiles\linux_hw.dir
+  OBJECT_FILE_DIR = CMakeFiles\linux_hw.dir\src
+
+build CMakeFiles/linux_hw.dir/src/logger.cpp.obj: CXX_COMPILER__linux_hw_unscanned_Debug D$:/Code/c++/linux_hw/src/logger.cpp || cmake_object_order_depends_target_linux_hw
+  DEP_FILE = CMakeFiles\linux_hw.dir\src\logger.cpp.obj.d
+  FLAGS = -Wall -g -g -std=gnu++11 -fdiagnostics-color=always
+  INCLUDES = -ID:/Code/c++/linux_hw/include
+  OBJECT_DIR = CMakeFiles\linux_hw.dir
+  OBJECT_FILE_DIR = CMakeFiles\linux_hw.dir\src
+
+build CMakeFiles/linux_hw.dir/src/mailbox.cpp.obj: CXX_COMPILER__linux_hw_unscanned_Debug D$:/Code/c++/linux_hw/src/mailbox.cpp || cmake_object_order_depends_target_linux_hw
+  DEP_FILE = CMakeFiles\linux_hw.dir\src\mailbox.cpp.obj.d
+  FLAGS = -Wall -g -g -std=gnu++11 -fdiagnostics-color=always
+  INCLUDES = -ID:/Code/c++/linux_hw/include
   OBJECT_DIR = CMakeFiles\linux_hw.dir
   OBJECT_FILE_DIR = CMakeFiles\linux_hw.dir\src
 
 build CMakeFiles/linux_hw.dir/src/main.cpp.obj: CXX_COMPILER__linux_hw_unscanned_Debug D$:/Code/c++/linux_hw/src/main.cpp || cmake_object_order_depends_target_linux_hw
   DEP_FILE = CMakeFiles\linux_hw.dir\src\main.cpp.obj.d
   FLAGS = -Wall -g -g -std=gnu++11 -fdiagnostics-color=always
+  INCLUDES = -ID:/Code/c++/linux_hw/include
   OBJECT_DIR = CMakeFiles\linux_hw.dir
   OBJECT_FILE_DIR = CMakeFiles\linux_hw.dir\src
 
 build CMakeFiles/linux_hw.dir/src/mp.cpp.obj: CXX_COMPILER__linux_hw_unscanned_Debug D$:/Code/c++/linux_hw/src/mp.cpp || cmake_object_order_depends_target_linux_hw
   DEP_FILE = CMakeFiles\linux_hw.dir\src\mp.cpp.obj.d
   FLAGS = -Wall -g -g -std=gnu++11 -fdiagnostics-color=always
+  INCLUDES = -ID:/Code/c++/linux_hw/include
+  OBJECT_DIR = CMakeFiles\linux_hw.dir
+  OBJECT_FILE_DIR = CMakeFiles\linux_hw.dir\src
+
+build CMakeFiles/linux_hw.dir/src/test.cpp.obj: CXX_COMPILER__linux_hw_unscanned_Debug D$:/Code/c++/linux_hw/src/test.cpp || cmake_object_order_depends_target_linux_hw
+  DEP_FILE = CMakeFiles\linux_hw.dir\src\test.cpp.obj.d
+  FLAGS = -Wall -g -g -std=gnu++11 -fdiagnostics-color=always
+  INCLUDES = -ID:/Code/c++/linux_hw/include
+  OBJECT_DIR = CMakeFiles\linux_hw.dir
+  OBJECT_FILE_DIR = CMakeFiles\linux_hw.dir\src
+
+build CMakeFiles/linux_hw.dir/src/txt_reader.cpp.obj: CXX_COMPILER__linux_hw_unscanned_Debug D$:/Code/c++/linux_hw/src/txt_reader.cpp || cmake_object_order_depends_target_linux_hw
+  DEP_FILE = CMakeFiles\linux_hw.dir\src\txt_reader.cpp.obj.d
+  FLAGS = -Wall -g -g -std=gnu++11 -fdiagnostics-color=always
+  INCLUDES = -ID:/Code/c++/linux_hw/include
   OBJECT_DIR = CMakeFiles\linux_hw.dir
   OBJECT_FILE_DIR = CMakeFiles\linux_hw.dir\src
 
@@ -85,15 +118,15 @@ build CMakeFiles/linux_hw.dir/src/mp.cpp.obj: CXX_COMPILER__linux_hw_unscanned_D
 
 
 #############################################
-# Link the executable linux_hw.exe
+# Link the executable D:\Code\c++\linux_hw\linux_hw.exe
 
-build linux_hw.exe: CXX_EXECUTABLE_LINKER__linux_hw_Debug CMakeFiles/linux_hw.dir/src/Car.cpp.obj CMakeFiles/linux_hw.dir/src/Tunnel.cpp.obj CMakeFiles/linux_hw.dir/src/ipc.cpp.obj CMakeFiles/linux_hw.dir/src/main.cpp.obj CMakeFiles/linux_hw.dir/src/mp.cpp.obj
+build D$:/Code/c++/linux_hw/linux_hw.exe: CXX_EXECUTABLE_LINKER__linux_hw_Debug CMakeFiles/linux_hw.dir/src/Car.cpp.obj CMakeFiles/linux_hw.dir/src/Tunnel.cpp.obj CMakeFiles/linux_hw.dir/src/ipc.cpp.obj CMakeFiles/linux_hw.dir/src/logger.cpp.obj CMakeFiles/linux_hw.dir/src/mailbox.cpp.obj CMakeFiles/linux_hw.dir/src/main.cpp.obj CMakeFiles/linux_hw.dir/src/mp.cpp.obj CMakeFiles/linux_hw.dir/src/test.cpp.obj CMakeFiles/linux_hw.dir/src/txt_reader.cpp.obj
   FLAGS = -Wall -g -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\linux_hw.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_FILE = linux_hw.exe
+  TARGET_FILE = D:\Code\c++\linux_hw\linux_hw.exe
   TARGET_IMPLIB = liblinux_hw.dll.a
   TARGET_PDB = linux_hw.exe.dbg
 
@@ -123,7 +156,9 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # =============================================================================
 # Target aliases.
 
-build linux_hw: phony linux_hw.exe
+build linux_hw: phony D$:/Code/c++/linux_hw/linux_hw.exe
+
+build linux_hw.exe: phony D$:/Code/c++/linux_hw/linux_hw.exe
 
 # =============================================================================
 # Folder targets.
@@ -133,7 +168,7 @@ build linux_hw: phony linux_hw.exe
 #############################################
 # Folder: D:/Code/c++/linux_hw/cmake-build-debug
 
-build all: phony linux_hw.exe
+build all: phony D$:/Code/c++/linux_hw/linux_hw.exe
 
 # =============================================================================
 # Built-in targets

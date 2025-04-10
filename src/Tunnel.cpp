@@ -4,59 +4,59 @@
 
 #include "../include/Tunnel.h"
 
+extern int maximum_number_of_cars_in_tunnel;
 void Tunnel::enter(Car &car) {
     Wait(mutex_, 0); // 加锁
 
-    if (car_count_ == 0) {
-        // 隧道里没有车，设置当前方向
-        current_direction_ = car.direction_;
-        car_count_++;
+    while (true) {
+        if (car_count_ == 0) {
+            // 隧道里没有车，设置方向并进入
+            current_direction_ = car.direction_;
+            car_count_++;
+            Logger::log(LogLevel::INFO, "Car " + std::to_string(car.car_id_) +
+                                        " entering tunnel in direction " + std::to_string(static_cast<int>(car.direction_)) +
+                                        " (empty tunnel).");
+            Signal(mutex_, 0); // 解锁
+            return;
+        }
 
-        Logger::log(LogLevel::INFO, "Car " + std::to_string(car.car_id_) +
-                                    " entering tunnel in direction " + std::to_string(static_cast<int>(car.direction_)) +
-                                    " (empty tunnel).");
+        if (current_direction_ == car.direction_ && car_count_ < maximum_number_of_cars_in_tunnel) {
+            // 方向一致且未满，可以进入
+            car_count_++;
+            Logger::log(LogLevel::INFO, "Car " + std::to_string(car.car_id_) +
+                                        " entering tunnel in direction " + std::to_string(static_cast<int>(car.direction_)) +
+                                        " (same direction, space available).");
+            Signal(mutex_, 0); // 解锁
+            return;
+        }
 
-        Signal(mutex_, 0); // 解锁
-        return;
-    }
+        // 方向不同或隧道已满，等待
+        if (current_direction_ != car.direction_) {
+            Logger::log(LogLevel::INFO,  "Car " + std::to_string(car.car_id_) +
+                                         " waiting due to opposite direction (direction " + std::to_string(static_cast<int>(car.direction_)) +
+                                         "), tunnel occupied by direction " + std::to_string(static_cast<int>(current_direction_)) + ".");
+        } else {
+            Logger::log(LogLevel::INFO,  "Car " + std::to_string(car.car_id_) +
+                                         " waiting because tunnel full (direction " + std::to_string(static_cast<int>(car.direction_)) +
+                                         ", cars in tunnel: " + std::to_string(car_count_) + ").");
+        }
 
-    if (current_direction_ == car.direction_) {
-        // 方向一致，可以直接进
-        car_count_++;
-        Logger::log(LogLevel::INFO, "Car " + std::to_string(car.car_id_) +
-                    " entering tunnel in direction " + std::to_string(static_cast<int>(car.direction_)) +
-                    " (same direction).");
-
-        Signal(mutex_, 0); // 解锁
-    } else {
-        // 方向不同，等到当前方向的车全部走完
-        Logger::log(LogLevel::INFO,  "Car " + std::to_string(car.car_id_) +
-                    " waiting to enter tunnel (direction " + std::to_string(static_cast<int>(car.direction_)) +
-                    "), tunnel occupied by direction " + std::to_string(static_cast<int>(current_direction_)) + ".");
-
-        Signal(mutex_, 0); // 先解锁，避免死锁
-
-        Wait(block_, 0); // 阻塞，直到被唤醒
-
-        // 被唤醒后再进隧道
-        Wait(mutex_, 0);
-        current_direction_ = car.direction_;
-        car_count_++;
-        Logger::log(LogLevel::INFO, "Car " + std::to_string(car.car_id_) +
-                    " entering tunnel after wait, new direction " + std::to_string(static_cast<int>(car.direction_)) + ".");
-        Signal(mutex_, 0);
+        Signal(mutex_, 0); // 解锁避免死锁
+        Wait(block_, 0);   // 阻塞，等待条件变化
+        Wait(mutex_, 0);   // 再次加锁后重新检查条件
     }
 }
+
 
 void Tunnel::leave(Car &car) {
     Wait(mutex_, 0); // 加锁
 
     car_count_--;
     Logger::log(LogLevel::INFO, "Car " + std::to_string(car.car_id_) +
-                " leaving tunnel, remaining cars: " + std::to_string(car_count_) + ".");
+                                " leaving tunnel, remaining cars: " + std::to_string(car_count_) + ".");
 
-    if (car_count_ == 0) {
-        // 隧道清空，唤醒等待的车
+    if (car_count_ < maximum_number_of_cars_in_tunnel) {
+        // 隧道未满，可以唤醒同方向的等待车
         Signal(block_, 0);
     }
 

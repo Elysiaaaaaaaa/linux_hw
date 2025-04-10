@@ -8,13 +8,17 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/mnt/d/Code/c++/linux_hw/src/Tunnel.cpp" "/mnt/d/Code/c++/linux_hw/build/CMakeFiles/linux_hw.dir/src/Tunnel.cpp.o"
   "/mnt/d/Code/c++/linux_hw/src/ipc.cpp" "/mnt/d/Code/c++/linux_hw/build/CMakeFiles/linux_hw.dir/src/ipc.cpp.o"
   "/mnt/d/Code/c++/linux_hw/src/logger.cpp" "/mnt/d/Code/c++/linux_hw/build/CMakeFiles/linux_hw.dir/src/logger.cpp.o"
+  "/mnt/d/Code/c++/linux_hw/src/mailbox.cpp" "/mnt/d/Code/c++/linux_hw/build/CMakeFiles/linux_hw.dir/src/mailbox.cpp.o"
   "/mnt/d/Code/c++/linux_hw/src/main.cpp" "/mnt/d/Code/c++/linux_hw/build/CMakeFiles/linux_hw.dir/src/main.cpp.o"
   "/mnt/d/Code/c++/linux_hw/src/mp.cpp" "/mnt/d/Code/c++/linux_hw/build/CMakeFiles/linux_hw.dir/src/mp.cpp.o"
+  "/mnt/d/Code/c++/linux_hw/src/test.cpp" "/mnt/d/Code/c++/linux_hw/build/CMakeFiles/linux_hw.dir/src/test.cpp.o"
+  "/mnt/d/Code/c++/linux_hw/src/txt_reader.cpp" "/mnt/d/Code/c++/linux_hw/build/CMakeFiles/linux_hw.dir/src/txt_reader.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "../include"
   )
 
 # Targets to which this target links.

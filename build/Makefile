@@ -231,6 +231,33 @@ src/logger.cpp.s:
 	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/src/logger.cpp.s
 .PHONY : src/logger.cpp.s
 
+src/mailbox.o: src/mailbox.cpp.o
+
+.PHONY : src/mailbox.o
+
+# target to build an object file
+src/mailbox.cpp.o:
+	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/src/mailbox.cpp.o
+.PHONY : src/mailbox.cpp.o
+
+src/mailbox.i: src/mailbox.cpp.i
+
+.PHONY : src/mailbox.i
+
+# target to preprocess a source file
+src/mailbox.cpp.i:
+	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/src/mailbox.cpp.i
+.PHONY : src/mailbox.cpp.i
+
+src/mailbox.s: src/mailbox.cpp.s
+
+.PHONY : src/mailbox.s
+
+# target to generate assembly for a file
+src/mailbox.cpp.s:
+	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/src/mailbox.cpp.s
+.PHONY : src/mailbox.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -285,6 +312,60 @@ src/mp.cpp.s:
 	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/src/mp.cpp.s
 .PHONY : src/mp.cpp.s
 
+src/test.o: src/test.cpp.o
+
+.PHONY : src/test.o
+
+# target to build an object file
+src/test.cpp.o:
+	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/src/test.cpp.o
+.PHONY : src/test.cpp.o
+
+src/test.i: src/test.cpp.i
+
+.PHONY : src/test.i
+
+# target to preprocess a source file
+src/test.cpp.i:
+	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/src/test.cpp.i
+.PHONY : src/test.cpp.i
+
+src/test.s: src/test.cpp.s
+
+.PHONY : src/test.s
+
+# target to generate assembly for a file
+src/test.cpp.s:
+	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/src/test.cpp.s
+.PHONY : src/test.cpp.s
+
+src/txt_reader.o: src/txt_reader.cpp.o
+
+.PHONY : src/txt_reader.o
+
+# target to build an object file
+src/txt_reader.cpp.o:
+	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/src/txt_reader.cpp.o
+.PHONY : src/txt_reader.cpp.o
+
+src/txt_reader.i: src/txt_reader.cpp.i
+
+.PHONY : src/txt_reader.i
+
+# target to preprocess a source file
+src/txt_reader.cpp.i:
+	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/src/txt_reader.cpp.i
+.PHONY : src/txt_reader.cpp.i
+
+src/txt_reader.s: src/txt_reader.cpp.s
+
+.PHONY : src/txt_reader.s
+
+# target to generate assembly for a file
+src/txt_reader.cpp.s:
+	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/src/txt_reader.cpp.s
+.PHONY : src/txt_reader.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -306,12 +387,21 @@ help:
 	@echo "... src/logger.o"
 	@echo "... src/logger.i"
 	@echo "... src/logger.s"
+	@echo "... src/mailbox.o"
+	@echo "... src/mailbox.i"
+	@echo "... src/mailbox.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
 	@echo "... src/mp.o"
 	@echo "... src/mp.i"
 	@echo "... src/mp.s"
+	@echo "... src/test.o"
+	@echo "... src/test.i"
+	@echo "... src/test.s"
+	@echo "... src/txt_reader.o"
+	@echo "... src/txt_reader.i"
+	@echo "... src/txt_reader.s"
 .PHONY : help
 
 

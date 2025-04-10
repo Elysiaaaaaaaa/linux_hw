@@ -2,8 +2,5 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Linux-xmu-AI" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/linux-car" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/linux-ipc-wrappers" vcs="Git" />
   </component>
 </project>
