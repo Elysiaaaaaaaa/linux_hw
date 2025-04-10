@@ -56,11 +56,9 @@ Car::Car(int proj_id, const std::string& path, int shm_size, int car_id, Directi
             int t;
             int n;
             std::string data;
-            char tmp;
             int len;
-            reader.buf >> tmp >> st >> t >> n; // 字符串，时间，第几个邮箱
-
-            data = st.substr(0, st.length() - 1); // 去掉引号
+            reader.buf >> st >> t >> n; // 字符串，时间，第几个邮箱
+            data = st.substr(1, st.length() - 1); // 去掉引号
 //            data = st; // 去掉引号
             len = data.length();
             Operation op;

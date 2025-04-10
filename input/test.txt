@@ -1,4 +1,4 @@
-3
+4
 2
 200
 20
@@ -17,6 +17,11 @@ w '6yue25ri' 20 13
 w 'xiamendaxue' 40 8
 end
 car 3 0
+w 'linux' 50 9
+r 20 15 13
+r 10 10 8
+end
+car 4 0
 w 'linux' 50 9
 r 20 15 13
 r 10 10 8
