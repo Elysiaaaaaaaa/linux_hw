@@ -21,7 +21,7 @@ private:
     Direction current_direction_; // 当前隧道中车的方向
     int car_count_;               // 隧道中车辆数量
 public:
-    Tunnel(int mutex_sid, int block_sid);
+    Tunnel(int proj_id, const char *pathname);
     void enter(Car &car);
     void leave(Car &car);
 public:

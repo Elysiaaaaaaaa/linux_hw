@@ -42,14 +42,15 @@ int main(int argc, char** argv){
     int length; // 读操作的数据长度
     string s;
     std::string conv_str = argv[1]; // 使用 std::string 的构造函数将 char * 转换为 std::string
-    Tunnel tunnel()
+    Tunnel tunnel(0,argv[1]);
+
     for (int i = 0; i < total_number_of_cars; i++){
         reader.input_car();
 
 //        cout<<"read:"<<reader.buf.str()<< endl;
 
         reader.buf >> idx >> direct;
-        cars.emplace_back(semid_tunnel_car, idx, static_cast<Direction>(direct), reader);
+        cars.emplace_back(tunnel.semid_tunnel_car, idx, static_cast<Direction>(direct), reader);
     }
     for (int i = 0; i < total_number_of_cars; i++) {
         cars[i].enter();

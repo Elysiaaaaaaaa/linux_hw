@@ -5,11 +5,24 @@
 #include "../include/Tunnel.h"
 
 extern int maximum_number_of_cars_in_tunnel;
-Tunnel::Tunnel(int mutex_sid, int block_sid)
-        : mutex_(mutex_sid), block_(block_sid), car_count_(0) {
+Tunnel::Tunnel(int proj_id, const char *pathname) {
+    // 生成 IPC 键
+    key_t mutex_key = Ftok(proj_id, pathname);
+    key_t block_key = Ftok(proj_id + 1, pathname); // 使用不同的 proj_id 以确保不同的键
+
+    // 创建或获取用于保护内部状态的信号量集，初始值为 1
+    mutex_ = sem_get(mutex_key, 1, true, 1);
+
+    // 创建或获取用于阻塞不符合方向的车的信号量集，初始值为 0
+    block_ = sem_get(block_key, 1, true, 0);
 //    设置控制车数量的信号量
     semid_tunnel_car = sem_get(IPC_PRIVATE, 1, true, maximum_number_of_cars_in_tunnel);
+    car_count_ = 0;
 }
+
+
+
+
 void Tunnel::enter(Car &car) {
     Wait(mutex_, 0); // 加锁
 
