@@ -16,9 +16,10 @@
 #include <string>
 #include <vector>
 enum class Direction { Eastbound, Westbound }; // 新增方向枚举
+enum class State { WAITING, INNER, OUT }; // 新增状态枚举
 
 // 存储每条操作
-
+extern int total_number_of_mailboxes;
 struct Operation {
     bool isWrite; // true 表示写操作，false 表示读操作
     std::string data; // 写操作的数据
@@ -31,8 +32,8 @@ public:
     Car(int proj_id, const std::string& path, int shm_size, int car_id, Direction dir, txt_reader& reader);
     ~Car();
 
-    void enter() const;    // Request access (decrease semaphore)
-    void leave() const;    // Release access (increase semaphore)
+    void enter();    // Request access (decrease semaphore)
+    void leave();    // Release access (increase semaphore)
 
     void* getSharedMemory(); // Get pointer to shared memory
 
@@ -44,6 +45,7 @@ public:
     // 添加操作到操作列表
     void addOperation(const Operation& op);
     const std::vector<Operation>& getOperations() const;
+    bool exet_op();
     void show() const;
 
 private:
@@ -51,9 +53,14 @@ private:
     int semid_;        // Semaphore ID
     int shmid_;        // Shared memory ID
     void* shmaddr_;    // Shared memory address
+    vector<int> m;//每个邮箱维护的读指针
+
 public:
     int car_id_;       // 车的编号
     Direction direction_; // 方向
+    int time;//汽车穿越隧道使用的时间
+    State state;//汽车的当前状态，1未进入隧道，2已经隧道中，3出隧道
+    string model_str;//手机内存
     std::vector<Operation> operations; // 操作列表
 };
 

@@ -37,13 +37,20 @@ Car::Car(int proj_id, const std::string& path, int shm_size, int car_id, Directi
     semid_ = sem_get(key_, 1, true, 1);
     // Get or create shared memory
     shmid_ = shm_init(key_, shm_size, IPC_CREAT | 0666);
+    time = 0;
+    state = State::WAITING;
+    model_str = "";
     // Attach to shared memory
     shmaddr_ = shm_conn(shmid_);
+//  init p
+    m.resize(total_number_of_mailboxes);
+    for (int i = 0; i < total_number_of_mailboxes; i++)
+        m[i] = 0;
     std::string str;
-    int flag = 0; // 标记进隧道的第一个操作
-    int time = 0;
-    int time_out = 1; // 是否超时，1为否
+    cout<<"1"<<endl;
     while (reader.buf >> str) {
+        cout<<str<<endl;
+
         if (str == "w") { // 写入
             std::string st;
             int t;
@@ -52,16 +59,9 @@ Car::Car(int proj_id, const std::string& path, int shm_size, int car_id, Directi
             char tmp;
             int len;
             reader.buf >> tmp >> st >> t >> n; // 字符串，时间，第几个邮箱
-            if (flag == 0) {
-                flag = 1;
-                time = t;
-            }
-            t = t - time; // 减去进入隧道的时间
-            if (t < 0) {
-                std::cout << "time error: pass time can't be negative(" << t << ")" << std::endl;
-                exit(0);
-            }
-            data = st.substr(1, st.length() - 2); // 去掉引号
+
+            data = st.substr(0, st.length() - 1); // 去掉引号
+//            data = st; // 去掉引号
             len = data.length();
             Operation op;
             op.isWrite = true;
@@ -76,14 +76,6 @@ Car::Car(int proj_id, const std::string& path, int shm_size, int car_id, Directi
             int t;
             int n;
             reader.buf >> len >> t >> n;
-            if (flag == 0) {
-                flag = 1;
-                time = t;
-            }
-            t = t - time; // 减去进入隧道的时间
-            if (t < 0) {
-                Logger::log(LogLevel::WARN, "time warn: pass time can't be negative(" + to_string(t) + ")" + "ignore");
-            }
             Operation op;
             op.isWrite = false;
             op.time = t;
@@ -91,12 +83,15 @@ Car::Car(int proj_id, const std::string& path, int shm_size, int car_id, Directi
             op.length = len;
             addOperation(op);
         }else if (str=="end"){
+            cout<<"initfinish"<<endl;
             break;
         }else{
             Logger::log(LogLevel::ERROR, "unsupport model");
-            continue;
+            break;
         }
     }
+    cout<<"initfinish"<<endl;
+
 }
 
 // Destructor
@@ -118,17 +113,27 @@ Car::~Car()
 }
 
 // Request access (P operation)
-void Car::enter() const
+void Car::enter()
 {
+    if(state!=State::WAITING){
+        Logger::log(LogLevel::ERROR,"car has entered");
+        exit(1);
+    }
     Logger::log(LogLevel::INFO, "[Car " + std::to_string(car_id_) + " (" + getDirectionStr() + ")] wants to enter.");
     Wait(semid_, 0);
+    state = State::INNER;
     Logger::log(LogLevel::INFO, "[Car " + to_string(car_id_) + " (" + getDirectionStr() + ")] entered.");
 }
 
 // Release access (V operation)
-void Car::leave() const
+void Car::leave()
 {
+    if(state!=State::INNER){
+        Logger::log(LogLevel::ERROR,"car hasn't enter");
+        exit(1);
+    }
     Logger::log(LogLevel::INFO, "[Car " + to_string(car_id_) + " (" + getDirectionStr() + ")] is leaving.");
+    state = State::OUT;
     Signal(semid_, 0);
 }
 

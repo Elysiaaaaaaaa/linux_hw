@@ -24,6 +24,18 @@ public:
     std::stringstream buf;
     txt_reader(char** path) {
         file.open(path[1]);
+
+//        // 输出文件的全部内容
+//        std::string line;
+//        std::cout << "File content:" << std::endl;
+//        while (std::getline(file, line)) {
+//            std::cout << line << std::endl;
+//        }
+//        // 将文件指针重置到文件开头
+//        file.clear();
+//        file.seekg(0, std::ios::beg);
+
+
         if (!file.is_open()) {
             Logger::log(LogLevel::WARN, "File open error!");
             return;
@@ -34,6 +46,7 @@ public:
             return;
         }
         buf << total_number_of_cars << " " << maximum_number_of_cars_in_tunnel << " " << tunnel_travel_time << " " << total_number_of_mailboxes << " " << memory_segment_size << " ";
+
     }
     ~txt_reader() {
         if (file.is_open()) {

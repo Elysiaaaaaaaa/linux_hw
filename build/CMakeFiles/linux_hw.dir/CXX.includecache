@@ -86,22 +86,6 @@ fstream
 logger.h
 /mnt/d/Code/c++/linux_hw/include/logger.h
 
-/mnt/d/Code/c++/linux_hw/src/Car.cpp
-../include/Car.h
-/mnt/d/Code/c++/linux_hw/include/Car.h
-../include/ipc.h
-/mnt/d/Code/c++/linux_hw/include/ipc.h
-cstdlib
--
-cstring
--
-iostream
--
-
-/mnt/d/Code/c++/linux_hw/src/Tunnel.cpp
-../include/Tunnel.h
-/mnt/d/Code/c++/linux_hw/include/Tunnel.h
-
 /mnt/d/Code/c++/linux_hw/src/main.cpp
 unistd.h
 -
@@ -121,8 +105,6 @@ iostream
 -
 cstdio
 -
-
-/mnt/d/Code/c++/linux_hw/src/txt_reader.cpp
-../include/txt_reader.h
-/mnt/d/Code/c++/linux_hw/include/txt_reader.h
+vector
+-
 

@@ -10,13 +10,13 @@
 #include "../include/txt_reader.h"
 #include <iostream>
 #include <cstdio>
+#include <vector>
 
 int total_number_of_cars=0;//汽车总数
 int maximum_number_of_cars_in_tunnel=0;//隧道最大汽车容量
 int tunnel_travel_time=0;//穿过隧道的时间
 int total_number_of_mailboxes=0;//邮箱数量
 int memory_segment_size=0;//每个邮箱的最大字数
-
 
 
 int main(int argc, char** argv){
@@ -26,6 +26,8 @@ int main(int argc, char** argv){
     cout << "tunnel_travel_time: " << tunnel_travel_time << endl;
     cout << "total_number_of_mailboxes: " << total_number_of_mailboxes << endl;
     cout << "memory_segment_size: " << memory_segment_size << endl<<endl;
+    std::vector<Car> cars; // 创建一个存储 Car 对象的 vector
+
     int idx;
     int direct;
     char model;//读写模式
@@ -34,14 +36,17 @@ int main(int argc, char** argv){
     int mailbox_idx; // 邮箱编号
     int length; // 读操作的数据长度
     string s;
+    std::string conv_str = argv[1]; // 使用 std::string 的构造函数将 char * 转换为 std::string
 
     for (int i = 0; i < total_number_of_cars; i++){
         reader.input_car();
-        cout<<"read:"<<reader.buf.str()<< endl;
+
+//        cout<<"read:"<<reader.buf.str()<< endl;
 
         reader.buf >> idx >> direct;
-        Car car = Car(0, "/mnt/d/Code/c++/linux_hw/src/testfiles", 1, idx, static_cast<Direction>(direct), reader);
-        car.show();
+        cars.emplace_back(0, conv_str, 1, idx, static_cast<Direction>(direct), reader);
+        cout<<"suc";
+        cars[i].show();
     }
     for (int i = 0; i < total_number_of_cars; i++) {
 
