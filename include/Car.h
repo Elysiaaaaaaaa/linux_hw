@@ -9,6 +9,7 @@
 // Car.h
 // Created by elysia on 2025/4/5.
 // Car class using IPC (Semaphore + Shared Memory)
+#include "mp.h"
 
 #include "ipc.h"
 #include "logger.h"
@@ -31,7 +32,7 @@ struct Operation {
 class Car {
 public:
 //    Car(int proj_id, const std::string& path, int shm_size, int car_id, Direction dir, txt_reader& reader);
-    Car(int semid, int car_id, Direction dir, txt_reader& reader);
+    Car(int semid_tunnel_car, int car_id, Direction dir, txt_reader& reader);
     ~Car();
 
     void enter();    // Request access (decrease semaphore)
@@ -50,10 +51,11 @@ public:
     bool exet_op();
     bool overtime(time_t ct = -1);
     void show() const;
+    bool main_process();
 
 private:
 //    key_t key_;        // IPC key
-    int semid_;        // Semaphore ID
+    int semid_tunnel_can_enter;        // 隧道容量可否继续进入车
 //    int shmid_;        // Shared memory ID
 //    void* shmaddr_;    // Shared memory address
     vector<int> m;      //每个邮箱维护的读指针
@@ -66,6 +68,7 @@ public:
     State state;//汽车的当前状态，1未进入隧道，2已经隧道中，3出隧道
     string model_str;//手机内存
     std::vector<Operation> operations; // 操作列表
+    bool set_value();
 };
 
 #endif // CAR_H

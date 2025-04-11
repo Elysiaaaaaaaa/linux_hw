@@ -37,12 +37,10 @@ int main(int argc, char** argv){
     int direct;
     char model;//读写模式
     std::string data; // 写操作的数据
-    int time; // 操作时间
-    int mailbox_idx; // 邮箱编号
-    int length; // 读操作的数据长度
+
     string s;
     std::string conv_str = argv[1]; // 使用 std::string 的构造函数将 char * 转换为 std::string
-    Tunnel tunnel(0,argv[1]);
+    Tunnel tunnel(0,argv[1],cars);
 
     for (int i = 0; i < total_number_of_cars; i++){
         reader.input_car();
@@ -52,13 +50,13 @@ int main(int argc, char** argv){
         reader.buf >> idx >> direct;
         cars.emplace_back(tunnel.semid_tunnel_car, idx, static_cast<Direction>(direct), reader);
     }
-    for (int i = 0; i < total_number_of_cars; i++) {
-        cars[i].enter();
-//        cars[i].show();
-        cars[i].leave();
-
-    }
-
+//    for (int i = 0; i < total_number_of_cars; i++) {
+//        cars[i].enter();
+////        cars[i].show();
+//        cars[i].leave();
+//
+//    }
+    tunnel.main_process();
 
     return 0;
 }

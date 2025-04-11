@@ -7,6 +7,8 @@
 #IncludeRegexTransform: 
 
 /mnt/d/Code/c++/linux_hw/include/Car.h
+mp.h
+/mnt/d/Code/c++/linux_hw/include/mp.h
 ipc.h
 /mnt/d/Code/c++/linux_hw/include/ipc.h
 logger.h
@@ -18,26 +20,6 @@ string
 ctime
 -
 vector
--
-
-/mnt/d/Code/c++/linux_hw/include/Logger.h
-string
--
-
-/mnt/d/Code/c++/linux_hw/include/Tunnel.h
-Car.h
-/mnt/d/Code/c++/linux_hw/include/Car.h
-ipc.h
-/mnt/d/Code/c++/linux_hw/include/ipc.h
-mp.h
-/mnt/d/Code/c++/linux_hw/include/mp.h
-Logger.h
-/mnt/d/Code/c++/linux_hw/include/Logger.h
-vector
--
-cstdio
--
-unistd.h
 -
 
 /mnt/d/Code/c++/linux_hw/include/ipc.h
@@ -88,29 +70,19 @@ fstream
 logger.h
 /mnt/d/Code/c++/linux_hw/include/logger.h
 
-/mnt/d/Code/c++/linux_hw/src/main.cpp
-unistd.h
--
-../include/ipc.h
-/mnt/d/Code/c++/linux_hw/include/ipc.h
-../include/mp.h
-/mnt/d/Code/c++/linux_hw/include/mp.h
-../include/logger.h
-/mnt/d/Code/c++/linux_hw/include/logger.h
+/mnt/d/Code/c++/linux_hw/src/Car.cpp
 ../include/Car.h
 /mnt/d/Code/c++/linux_hw/include/Car.h
-../include/Tunnel.h
-/mnt/d/Code/c++/linux_hw/include/Tunnel.h
-../include/txt_reader.h
-/mnt/d/Code/c++/linux_hw/include/txt_reader.h
-iostream
--
-cstdio
--
-vector
--
+../include/ipc.h
+/mnt/d/Code/c++/linux_hw/include/ipc.h
 cstdlib
 -
-ctime
+cstring
+-
+iostream
+-
+unistd.h
+-
+random
 -
 

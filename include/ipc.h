@@ -31,6 +31,7 @@ int sem_get(int key,int nsems,bool init= false, int semval=0);
 void Wait(int sid,int sem_num);
 void Signal(int sid,int sem_num);
 void sem_del(int semid);
+int sem_get_val(key_t semid, int nsems=0);
 
 
 //共享内存区

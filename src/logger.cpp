@@ -8,21 +8,23 @@
 #include <sstream>
 #include <mutex>
 #include <map>
-std::mutex logMutex;
 
-void Logger::log(LogLevel level, const std::string& message) {
-    std::lock_guard<std::mutex> lock(logMutex);  // 保证线程安全
+using namespace std;
+mutex logMutex;
 
-    std::cout << "[" << getTimestamp() << "] "
+void Logger::log(LogLevel level, const string& message) {
+    lock_guard<mutex> lock(logMutex);  // 保证线程安全
+
+    cout << "[" << getTimestamp() << "] "
               << "[" << levelToString(level) << "] "
-              << message << std::endl;
+              << message << endl;
 }
 
-std::string Logger::getTimestamp() {
+string Logger::getTimestamp() {
     time_t now = time(0);
     tm *ltm = localtime(&now);
 
-    std::ostringstream oss;
+    ostringstream oss;
     oss << (1900 + ltm->tm_year) << "-"
         << (1 + ltm->tm_mon) << "-"
         << ltm->tm_mday << " "
@@ -33,8 +35,8 @@ std::string Logger::getTimestamp() {
     return oss.str();
 }
 
-std::string Logger::levelToString(LogLevel level) {
-    static const std::map<LogLevel, std::string> levelToStr = {
+string Logger::levelToString(LogLevel level) {
+    static const map<LogLevel, string> levelToStr = {
             {LogLevel::INFO, "INFO"},
             {LogLevel::WARN, "WARN"},
             {LogLevel::ERROR, "ERROR"}

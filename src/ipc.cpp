@@ -58,6 +58,10 @@ int sem_get(key_t key, int nsems, bool init, int semval) {
     return semid;
 }
 
+int sem_get_val(key_t semid, int nsems) {
+    return semctl(semid, nsems, GETVAL);
+}
+
 void Wait(int semid, int sn) {
     /**
      * @brief 对指定信号量执行 P 操作（等待操作）

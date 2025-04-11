@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <unistd.h>
 #include <random>
 using namespace std;
 
@@ -14,11 +15,11 @@ using namespace std;
 // Constructor
 //Car::Car(int proj_id, const std::string& path, int shm_size, int car_id, Direction dir, txt_reader& reader)
 //        : car_id_(car_id), direction_(dir) {
-Car::Car(int semid, int car_id, Direction dir, txt_reader& reader)
-        : semid_(semid), car_id_(car_id), direction_(dir) {
+Car::Car(int semid_tunnel_car, int car_id, Direction dir, txt_reader& reader)
+        : semid_tunnel_can_enter(semid_tunnel_car), car_id_(car_id), direction_(dir) {
 //    key_ = Ftok(proj_id, path.c_str());
     // Get or create a semaphore set with 1 semaphore, initialize to 1
-//    semid_ = sem_get(key_, 1, true, 1);
+//    semid_tunnel_can_enter = sem_get(key_, 1, true, 1);
     // Get or create shared memory
 //    shmid_ = shm_init(key_, shm_size, IPC_CREAT | 0666);
     cost_time = int(tunnel_travel_time * (0.7 + (static_cast<double>(rand()) / RAND_MAX) * 0.6));
@@ -77,8 +78,8 @@ Car::~Car()
 //        shm_disconn(shmaddr_);
 //        shmaddr_ = nullptr;
 //    }
-//    if (semid_ != -1) {
-//        sem_del(semid_);
+//    if (semid_tunnel_can_enter != -1) {
+//        sem_del(semid_tunnel_can_enter);
 //    }
 //    if (shmid_ != -1) {
 //        if (shmctl(shmid_, IPC_RMID, nullptr) == -1) {
@@ -91,13 +92,18 @@ Car::~Car()
 // Request access (P operation)
 void Car::enter()
 {
-    if(state!=State::WAITING){
+    cout<<"e1"<<endl;
+    if(this->state!=State::WAITING){
+        cout<<"e2"<<endl;
         Logger::log(LogLevel::ERROR,"car has entered");
         exit(1);
     }
-    Logger::log(LogLevel::INFO, "[Car " + std::to_string(car_id_) + " (" + getDirectionStr() + ")] wants to enter.");
+    cout<<"e3"<<endl;
+    if(sem_get_val(semid_tunnel_can_enter)<=0){
+        Logger::log(LogLevel::INFO, "[Car " + std::to_string(car_id_) + " (" + getDirectionStr() + ")] wants to enter.");
 //    等待隧道空
-    Wait(semid_, 0);
+    }
+    Wait(semid_tunnel_can_enter, 0);
     start_time = time(0);
     state = State::INNER;
     Logger::log(LogLevel::INFO, "[Car " + to_string(car_id_) + " (" + getDirectionStr() + ")] entered.");
@@ -113,7 +119,7 @@ void Car::leave()
     Logger::log(LogLevel::INFO, "[Car " + to_string(car_id_) + " (" + getDirectionStr() + ")] is leaving.");
     state = State::OUT;
 //    隧道车--
-    Signal(semid_, 0);
+    Signal(semid_tunnel_can_enter, 0);
 }
 
 // Get pointer to shared memory
@@ -189,4 +195,31 @@ void Car::show() const {
         }
     }
     std::cout << "-----------------------" << std::endl;
+}
+
+
+bool Car::main_process(){
+//    车辆主进程，用来模拟一辆车在隧道中的动作，信号量由tunnel作为参数提供
+    cout<<"enter"<<endl;
+    enter();
+
+    for (const auto& op : operations) {
+//        便利操作
+        if (op.isWrite) {
+            std::cout << "  Write operation: "
+                      << "Data: " << op.data << ", "
+                      << "Time: " << op.time << ", "
+                      << "Mailbox: " << op.mailbox << ", "
+                      << "Length: " << op.length << std::endl;
+        } else {
+            std::cout << "  Read operation: "
+                      << "Time: " << op.time << ", "
+                      << "Mailbox: " << op.mailbox << ", "
+                      << "Length: " << op.length << std::endl;
+        }
+    }
+    cout<<"leave"<<endl;
+    leave();
+
+    return true;
 }
