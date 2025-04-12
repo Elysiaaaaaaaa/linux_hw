@@ -44,18 +44,12 @@ int main(int argc, char** argv){
 
     for (int i = 0; i < total_number_of_cars; i++){
         reader.input_car();
-
 //        cout<<"read:"<<reader.buf.str()<< endl;
 
         reader.buf >> idx >> direct;
         cars.emplace_back(tunnel.semid_tunnel_car, idx, static_cast<Direction>(direct), reader);
     }
-//    for (int i = 0; i < total_number_of_cars; i++) {
-//        cars[i].enter();
-////        cars[i].show();
-//        cars[i].leave();
-//
-//    }
+//    执行主进程
     tunnel.main_process();
 
     return 0;

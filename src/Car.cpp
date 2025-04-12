@@ -93,16 +93,20 @@ Car::~Car()
 void Car::enter()
 {
     cout<<"e1"<<endl;
-    if(this->state!=State::WAITING){
-        cout<<"e2"<<endl;
-        Logger::log(LogLevel::ERROR,"car has entered");
-        exit(1);
-    }
-    cout<<"e3"<<endl;
-    if(sem_get_val(semid_tunnel_can_enter)<=0){
+//    if(this->state!=State::WAITING){
+//        cout<<"e2"<<endl;
+//        Logger::log(LogLevel::ERROR,"car has entered");
+//        exit(1);
+//    }
+    cout<<"PPPPP"<<sem_get_val(semid_tunnel_can_enter)<< endl;
+    std::cout.flush();
+
+//    if(sem_get_val(semid_tunnel_can_enter)<=0){
+    if(semctl(semid_tunnel_can_enter, 0, GETVAL)<=0){
         Logger::log(LogLevel::INFO, "[Car " + std::to_string(car_id_) + " (" + getDirectionStr() + ")] wants to enter.");
 //    等待隧道空
     }
+    cout<<"e3"<<endl;
     Wait(semid_tunnel_can_enter, 0);
     start_time = time(0);
     state = State::INNER;
@@ -175,7 +179,7 @@ bool Car::overtime(time_t ct){
 }
 
 void Car::show() const {
-    std::cout << "-----------------------" << std::endl;
+    std::cout << "1-----------------------" << std::endl;
     std::cout << "Car ID: " << car_id_ << std::endl;
     std::cout << "Direction: " << getDirectionStr() << std::endl;
     std::cout << "tunnel_travel_time:" << cost_time <<std::endl;
@@ -201,8 +205,8 @@ void Car::show() const {
 bool Car::main_process(){
 //    车辆主进程，用来模拟一辆车在隧道中的动作，信号量由tunnel作为参数提供
     cout<<"enter"<<endl;
-    enter();
-
+//    enter();
+    show();
     for (const auto& op : operations) {
 //        便利操作
         if (op.isWrite) {
@@ -219,7 +223,7 @@ bool Car::main_process(){
         }
     }
     cout<<"leave"<<endl;
-    leave();
+//    leave();
 
     return true;
 }

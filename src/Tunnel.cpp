@@ -7,8 +7,8 @@
 extern int maximum_number_of_cars_in_tunnel;
 Tunnel::Tunnel(int proj_id, const char *pathname, std::vector<Car>& cars):cars(cars) {
     // 生成 IPC 键
-    key_t mutex_key = Ftok(proj_id, pathname);
-    key_t block_key = Ftok(proj_id + 1, pathname);
+    mutex_key = Ftok(proj_id, pathname);
+    block_key = Ftok(proj_id + 1, pathname);
     // 使用不同的 proj_id 以确保不同的键
 
     // 创建或获取用于tunnel保护内部状态的信号量集，初始值为 1
@@ -87,17 +87,16 @@ void Tunnel::main_process(){
     for(; i<total_number_of_cars; i++){
 //        为每辆车创建进程
         id = fork();
-        cout<<id<<"|"<<endl;
         usleep(100);
         if(int(id)==0){
-            cout<<"11111111111"<<endl;
+            cout<<id<<"|"<<endl;
 //            子进程（车辆 启动
             cars[i].main_process();
             break;
         }
     }
     usleep(100);
-    sleep(2);
+    sleep(8);
     cout<<sem_get_val(semid_tunnel_car)<<endl;
     while (sem_get_val(semid_tunnel_car)<maximum_number_of_cars_in_tunnel){
 //        车辆还没有全走完

@@ -18,6 +18,7 @@ void Logger::log(LogLevel level, const string& message) {
     cout << "[" << getTimestamp() << "] "
               << "[" << levelToString(level) << "] "
               << message << endl;
+    cout.flush();
 }
 
 string Logger::getTimestamp() {

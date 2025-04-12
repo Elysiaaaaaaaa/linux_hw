@@ -30,6 +30,8 @@ public:
 public:
 //    控制隧道车数量
     int semid_tunnel_car;
+    key_t mutex_key;
+    key_t block_key;
     std::vector<Car> cars;
 };
 
