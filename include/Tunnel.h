@@ -16,6 +16,8 @@
 #include <cstdio>
 #include <unistd.h>
 extern int total_number_of_cars;
+extern int maximum_number_of_cars_in_tunnel;//隧道最大汽车容量
+
 class Tunnel {
 private:
     int mutex_;    // 用来保护内部状态
@@ -23,13 +25,16 @@ private:
     Direction current_direction_; // 当前隧道中车的方向
     int car_count_;               // 隧道中车辆数量
 public:
-    Tunnel(int proj_id, const char *pathname, std::vector<Car>& cars);
+    Tunnel(int proj_id, const char *pathname);
+    void init_car(txt_reader& reader);
     void enter(Car &car);
     void leave(Car &car);
     void main_process();
 public:
-//    控制隧道车数量
-    int semid_tunnel_car;
+//    控制隧道中车数量
+    int tunnel_number_of_cars;
+//    控制车总的数量
+    int total_number_of_cars_tunnel;
     key_t mutex_key;
     key_t block_key;
     std::vector<Car> cars;

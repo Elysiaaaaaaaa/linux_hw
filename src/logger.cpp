@@ -13,12 +13,12 @@ using namespace std;
 mutex logMutex;
 
 void Logger::log(LogLevel level, const string& message) {
-    lock_guard<mutex> lock(logMutex);  // 保证线程安全
+//    lock_guard<mutex> lock(logMutex);  // 保证线程安全
 
     cout << "[" << getTimestamp() << "] "
               << "[" << levelToString(level) << "] "
               << message << endl;
-    cout.flush();
+//    cout.flush();
 }
 
 string Logger::getTimestamp() {

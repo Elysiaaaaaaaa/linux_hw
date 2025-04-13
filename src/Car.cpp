@@ -14,14 +14,15 @@ using namespace std;
 
 // Constructor
 //Car::Car(int proj_id, const std::string& path, int shm_size, int car_id, Direction dir, txt_reader& reader)
-//        : car_id_(car_id), direction_(dir) {
+//        : car_id(car_id), direction_(dir) {
 Car::Car(int car_id, Direction dir, txt_reader& reader)
-        : car_id_(car_id), direction_(dir) {
+        : direction_(dir) {
 //    key_ = Ftok(proj_id, path.c_str());
     // Get or create a semaphore set with 1 semaphore, initialize to 1
 //    semid_tunnel_can_enter = sem_get(key_, 1, true, 1);
     // Get or create shared memory
 //    shmid_ = shm_init(key_, shm_size, IPC_CREAT | 0666);
+    this->car_id = car_id;
     cost_time = int(tunnel_travel_time * (0.7 + (static_cast<double>(rand()) / RAND_MAX) * 0.6));
     state = State::WAITING;
     model_str = "";
@@ -90,33 +91,15 @@ Car::~Car()
 }
 
 // Request access (P operation)
-void Car::enter(int semid_tunnel_can_enter)
+void Car::enter(int semid_tunnel_can_enter, Tunnel& tunnel)
 {
-    cout<<"enter:"<<sem_get_val(semid_tunnel_can_enter)<< endl;
-
-//    if(sem_get_val(semid_tunnel_can_enter)<=0){
-    if(semctl(semid_tunnel_can_enter, 0, GETVAL)<=0){
-        Logger::log(LogLevel::INFO, "[Car " + to_string(car_id_) + " (" + getDirectionStr() + ")] wants to enter.");
-//    等待隧道空
-    }
-    Wait(semid_tunnel_can_enter, 0);
-    cout<<"enter3"<<endl;
-    start_time = time(0);
-    state = State::INNER;
-    Logger::log(LogLevel::INFO, "[Car " + to_string(car_id_) + " (" + getDirectionStr() + ")] entered.");
+    tunnel.enter(this);
 }
 
 // Release access (V operation)
-void Car::leave(int semid_tunnel_can_enter)
+void Car::leave(int semid_tunnel_can_enter, Tunnel& tunnel)
 {
-    if(state!=State::INNER){
-        Logger::log(LogLevel::ERROR,"car hasn't enter");
-        exit(1);
-    }
-    Logger::log(LogLevel::INFO, "[Car " + to_string(car_id_) + " (" + getDirectionStr() + ")] is leaving.");
-    state = State::OUT;
-//    隧道车--
-    Signal(semid_tunnel_can_enter, 0);
+    tunnel.leave(this);
 }
 
 // Get pointer to shared memory
@@ -128,7 +111,7 @@ void Car::leave(int semid_tunnel_can_enter)
 // Get car id
 int Car::getCarId() const
 {
-    return car_id_;
+    return car_id;
 }
 
 // Get direction
@@ -173,7 +156,7 @@ bool Car::overtime(time_t ct){
 
 void Car::show() const {
     std::cout << "1-----------------------" << std::endl;
-    std::cout << "Car ID: " << car_id_ << std::endl;
+    std::cout << "Car ID: " << car_id << std::endl;
     std::cout << "Direction: " << getDirectionStr() << std::endl;
     std::cout << "tunnel_travel_time:" << cost_time <<std::endl;
     std::cout << "Operations:" << std::endl;
@@ -195,18 +178,27 @@ void Car::show() const {
 }
 
 
-bool Car::main_process(int semid_tunnel_can_enter){
+bool Car::main_process(int semid_tunnel_can_enter, Tunnel& tunnel){
 //    车辆主进程，用来模拟一辆车在隧道中的动作，信号量由tunnel作为参数提供
-    cout<<"enter"<<endl;
-    enter(semid_tunnel_can_enter);
-    std::cout << "1-----------------------" << std::endl;
-    std::cout << "Car ID: " << car_id_ << std::endl;
-    std::cout << "Direction: " << getDirectionStr() << std::endl;
-    std::cout << "tunnel_travel_time:" << cost_time <<std::endl;
-    std::cout << "Operations:" << std::endl;
+    enter(semid_tunnel_can_enter, tunnel);
+//    cout<<car_id<<"in yunnel"<<endl;
+    sleep(2);
+//    for (const auto& op : operations) {
+//        if (op.isWrite) {
+//            std::cout << "  Write operation: "
+//                      << "Data: " << op.data << ", "
+//                      << "Time: " << op.time << ", "
+//                      << "Mailbox: " << op.mailbox << ", "
+//                      << "Length: " << op.length << std::endl;
+//        } else {
+//            std::cout << "  Read operation: "
+//                      << "Time: " << op.time << ", "
+//                      << "Mailbox: " << op.mailbox << ", "
+//                      << "Length: " << op.length << std::endl;
+//        }
+//    }
 
-    cout<<"leave"<<endl;
-    leave(semid_tunnel_can_enter);
+    leave(semid_tunnel_can_enter, tunnel);
 
     return true;
 }

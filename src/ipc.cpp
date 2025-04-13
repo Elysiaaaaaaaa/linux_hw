@@ -74,10 +74,11 @@ void Wait(int semid, int sn) {
     op.sem_num = sn;
     op.sem_op = -1;
     op.sem_flg = 0;
-    if (semop(semid, &op, 1) == -1) {
-        Logger::log(LogLevel::ERROR, "Wait.semop failed");
-        exit(EXIT_FAILURE);
-    }
+//    if (semop(semid, &op, 1) == -1) {
+//        Logger::log(LogLevel::ERROR, "Wait.semop failed");
+//        exit(EXIT_FAILURE);
+//    }
+    semop(semid, &op, 1);
 }
 
 void Signal(int sid, int sn) {
@@ -92,10 +93,11 @@ void Signal(int sid, int sn) {
     op.sem_num = sn;
     op.sem_op = 1;
     op.sem_flg = 0;
-    if (semop(sid, &op, 1) == -1) {
-        Logger::log(LogLevel::ERROR, "Signal.semop failed");
-        exit(EXIT_FAILURE);
-    }
+//    if (semop(sid, &op, 1) == -1) {
+//        Logger::log(LogLevel::ERROR, "Signal.semop failed");
+//        exit(EXIT_FAILURE);
+//    }
+    semop(sid, &op, 1);
 }
 
 void sem_del(int semid) {

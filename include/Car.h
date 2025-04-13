@@ -14,12 +14,12 @@
 #include "ipc.h"
 #include "logger.h"
 #include "txt_reader.h"
+#include "tunnel.h"
 #include <string>
 #include <ctime>
 #include <vector>
 enum class Direction { Eastbound, Westbound }; // 新增方向枚举
 enum class State { WAITING, INNER, OUT }; // 新增状态枚举
-
 // 存储每条操作
 extern int total_number_of_mailboxes;
 struct Operation {
@@ -35,8 +35,8 @@ public:
     Car(int car_id, Direction dir, txt_reader& reader);
     ~Car();
 
-    void enter(int semid_tunnel_can_enter);    // Request access (decrease semaphore)
-    void leave(int semid_tunnel_can_enter);    // Release access (increase semaphore)
+    void enter(int semid_tunnel_can_enter, Tunnel& tunnel);    // Request access (decrease semaphore)
+    void leave(int semid_tunnel_can_enter, Tunnel& tunnel);    // Release access (increase semaphore)
 
 //    void* getSharedMemory(); // Get pointer to shared memory
 
@@ -51,7 +51,7 @@ public:
     bool exet_op();
     bool overtime(time_t ct = -1);
     void show() const;
-    bool main_process(int semid_tunnel_can_enter);
+    bool main_process(int semid_tunnel_can_enter, Tunnel& tunnel);
 
 private:
 //    key_t key_;        // IPC key
@@ -61,7 +61,7 @@ private:
     vector<int> m;      //每个邮箱维护的读指针
 
 public:
-    int car_id_;       // 车的编号
+    int car_id;       // 车的编号
     Direction direction_; // 方向
     time_t start_time;//汽车穿越隧道当前使用的时间
     int cost_time;//汽车穿越隧道使用的时间
