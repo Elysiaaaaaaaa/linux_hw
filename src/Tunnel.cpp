@@ -7,7 +7,6 @@
 extern int maximum_number_of_cars_in_tunnel;
 Tunnel::Tunnel(int proj_id, const char *pathname){
     // 生成 IPC 键
-    cars.reserve(total_number_of_cars); // 预分配足够的内存
     mutex_key = Ftok(proj_id, pathname);
     block_key = Ftok(proj_id + 1, pathname);
     car_count_key = Ftok(proj_id + 2, pathname);
@@ -22,15 +21,6 @@ Tunnel::Tunnel(int proj_id, const char *pathname){
     this->tunnel_number_of_cars = sem_get(IPC_PRIVATE, 1, true, maximum_number_of_cars_in_tunnel);
     this->total_number_of_cars_tunnel = sem_get(IPC_PRIVATE, 1, true, total_number_of_cars);
     this->car_count_ = 0;
-}
-
-
-void Tunnel::init_car(txt_reader& reader){
-    int idx;
-    int direct;
-    reader.buf >> idx >> direct;
-    cout<<idx<<' '<<direct<<endl;
-    cars.emplace_back(idx, static_cast<Direction>(direct), reader);
 }
 
 
@@ -92,41 +82,41 @@ void Tunnel::leave(Car *car) {
 
     Signal(mutex_, 0); // 解锁
 }
-
-void Tunnel::main_process() {
-    Logger::log(LogLevel::INFO, "TUNNEL BEGAN");
-
-    pid_t id;
-    int i = 0;
-
-    // 为每辆车创建一个子进程
-    for (; i < total_number_of_cars; ++i) {
-        id = Fork();
-        if (id == 0) {
-            // 子进程
-            break;
-        }
-    }
-
-    if (id == 0) {
-        // 子进程逻辑
-//        Wait(total_number_of_cars_tunnel, 0);   // 等待信号量资源
-
-        cars[i].main_process(
-                tunnel_number_of_cars,
-                this); // 车辆主流程
-
-//        Signal(total_number_of_cars_tunnel, 0); // 完成后释放信号量
-        exit(0); // 子进程完成后退出，避免继续执行父进程代码
-    } else {
-        // 父进程逻辑
-
-        // 等待所有子进程退出
-        int status;
-        for (int j = 0; j < total_number_of_cars; ++j) {
-            wait((int*)0);
-        }
-
-        Logger::log(LogLevel::INFO, "TUNNEL FINISH");
-    }
-}
+//
+//void Tunnel::main_process() {
+//    Logger::log(LogLevel::INFO, "TUNNEL BEGAN");
+//
+//    pid_t id;
+//    int i = 0;
+//
+//    // 为每辆车创建一个子进程
+//    for (; i < total_number_of_cars; ++i) {
+//        id = Fork();
+//        if (id == 0) {
+//            // 子进程
+//            break;
+//        }
+//    }
+//
+//    if (id == 0) {
+//        // 子进程逻辑
+////        Wait(total_number_of_cars_tunnel, 0);   // 等待信号量资源
+//
+//        cars[i].main_process(
+//                tunnel_number_of_cars,
+//                this); // 车辆主流程
+//
+////        Signal(total_number_of_cars_tunnel, 0); // 完成后释放信号量
+//        exit(0); // 子进程完成后退出，避免继续执行父进程代码
+//    } else {
+//        // 父进程逻辑
+//
+//        // 等待所有子进程退出
+//        int status;
+//        for (int j = 0; j < total_number_of_cars; ++j) {
+//            wait((int*)0);
+//        }
+//
+//        Logger::log(LogLevel::INFO, "TUNNEL FINISH");
+//    }
+//}

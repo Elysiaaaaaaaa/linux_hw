@@ -24,10 +24,9 @@ private:
 
 public:
     Tunnel(int proj_id, const char *pathname);
-    void init_car(txt_reader& reader);
     void enter(Car *car);
     void leave(Car *car);
-    void main_process();
+//    void main_process();
 public:
 //    控制隧道中车数量
     int tunnel_number_of_cars;
@@ -37,7 +36,6 @@ public:
     key_t mutex_key;
     key_t block_key;
     key_t car_count_key;
-    std::vector<Car> cars;
     int mutex_;    // 用来保护内部状态
     int block_;    // 用来阻塞不符合方向的车
     Direction current_direction_; // 当前隧道中车的方向
