@@ -15,8 +15,8 @@ using namespace std;
 // Constructor
 //Car::Car(int proj_id, const std::string& path, int shm_size, int car_id, Direction dir, txt_reader& reader)
 //        : car_id_(car_id), direction_(dir) {
-Car::Car(int semid_tunnel_car, int car_id, Direction dir, txt_reader& reader)
-        : semid_tunnel_can_enter(semid_tunnel_car), car_id_(car_id), direction_(dir) {
+Car::Car(int car_id, Direction dir, txt_reader& reader)
+        : car_id_(car_id), direction_(dir) {
 //    key_ = Ftok(proj_id, path.c_str());
     // Get or create a semaphore set with 1 semaphore, initialize to 1
 //    semid_tunnel_can_enter = sem_get(key_, 1, true, 1);
@@ -90,31 +90,24 @@ Car::~Car()
 }
 
 // Request access (P operation)
-void Car::enter()
+void Car::enter(int semid_tunnel_can_enter)
 {
-    cout<<"e1"<<endl;
-//    if(this->state!=State::WAITING){
-//        cout<<"e2"<<endl;
-//        Logger::log(LogLevel::ERROR,"car has entered");
-//        exit(1);
-//    }
-    cout<<"PPPPP"<<sem_get_val(semid_tunnel_can_enter)<< endl;
-    std::cout.flush();
+    cout<<"enter:"<<sem_get_val(semid_tunnel_can_enter)<< endl;
 
 //    if(sem_get_val(semid_tunnel_can_enter)<=0){
     if(semctl(semid_tunnel_can_enter, 0, GETVAL)<=0){
-        Logger::log(LogLevel::INFO, "[Car " + std::to_string(car_id_) + " (" + getDirectionStr() + ")] wants to enter.");
+        Logger::log(LogLevel::INFO, "[Car " + to_string(car_id_) + " (" + getDirectionStr() + ")] wants to enter.");
 //    等待隧道空
     }
-    cout<<"e3"<<endl;
     Wait(semid_tunnel_can_enter, 0);
+    cout<<"enter3"<<endl;
     start_time = time(0);
     state = State::INNER;
     Logger::log(LogLevel::INFO, "[Car " + to_string(car_id_) + " (" + getDirectionStr() + ")] entered.");
 }
 
 // Release access (V operation)
-void Car::leave()
+void Car::leave(int semid_tunnel_can_enter)
 {
     if(state!=State::INNER){
         Logger::log(LogLevel::ERROR,"car hasn't enter");
@@ -202,28 +195,18 @@ void Car::show() const {
 }
 
 
-bool Car::main_process(){
+bool Car::main_process(int semid_tunnel_can_enter){
 //    车辆主进程，用来模拟一辆车在隧道中的动作，信号量由tunnel作为参数提供
     cout<<"enter"<<endl;
-//    enter();
-    show();
-    for (const auto& op : operations) {
-//        便利操作
-        if (op.isWrite) {
-            std::cout << "  Write operation: "
-                      << "Data: " << op.data << ", "
-                      << "Time: " << op.time << ", "
-                      << "Mailbox: " << op.mailbox << ", "
-                      << "Length: " << op.length << std::endl;
-        } else {
-            std::cout << "  Read operation: "
-                      << "Time: " << op.time << ", "
-                      << "Mailbox: " << op.mailbox << ", "
-                      << "Length: " << op.length << std::endl;
-        }
-    }
+    enter(semid_tunnel_can_enter);
+    std::cout << "1-----------------------" << std::endl;
+    std::cout << "Car ID: " << car_id_ << std::endl;
+    std::cout << "Direction: " << getDirectionStr() << std::endl;
+    std::cout << "tunnel_travel_time:" << cost_time <<std::endl;
+    std::cout << "Operations:" << std::endl;
+
     cout<<"leave"<<endl;
-//    leave();
+    leave(semid_tunnel_can_enter);
 
     return true;
 }

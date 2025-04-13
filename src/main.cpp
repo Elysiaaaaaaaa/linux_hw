@@ -47,7 +47,7 @@ int main(int argc, char** argv){
 //        cout<<"read:"<<reader.buf.str()<< endl;
 
         reader.buf >> idx >> direct;
-        cars.emplace_back(tunnel.semid_tunnel_car, idx, static_cast<Direction>(direct), reader);
+        cars.emplace_back(idx, static_cast<Direction>(direct), reader);
     }
 //    执行主进程
     tunnel.main_process();

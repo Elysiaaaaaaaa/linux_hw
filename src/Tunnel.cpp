@@ -87,22 +87,31 @@ void Tunnel::main_process(){
     for(; i<total_number_of_cars; i++){
 //        为每辆车创建进程
         id = fork();
-        usleep(100);
-        if(int(id)==0){
-            cout<<id<<"|"<<endl;
-//            子进程（车辆 启动
-            cars[i].main_process();
+        if(id == 0){
             break;
         }
     }
-    usleep(100);
-    sleep(8);
-    cout<<sem_get_val(semid_tunnel_car)<<endl;
-    while (sem_get_val(semid_tunnel_car)<maximum_number_of_cars_in_tunnel){
+    if(id==0){
+//        儿子
+        cout<<i<<"|"<<endl;
+//            子进程（车辆 启动
+        cars[i].main_process(semid_tunnel_car);
+    }else{
+//        父亲
+        sleep(4);
+        cout<<"111~"<<sem_get_val(semid_tunnel_car)<<endl;
+
+        while (sem_get_val(semid_tunnel_car)<maximum_number_of_cars_in_tunnel){
 //        车辆还没有全走完
+            cout<<"111"<<sem_get_val(semid_tunnel_car)<<maximum_number_of_cars_in_tunnel<<endl;
+            usleep(100);
+        }
         usleep(100);
     }
-    usleep(100);
+//    usleep(100);
+//    sleep(8);
+//    cout<<sem_get_val(semid_tunnel_car)<<endl;
+
     Logger::log(LogLevel::INFO,"TUNNEL FINISH");
 
 }

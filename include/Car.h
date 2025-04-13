@@ -32,11 +32,11 @@ struct Operation {
 class Car {
 public:
 //    Car(int proj_id, const std::string& path, int shm_size, int car_id, Direction dir, txt_reader& reader);
-    Car(int semid_tunnel_car, int car_id, Direction dir, txt_reader& reader);
+    Car(int car_id, Direction dir, txt_reader& reader);
     ~Car();
 
-    void enter();    // Request access (decrease semaphore)
-    void leave();    // Release access (increase semaphore)
+    void enter(int semid_tunnel_can_enter);    // Request access (decrease semaphore)
+    void leave(int semid_tunnel_can_enter);    // Release access (increase semaphore)
 
 //    void* getSharedMemory(); // Get pointer to shared memory
 
@@ -51,11 +51,11 @@ public:
     bool exet_op();
     bool overtime(time_t ct = -1);
     void show() const;
-    bool main_process();
+    bool main_process(int semid_tunnel_can_enter);
 
 private:
 //    key_t key_;        // IPC key
-    int semid_tunnel_can_enter;        // 隧道容量可否继续进入车
+//    int semid_tunnel_can_enter;        // 隧道容量可否继续进入车
 //    int shmid_;        // Shared memory ID
 //    void* shmaddr_;    // Shared memory address
     vector<int> m;      //每个邮箱维护的读指针
