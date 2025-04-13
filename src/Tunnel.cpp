@@ -33,39 +33,39 @@ void Tunnel::init_car(txt_reader& reader){
 }
 
 
-void Tunnel::enter(Car &car) {
+void Tunnel::enter(Car *car) {
     Wait(mutex_, 0); // 加锁
     while (true) {
         if (car_count_ == 0) {
             // 隧道里没有车，设置方向并进入
-            current_direction_ = car.direction_;
+            current_direction_ = car->direction_;
             car_count_++;
-            car.start_time = time(0);
-            car.state = State::INNER;
-            Logger::log(LogLevel::INFO, "Car " + std::to_string(car.car_id) +
-                                        " entering tunnel in direction " + std::to_string(static_cast<int>(car.direction_)) +
+            car->start_time = time(0);
+            car->state = State::INNER;
+            Logger::log(LogLevel::INFO, "Car " + std::to_string(car->car_id) +
+                                        " entering tunnel in direction " + std::to_string(static_cast<int>(car->direction_)) +
                                         " (empty tunnel).");
             Signal(mutex_, 0); // 解锁
             return;
-        }else if (current_direction_ == car.direction_ && car_count_ < maximum_number_of_cars_in_tunnel) {
+        }else if (current_direction_ == car->direction_ && car_count_ < maximum_number_of_cars_in_tunnel) {
             // 方向一致且未满，可以进入
             car_count_++;
-            car.start_time = time(0);
-            car.state = State::INNER;
-            Logger::log(LogLevel::INFO, "Car " + std::to_string(car.car_id) +
-                                        " entering tunnel in direction " + std::to_string(static_cast<int>(car.direction_)) +
+            car->start_time = time(0);
+            car->state = State::INNER;
+            Logger::log(LogLevel::INFO, "Car " + std::to_string(car->car_id) +
+                                        " entering tunnel in direction " + std::to_string(static_cast<int>(car->direction_)) +
                                         " (same direction, space available).");
             Signal(mutex_, 0); // 解锁
             return;
-        }else if (current_direction_ != car.direction_) {
+        }else if (current_direction_ != car->direction_) {
             // 方向不同，等待
-            Logger::log(LogLevel::INFO, "Car " + std::to_string(car.car_id) +
-                                        " waiting due to opposite direction (direction " + std::to_string(static_cast<int>(car.direction_)) +
+            Logger::log(LogLevel::INFO, "Car " + std::to_string(car->car_id) +
+                                        " waiting due to opposite direction (direction " + std::to_string(static_cast<int>(car->direction_)) +
                                         "), tunnel occupied by direction " + std::to_string(static_cast<int>(current_direction_)) + ".");
         } else {
             // 隧道已满，等待
-            Logger::log(LogLevel::INFO, "Car " + std::to_string(car.car_id) +
-                                        " waiting because tunnel full (direction " + std::to_string(static_cast<int>(car.direction_)) +
+            Logger::log(LogLevel::INFO, "Car " + std::to_string(car->car_id) +
+                                        " waiting because tunnel full (direction " + std::to_string(static_cast<int>(car->direction_)) +
                                         ", cars in tunnel: " + std::to_string(car_count_) + ").");
         }
 
@@ -76,13 +76,13 @@ void Tunnel::enter(Car &car) {
 }
 
 
-void Tunnel::leave(Car &car) {
+void Tunnel::leave(Car *car) {
     Wait(mutex_, 0); // 加锁
 
     car_count_--;
-    car.state = State::OUT;
+    car->state = State::OUT;
 
-    Logger::log(LogLevel::INFO, "Car " + std::to_string(car.car_id) +
+    Logger::log(LogLevel::INFO, "Car " + std::to_string(car->car_id) +
                                 " leaving tunnel, remaining cars: " + std::to_string(car_count_) + ".");
 
     if (car_count_ < maximum_number_of_cars_in_tunnel) {

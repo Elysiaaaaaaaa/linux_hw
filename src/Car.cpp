@@ -91,15 +91,15 @@ Car::~Car()
 }
 
 // Request access (P operation)
-void Car::enter(int semid_tunnel_can_enter, Tunnel& tunnel)
+void Car::enter(int semid_tunnel_can_enter, Tunnel* tunnel)
 {
-    tunnel.enter(this);
+    tunnel->enter(this);
 }
 
 // Release access (V operation)
-void Car::leave(int semid_tunnel_can_enter, Tunnel& tunnel)
+void Car::leave(int semid_tunnel_can_enter, Tunnel* tunnel)
 {
-    tunnel.leave(this);
+    tunnel->leave(this);
 }
 
 // Get pointer to shared memory
@@ -178,7 +178,7 @@ void Car::show() const {
 }
 
 
-bool Car::main_process(int semid_tunnel_can_enter, Tunnel& tunnel){
+bool Car::main_process(int semid_tunnel_can_enter, Tunnel* tunnel){
 //    车辆主进程，用来模拟一辆车在隧道中的动作，信号量由tunnel作为参数提供
     enter(semid_tunnel_can_enter, tunnel);
 //    cout<<car_id<<"in yunnel"<<endl;

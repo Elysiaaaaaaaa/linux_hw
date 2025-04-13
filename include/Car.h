@@ -20,6 +20,7 @@
 #include <vector>
 enum class Direction { Eastbound, Westbound }; // 新增方向枚举
 enum class State { WAITING, INNER, OUT }; // 新增状态枚举
+class Tunnel;
 // 存储每条操作
 extern int total_number_of_mailboxes;
 struct Operation {
@@ -35,8 +36,8 @@ public:
     Car(int car_id, Direction dir, txt_reader& reader);
     ~Car();
 
-    void enter(int semid_tunnel_can_enter, Tunnel& tunnel);    // Request access (decrease semaphore)
-    void leave(int semid_tunnel_can_enter, Tunnel& tunnel);    // Release access (increase semaphore)
+    void enter(int semid_tunnel_can_enter, Tunnel* tunnel);    // Request access (decrease semaphore)
+    void leave(int semid_tunnel_can_enter, Tunnel* tunnel);    // Release access (increase semaphore)
 
 //    void* getSharedMemory(); // Get pointer to shared memory
 
@@ -51,7 +52,7 @@ public:
     bool exet_op();
     bool overtime(time_t ct = -1);
     void show() const;
-    bool main_process(int semid_tunnel_can_enter, Tunnel& tunnel);
+    bool main_process(int semid_tunnel_can_enter, Tunnel* tunnel);
 
 private:
 //    key_t key_;        // IPC key
