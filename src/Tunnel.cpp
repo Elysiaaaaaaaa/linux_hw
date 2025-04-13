@@ -10,6 +10,7 @@ Tunnel::Tunnel(int proj_id, const char *pathname){
     cars.reserve(total_number_of_cars); // 预分配足够的内存
     mutex_key = Ftok(proj_id, pathname);
     block_key = Ftok(proj_id + 1, pathname);
+    car_count_key = Ftok(proj_id + 2, pathname);
     // 使用不同的 proj_id 以确保不同的键
 
     // 创建或获取用于tunnel保护内部状态的信号量集，初始值为 1
@@ -20,7 +21,7 @@ Tunnel::Tunnel(int proj_id, const char *pathname){
 //    设置控制车数量的信号量，传入Car内部
     this->tunnel_number_of_cars = sem_get(IPC_PRIVATE, 1, true, maximum_number_of_cars_in_tunnel);
     this->total_number_of_cars_tunnel = sem_get(IPC_PRIVATE, 1, true, total_number_of_cars);
-    car_count_ = 0;
+    this->car_count_ = 0;
 }
 
 
@@ -46,8 +47,7 @@ void Tunnel::enter(Car *car) {
             Logger::log(LogLevel::INFO, "Car " + std::to_string(car->car_id) +
                                         " entering tunnel in direction " + std::to_string(static_cast<int>(car->direction_)) +
                                         " (empty tunnel).");
-            Signal(mutex_, 0); // 解锁
-            return;
+            break;
         }else if (current_direction_ == car->direction_ && car_count_ < maximum_number_of_cars_in_tunnel) {
             // 方向一致且未满，可以进入
             car_count_++;
@@ -56,8 +56,7 @@ void Tunnel::enter(Car *car) {
             Logger::log(LogLevel::INFO, "Car " + std::to_string(car->car_id) +
                                         " entering tunnel in direction " + std::to_string(static_cast<int>(car->direction_)) +
                                         " (same direction, space available).");
-            Signal(mutex_, 0); // 解锁
-            return;
+            break;
         }else if (current_direction_ != car->direction_) {
             // 方向不同，等待
             Logger::log(LogLevel::INFO, "Car " + std::to_string(car->car_id) +
@@ -69,9 +68,11 @@ void Tunnel::enter(Car *car) {
                                         " waiting because tunnel full (direction " + std::to_string(static_cast<int>(car->direction_)) +
                                         ", cars in tunnel: " + std::to_string(car_count_) + ").");
         }
-
-        Wait(block_, mutex_);
+        Signal(mutex_,0);
+        Wait(block_,0);
+//        wait(block_, mutex_);
     }
+    Signal(mutex_, 0); // 解锁
 }
 
 
@@ -100,7 +101,6 @@ void Tunnel::main_process() {
 
     // 为每辆车创建一个子进程
     for (; i < total_number_of_cars; ++i) {
-        usleep(1000000);
         id = Fork();
         if (id == 0) {
             // 子进程

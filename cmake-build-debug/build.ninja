@@ -112,6 +112,13 @@ build CMakeFiles/linux_hw.dir/src/txt_reader.cpp.obj: CXX_COMPILER__linux_hw_uns
   OBJECT_DIR = CMakeFiles\linux_hw.dir
   OBJECT_FILE_DIR = CMakeFiles\linux_hw.dir\src
 
+build CMakeFiles/linux_hw.dir/include/process.cpp.obj: CXX_COMPILER__linux_hw_unscanned_Debug D$:/Code/c++/linux_hw/include/process.cpp || cmake_object_order_depends_target_linux_hw
+  DEP_FILE = CMakeFiles\linux_hw.dir\include\process.cpp.obj.d
+  FLAGS = -Wall -g -g -std=gnu++11 -fdiagnostics-color=always
+  INCLUDES = -ID:/Code/c++/linux_hw/include
+  OBJECT_DIR = CMakeFiles\linux_hw.dir
+  OBJECT_FILE_DIR = CMakeFiles\linux_hw.dir\include
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target linux_hw
@@ -120,7 +127,7 @@ build CMakeFiles/linux_hw.dir/src/txt_reader.cpp.obj: CXX_COMPILER__linux_hw_uns
 #############################################
 # Link the executable D:\Code\c++\linux_hw\linux_hw.exe
 
-build D$:/Code/c++/linux_hw/linux_hw.exe: CXX_EXECUTABLE_LINKER__linux_hw_Debug CMakeFiles/linux_hw.dir/src/Car.cpp.obj CMakeFiles/linux_hw.dir/src/Tunnel.cpp.obj CMakeFiles/linux_hw.dir/src/ipc.cpp.obj CMakeFiles/linux_hw.dir/src/logger.cpp.obj CMakeFiles/linux_hw.dir/src/mailbox.cpp.obj CMakeFiles/linux_hw.dir/src/main.cpp.obj CMakeFiles/linux_hw.dir/src/mp.cpp.obj CMakeFiles/linux_hw.dir/src/test.cpp.obj CMakeFiles/linux_hw.dir/src/txt_reader.cpp.obj
+build D$:/Code/c++/linux_hw/linux_hw.exe: CXX_EXECUTABLE_LINKER__linux_hw_Debug CMakeFiles/linux_hw.dir/src/Car.cpp.obj CMakeFiles/linux_hw.dir/src/Tunnel.cpp.obj CMakeFiles/linux_hw.dir/src/ipc.cpp.obj CMakeFiles/linux_hw.dir/src/logger.cpp.obj CMakeFiles/linux_hw.dir/src/mailbox.cpp.obj CMakeFiles/linux_hw.dir/src/main.cpp.obj CMakeFiles/linux_hw.dir/src/mp.cpp.obj CMakeFiles/linux_hw.dir/src/test.cpp.obj CMakeFiles/linux_hw.dir/src/txt_reader.cpp.obj CMakeFiles/linux_hw.dir/include/process.cpp.obj
   FLAGS = -Wall -g -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\linux_hw.dir

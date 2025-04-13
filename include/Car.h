@@ -52,7 +52,7 @@ public:
     bool exet_op();
     bool overtime(time_t ct = -1);
     void show() const;
-    bool main_process(int semid_tunnel_can_enter, Tunnel* tunnel);
+    bool main_process(int& semid_tunnel_can_enter, Tunnel* tunnel);
 
 private:
 //    key_t key_;        // IPC key

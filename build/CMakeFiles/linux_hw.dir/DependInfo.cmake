@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/mnt/d/Code/c++/linux_hw/include/process.cpp" "/mnt/d/Code/c++/linux_hw/build/CMakeFiles/linux_hw.dir/include/process.cpp.o"
   "/mnt/d/Code/c++/linux_hw/src/Car.cpp" "/mnt/d/Code/c++/linux_hw/build/CMakeFiles/linux_hw.dir/src/Car.cpp.o"
   "/mnt/d/Code/c++/linux_hw/src/Tunnel.cpp" "/mnt/d/Code/c++/linux_hw/build/CMakeFiles/linux_hw.dir/src/Tunnel.cpp.o"
   "/mnt/d/Code/c++/linux_hw/src/ipc.cpp" "/mnt/d/Code/c++/linux_hw/build/CMakeFiles/linux_hw.dir/src/ipc.cpp.o"

@@ -15,7 +15,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 file(GLOB_RECURSE SOURCES "./src/*.cpp")
 
 # 添加可执行文件，只列出源文件
-add_executable(linux_hw ${SOURCES})
+add_executable(linux_hw ${SOURCES}
+        include/process.cpp)
 
 # 添加头文件搜索路径
 include_directories(include)

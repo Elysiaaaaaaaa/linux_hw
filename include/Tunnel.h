@@ -21,10 +21,7 @@ enum class Direction;
 class Car;
 class Tunnel {
 private:
-    int mutex_;    // 用来保护内部状态
-    int block_;    // 用来阻塞不符合方向的车
-    Direction current_direction_; // 当前隧道中车的方向
-    int car_count_;               // 隧道中车辆数量
+
 public:
     Tunnel(int proj_id, const char *pathname);
     void init_car(txt_reader& reader);
@@ -36,9 +33,14 @@ public:
     int tunnel_number_of_cars;
 //    控制车总的数量
     int total_number_of_cars_tunnel;
+    int car_count_;               // 隧道中车辆数量
     key_t mutex_key;
     key_t block_key;
+    key_t car_count_key;
     std::vector<Car> cars;
+    int mutex_;    // 用来保护内部状态
+    int block_;    // 用来阻塞不符合方向的车
+    Direction current_direction_; // 当前隧道中车的方向
 };
 
 

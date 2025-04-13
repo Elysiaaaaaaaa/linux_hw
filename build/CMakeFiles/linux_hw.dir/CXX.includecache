@@ -28,26 +28,6 @@ vector
 string
 -
 
-/mnt/d/Code/c++/linux_hw/include/Tunnel.h
-Car.h
-/mnt/d/Code/c++/linux_hw/include/Car.h
-ipc.h
-/mnt/d/Code/c++/linux_hw/include/ipc.h
-mp.h
-/mnt/d/Code/c++/linux_hw/include/mp.h
-Logger.h
-/mnt/d/Code/c++/linux_hw/include/Logger.h
-stdio.h
--
-unistd.h
--
-vector
--
-cstdio
--
-unistd.h
--
-
 /mnt/d/Code/c++/linux_hw/include/ipc.h
 stdio.h
 -
@@ -84,6 +64,30 @@ stdlib.h
 logger.h
 /mnt/d/Code/c++/linux_hw/include/logger.h
 
+/mnt/d/Code/c++/linux_hw/include/process.cpp
+process.h
+/mnt/d/Code/c++/linux_hw/include/process.h
+
+/mnt/d/Code/c++/linux_hw/include/process.h
+Car.h
+/mnt/d/Code/c++/linux_hw/include/Car.h
+ipc.h
+/mnt/d/Code/c++/linux_hw/include/ipc.h
+mp.h
+/mnt/d/Code/c++/linux_hw/include/mp.h
+Logger.h
+/mnt/d/Code/c++/linux_hw/include/Logger.h
+stdio.h
+-
+unistd.h
+-
+vector
+-
+cstdio
+-
+unistd.h
+-
+
 /mnt/d/Code/c++/linux_hw/include/tunnel.h
 Car.h
 /mnt/d/Code/c++/linux_hw/include/Car.h
@@ -115,8 +119,4 @@ fstream
 -
 logger.h
 /mnt/d/Code/c++/linux_hw/include/logger.h
-
-/mnt/d/Code/c++/linux_hw/src/Tunnel.cpp
-../include/Tunnel.h
-/mnt/d/Code/c++/linux_hw/include/Tunnel.h
 
