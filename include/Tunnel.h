@@ -19,9 +19,14 @@ extern int total_number_of_cars;
 extern int maximum_number_of_cars_in_tunnel;//隧道最大汽车容量
 enum class Direction;
 class Car;
-class Tunnel {
-private:
+// 定义可共享的数据结构
+struct SharedTunnelData {
+    Direction current_direction_;
+    int car_count_;
+    // 可以添加其他需要共享的基本数据类型成员
+};
 
+class Tunnel {
 public:
     Tunnel(int proj_id, const char *pathname);
     void enter(Car *car);
