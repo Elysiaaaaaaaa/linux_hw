@@ -36,10 +36,11 @@ void Tunnel::init_car(txt_reader& reader){
 void Tunnel::enter(Car *car) {
     Wait(mutex_, 0); // 加锁
     while (true) {
+        cout<<car_count_<<endl;
         if (car_count_ == 0) {
             // 隧道里没有车，设置方向并进入
             current_direction_ = car->direction_;
-            car_count_++;
+            this->car_count_++;
             car->start_time = time(0);
             car->state = State::INNER;
             Logger::log(LogLevel::INFO, "Car " + std::to_string(car->car_id) +
@@ -69,9 +70,7 @@ void Tunnel::enter(Car *car) {
                                         ", cars in tunnel: " + std::to_string(car_count_) + ").");
         }
 
-        Signal(mutex_, 0); // 解锁避免死锁
-        Wait(block_, 0);   // 阻塞，等待条件变化
-        Wait(mutex_, 0);   // 再次加锁后重新检查条件
+        Wait(block_, mutex_);
     }
 }
 
@@ -101,6 +100,7 @@ void Tunnel::main_process() {
 
     // 为每辆车创建一个子进程
     for (; i < total_number_of_cars; ++i) {
+        usleep(1000000);
         id = Fork();
         if (id == 0) {
             // 子进程
