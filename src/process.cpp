@@ -3,35 +3,65 @@
 //
 
 #include "process.h"
-process::process(int proj_id, const char *pathname) {
+
+//#define PROJ_SHM_TUNNEL_OFFSET 8
+#define PROJ_SHM_MAILBOX_OFFSET 8 // 假设的 mailbox 共享内存偏移量
+
+process::process(int num_mailboxes, int mem_size, int proj_id, const char *pathname) {
     // 获取 Tunnel 对象的共享内存 key
-    key_t shm_key = ftok(pathname, proj_id + PROJ_SHM_TUNNEL_OFFSET);
-    int shmid = shmget(shm_key, sizeof(Tunnel), IPC_CREAT | 0666);
-    if (shmid == -1) {
-        perror("shmget failed");
+    key_t shm_key_tunnel = ftok(pathname, proj_id + PROJ_SHM_TUNNEL_OFFSET);
+    int shmid_tunnel = shmget(shm_key_tunnel, sizeof(Tunnel), IPC_CREAT | 0666);
+    if (shmid_tunnel == -1) {
+        perror("shmget for tunnel failed");
         exit(EXIT_FAILURE);
     }
 
     // 共享内存 attach
-    void *shmaddr = shmat(shmid, nullptr, 0);
-    if (shmaddr == (void *)-1) {
-        perror("shmat failed");
+    void *shmaddr_tunnel = shmat(shmid_tunnel, nullptr, 0);
+    if (shmaddr_tunnel == (void *)-1) {
+        perror("shmat for tunnel failed");
         exit(EXIT_FAILURE);
     }
 
     // 使用 placement new 构造 Tunnel 实例在共享内存上
-    tunnel = new (shmaddr) Tunnel(proj_id, pathname);
+    tunnel = new (shmaddr_tunnel) Tunnel(proj_id, pathname);
+
+    // 获取 mailbox 对象的共享内存 key
+    key_t shm_key_mailbox = ftok(pathname, proj_id + PROJ_SHM_MAILBOX_OFFSET);
+    int shmid_mailbox = shmget(shm_key_mailbox, sizeof(mailbox), IPC_CREAT | 0666);
+    if (shmid_mailbox == -1) {
+        perror("shmget for mailbox failed");
+        exit(EXIT_FAILURE);
+    }
+
+    // 共享内存 attach
+    void *shmaddr_mailbox = shmat(shmid_mailbox, nullptr, 0);
+    if (shmaddr_mailbox == (void *)-1) {
+        perror("shmat for mailbox failed");
+        exit(EXIT_FAILURE);
+    }
+
+    // 使用 placement new 构造 mailbox 实例在共享内存上
+    mail_box = new (shmaddr_mailbox) mailbox(num_mailboxes, mem_size, proj_id, pathname);
 
     // 初始化车辆数组（不共享也可）
-    std::vector<Car> cars;
     cars.reserve(total_number_of_cars);
 }
 
 
 
 process::~process() {
-    // 销毁互斥锁
-    delete tunnel;
+    // 析构 Tunnel 对象
+    tunnel->~Tunnel();
+    if (shmdt(tunnel) == -1) {
+        perror("shmdt for tunnel failed");
+    }
+
+    // 析构 mailbox 对象
+    mail_box->~mailbox();
+    if (shmdt(mail_box) == -1) {
+        perror("shmdt for mailbox failed");
+    }
 }
 void process::init_car(txt_reader& reader) {
     int idx;
@@ -87,7 +117,7 @@ void process::leave(Car *car){
     car->state = State::OUT;
 
     Logger::log(LogLevel::INFO, "Car " + std::to_string(car->car_id) +
-                                " leaving tunnel, remaining cars: " + std::to_string(tunnel->car_count_) + ".");
+                                " leaving tunnel,"+" Reader: "+car->model_str +" remaining cars: " + std::to_string(tunnel->car_count_) + ".");
 
     if (tunnel->car_count_ < maximum_number_of_cars_in_tunnel) {
         // 隧道未满，可以唤醒同方向的等待车
@@ -117,18 +147,23 @@ void process::main_process(){
 //        Wait(total_number_of_cars_tunnel, 0);   // 等待信号量资源
         enter(&cars[i]);
         tunnel->show();
+        sleep(1);
 //        隧道内的每辆车都可以访问和修改一个用以模拟隧道邮箱系统的共享内存段（可以看成是一
 //        个数组，访问操作操作包括：r和w），这样，隧道内的车辆就在进隧道后保持其手机通讯（隧
 //        道将阻塞手机信号）。隧道外的汽车则不需要访问该共享内存段。
 
         for (const auto& op : cars[i].operations) {
             if (op.isWrite) {
+                mail_box->writeMailbox(op.mailbox-1,op.data);
                 std::cout << "  Write operation: "
                           << "Data: " << op.data << ", "
                           << "Time: " << op.time << ", "
                           << "Mailbox: " << op.mailbox << ", "
                           << "Length: " << op.length << std::endl;
             } else {
+                char buffer[1024];
+                mail_box->readMailbox(op.mailbox-1,buffer,op.length);
+                cars[i].model_str += buffer;
                 std::cout << "  Read operation: "
                           << "Time: " << op.time << ", "
                           << "Mailbox: " << op.mailbox << ", "
@@ -138,7 +173,7 @@ void process::main_process(){
 
 
         leave(&cars[i]);
-
+        Logger::log(LogLevel::INFO,cars[i].model_str);
 
 //        Signal(total_number_of_cars_tunnel, 0); // 完成后释放信号量
         exit(0); // 子进程完成后退出，避免继续执行父进程代码

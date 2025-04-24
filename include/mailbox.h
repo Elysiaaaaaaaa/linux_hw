@@ -25,7 +25,6 @@ private:
 public:
     mailbox(int num_mailboxes, int mem_size, int proj_id, const char *pathname) : total_number_of_mailboxes(num_mailboxes), memory_segment_size(mem_size) {
         // 创建信号量，初始值为 1
-        mutex_key =
         key_t semkey = ftok(pathname, proj_id + PROJ_SEMKEY_KEY_OFFSET);
         semid = sem_get(semkey, num_mailboxes, true, 1);
 
@@ -59,7 +58,7 @@ public:
         }
     }
 
-    void readMailbox(int mailbox_index, char* buffer, int length, int car_id) {
+    void readMailbox(int mailbox_index, char* buffer, int length) {
         // 增加读者计数
         Wait(reader_count_semid, mailbox_index);
         reader_counts[mailbox_index]++;
@@ -90,7 +89,7 @@ public:
         Signal(reader_count_semid, mailbox_index);
     }
 
-    void writeMailbox(int mailbox_index, const char* data, int car_id) {
+    void writeMailbox(int mailbox_index, const char* data) {
         size_t data_len = strlen(data);
         size_t copy_len = (data_len > static_cast<size_t>(memory_segment_size)) ? static_cast<size_t>(memory_segment_size) : data_len;
         // 获取邮箱的信号量

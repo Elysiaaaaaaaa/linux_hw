@@ -25,7 +25,7 @@ class Tunnel;
 extern int total_number_of_mailboxes;
 struct Operation {
     bool isWrite; // true 表示写操作，false 表示读操作
-    std::string data; // 写操作的数据
+    const char *data; // 写操作的数据
     int time; // 操作时间
     int mailbox; // 邮箱编号
     int length; // 读操作的数据长度
@@ -37,8 +37,8 @@ public:
     Car(int car_id, Direction dir, txt_reader& reader);
     ~Car();
 
-    void enter(int semid_tunnel_can_enter, Tunnel* tunnel);    // Request access (decrease semaphore)
-    void leave(int semid_tunnel_can_enter, Tunnel* tunnel);    // Release access (increase semaphore)
+//    void enter(int semid_tunnel_can_enter, Tunnel* tunnel);    // Request access (decrease semaphore)
+//    void leave(int semid_tunnel_can_enter, Tunnel* tunnel);    // Release access (increase semaphore)
 
 //    void* getSharedMemory(); // Get pointer to shared memory
 

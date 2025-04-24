@@ -6,6 +6,7 @@
 #define LINUX_HW_PROCESS_H
 
 #include "Car.h"
+#include "mailbox.h"
 #include "ipc.h"   // 自己有的信号量头文件
 #include "mp.h"
 #include "Logger.h"
@@ -27,7 +28,7 @@ class Tunnel;
 class process {
 
 public:
-    process(int proj_id, const char *pathname);
+    process(int num_mailboxes, int mem_size, int proj_id, const char *pathname);
     ~process(); // 销毁互斥锁
     void init_car(txt_reader& reader);
     void enter(Car *car);
@@ -35,6 +36,7 @@ public:
     void main_process();
 public:
     Tunnel* tunnel;
+    mailbox* mail_box;
     std::vector<Car> cars;
 };
 

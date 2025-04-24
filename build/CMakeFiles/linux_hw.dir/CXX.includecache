@@ -6,17 +6,17 @@
 
 #IncludeRegexTransform: 
 
-/mnt/d/Code/c++/linux_hw/include/Car.h
+../include/Car.h
 mp.h
-/mnt/d/Code/c++/linux_hw/include/mp.h
+../include/mp.h
 ipc.h
-/mnt/d/Code/c++/linux_hw/include/ipc.h
+../include/ipc.h
 logger.h
-/mnt/d/Code/c++/linux_hw/include/logger.h
+../include/logger.h
 txt_reader.h
-/mnt/d/Code/c++/linux_hw/include/txt_reader.h
+../include/txt_reader.h
 tunnel.h
-/mnt/d/Code/c++/linux_hw/include/tunnel.h
+../include/tunnel.h
 string
 -
 ctime
@@ -24,31 +24,11 @@ ctime
 vector
 -
 
-/mnt/d/Code/c++/linux_hw/include/Logger.h
+../include/Logger.h
 string
 -
 
-/mnt/d/Code/c++/linux_hw/include/Tunnel.h
-Car.h
-/mnt/d/Code/c++/linux_hw/include/Car.h
-ipc.h
-/mnt/d/Code/c++/linux_hw/include/ipc.h
-mp.h
-/mnt/d/Code/c++/linux_hw/include/mp.h
-Logger.h
-/mnt/d/Code/c++/linux_hw/include/Logger.h
-stdio.h
--
-unistd.h
--
-vector
--
-cstdio
--
-unistd.h
--
-
-/mnt/d/Code/c++/linux_hw/include/ipc.h
+../include/ipc.h
 stdio.h
 -
 sys/types.h
@@ -62,13 +42,25 @@ sys/shm.h
 stdlib.h
 -
 logger.h
-/mnt/d/Code/c++/linux_hw/include/logger.h
+../include/logger.h
 
-/mnt/d/Code/c++/linux_hw/include/logger.h
+../include/logger.h
 string
 -
 
-/mnt/d/Code/c++/linux_hw/include/mp.h
+../include/mailbox.h
+ipc.h
+../include/ipc.h
+mp.h
+../include/mp.h
+iostream
+-
+cstring
+-
+vector
+-
+
+../include/mp.h
 unistd.h
 -
 sys/types.h
@@ -82,17 +74,43 @@ iostream
 stdlib.h
 -
 logger.h
-/mnt/d/Code/c++/linux_hw/include/logger.h
+../include/logger.h
 
-/mnt/d/Code/c++/linux_hw/include/tunnel.h
+../include/process.h
 Car.h
-/mnt/d/Code/c++/linux_hw/include/Car.h
+../include/Car.h
+mailbox.h
+../include/mailbox.h
 ipc.h
-/mnt/d/Code/c++/linux_hw/include/ipc.h
+../include/ipc.h
 mp.h
-/mnt/d/Code/c++/linux_hw/include/mp.h
+../include/mp.h
 Logger.h
-/mnt/d/Code/c++/linux_hw/include/Logger.h
+../include/Logger.h
+stdio.h
+-
+unistd.h
+-
+vector
+-
+cstdio
+-
+unistd.h
+-
+pthread.h
+-
+semaphore.h
+-
+
+../include/tunnel.h
+Car.h
+../include/Car.h
+ipc.h
+../include/ipc.h
+mp.h
+../include/mp.h
+Logger.h
+../include/Logger.h
 stdio.h
 -
 unistd.h
@@ -104,7 +122,7 @@ cstdio
 unistd.h
 -
 
-/mnt/d/Code/c++/linux_hw/include/txt_reader.h
+../include/txt_reader.h
 iostream
 -
 stdlib.h
@@ -114,9 +132,9 @@ sstream
 fstream
 -
 logger.h
-/mnt/d/Code/c++/linux_hw/include/logger.h
+../include/logger.h
 
-/mnt/d/Code/c++/linux_hw/src/Tunnel.cpp
-../include/Tunnel.h
-/mnt/d/Code/c++/linux_hw/include/Tunnel.h
+/mnt/d/Code/c++/linux_hw/src/process.cpp
+process.h
+/mnt/d/Code/c++/linux_hw/src/process.h
 

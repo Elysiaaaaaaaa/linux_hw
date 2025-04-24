@@ -27,7 +27,10 @@ CMakeFiles/linux_hw.dir/src/ipc.cpp.o: ../src/ipc.cpp
 CMakeFiles/linux_hw.dir/src/logger.cpp.o: ../include/Logger.h
 CMakeFiles/linux_hw.dir/src/logger.cpp.o: ../src/logger.cpp
 
+CMakeFiles/linux_hw.dir/src/mailbox.cpp.o: ../include/ipc.h
+CMakeFiles/linux_hw.dir/src/mailbox.cpp.o: ../include/logger.h
 CMakeFiles/linux_hw.dir/src/mailbox.cpp.o: ../include/mailbox.h
+CMakeFiles/linux_hw.dir/src/mailbox.cpp.o: ../include/mp.h
 CMakeFiles/linux_hw.dir/src/mailbox.cpp.o: ../src/mailbox.cpp
 
 CMakeFiles/linux_hw.dir/src/main.cpp.o: ../include/Car.h
@@ -35,6 +38,7 @@ CMakeFiles/linux_hw.dir/src/main.cpp.o: ../include/Logger.h
 CMakeFiles/linux_hw.dir/src/main.cpp.o: ../include/Tunnel.h
 CMakeFiles/linux_hw.dir/src/main.cpp.o: ../include/ipc.h
 CMakeFiles/linux_hw.dir/src/main.cpp.o: ../include/logger.h
+CMakeFiles/linux_hw.dir/src/main.cpp.o: ../include/mailbox.h
 CMakeFiles/linux_hw.dir/src/main.cpp.o: ../include/mp.h
 CMakeFiles/linux_hw.dir/src/main.cpp.o: ../include/process.h
 CMakeFiles/linux_hw.dir/src/main.cpp.o: ../include/tunnel.h
@@ -49,6 +53,7 @@ CMakeFiles/linux_hw.dir/src/process.cpp.o: ../include/Car.h
 CMakeFiles/linux_hw.dir/src/process.cpp.o: ../include/Logger.h
 CMakeFiles/linux_hw.dir/src/process.cpp.o: ../include/ipc.h
 CMakeFiles/linux_hw.dir/src/process.cpp.o: ../include/logger.h
+CMakeFiles/linux_hw.dir/src/process.cpp.o: ../include/mailbox.h
 CMakeFiles/linux_hw.dir/src/process.cpp.o: ../include/mp.h
 CMakeFiles/linux_hw.dir/src/process.cpp.o: ../include/process.h
 CMakeFiles/linux_hw.dir/src/process.cpp.o: ../include/tunnel.h
