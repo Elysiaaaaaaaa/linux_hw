@@ -15,6 +15,15 @@
 #include <vector>
 #include <cstdio>
 #include <unistd.h>
+
+#define PROJ_MUTEX_KEY_OFFSET 0
+#define PROJ_BLOCK_KEY_OFFSET 1
+#define PROJ_CARCOUNT_KEY_OFFSET 2
+#define PROJ_MAXCARS_KEY_OFFSET 3
+#define PROJ_TOTALCARS_KEY_OFFSET 4
+#define PROJ_SHM_TUNNEL_OFFSET 100
+
+
 extern int total_number_of_cars;
 extern int maximum_number_of_cars_in_tunnel;//隧道最大汽车容量
 enum class Direction;
@@ -31,6 +40,7 @@ public:
     Tunnel(int proj_id, const char *pathname);
     void enter(Car *car);
     void leave(Car *car);
+    void show(); // 新增 show 函数声明
 //    void main_process();
 public:
 //    控制隧道中车数量

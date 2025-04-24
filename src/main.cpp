@@ -11,6 +11,10 @@
 #include <../include/process.h>
 #include <../include/Tunnel.h>
 #include <../include/txt_reader.h>
+#include <thread>
+
+
+
 using namespace std;
 int total_number_of_cars=0;//汽车总数
 int maximum_number_of_cars_in_tunnel=0;//隧道最大汽车容量

@@ -123,33 +123,6 @@ linux_hw/fast:
 	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/build
 .PHONY : linux_hw/fast
 
-include/process.o: include/process.cpp.o
-
-.PHONY : include/process.o
-
-# target to build an object file
-include/process.cpp.o:
-	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/include/process.cpp.o
-.PHONY : include/process.cpp.o
-
-include/process.i: include/process.cpp.i
-
-.PHONY : include/process.i
-
-# target to preprocess a source file
-include/process.cpp.i:
-	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/include/process.cpp.i
-.PHONY : include/process.cpp.i
-
-include/process.s: include/process.cpp.s
-
-.PHONY : include/process.s
-
-# target to generate assembly for a file
-include/process.cpp.s:
-	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/include/process.cpp.s
-.PHONY : include/process.cpp.s
-
 src/Car.o: src/Car.cpp.o
 
 .PHONY : src/Car.o
@@ -339,6 +312,33 @@ src/mp.cpp.s:
 	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/src/mp.cpp.s
 .PHONY : src/mp.cpp.s
 
+src/process.o: src/process.cpp.o
+
+.PHONY : src/process.o
+
+# target to build an object file
+src/process.cpp.o:
+	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/src/process.cpp.o
+.PHONY : src/process.cpp.o
+
+src/process.i: src/process.cpp.i
+
+.PHONY : src/process.i
+
+# target to preprocess a source file
+src/process.cpp.i:
+	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/src/process.cpp.i
+.PHONY : src/process.cpp.i
+
+src/process.s: src/process.cpp.s
+
+.PHONY : src/process.s
+
+# target to generate assembly for a file
+src/process.cpp.s:
+	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/src/process.cpp.s
+.PHONY : src/process.cpp.s
+
 src/test.o: src/test.cpp.o
 
 .PHONY : src/test.o
@@ -402,9 +402,6 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... linux_hw"
-	@echo "... include/process.o"
-	@echo "... include/process.i"
-	@echo "... include/process.s"
 	@echo "... src/Car.o"
 	@echo "... src/Car.i"
 	@echo "... src/Car.s"
@@ -426,6 +423,9 @@ help:
 	@echo "... src/mp.o"
 	@echo "... src/mp.i"
 	@echo "... src/mp.s"
+	@echo "... src/process.o"
+	@echo "... src/process.i"
+	@echo "... src/process.s"
 	@echo "... src/test.o"
 	@echo "... src/test.i"
 	@echo "... src/test.s"

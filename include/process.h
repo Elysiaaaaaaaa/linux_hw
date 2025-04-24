@@ -14,17 +14,21 @@
 #include <vector>
 #include <cstdio>
 #include <unistd.h>
+#include <pthread.h> // 引入 pthread 库用于互斥锁
+#include <semaphore.h>
+#define SEM_NAME "/my_semaphore"
+
 extern int total_number_of_cars;
 extern int maximum_number_of_cars_in_tunnel;//隧道最大汽车容量
 enum class Direction;
 class Car;
 class Tunnel;
 
-
 class process {
 
 public:
     process(int proj_id, const char *pathname);
+    ~process(); // 销毁互斥锁
     void init_car(txt_reader& reader);
     void enter(Car *car);
     void leave(Car *car);

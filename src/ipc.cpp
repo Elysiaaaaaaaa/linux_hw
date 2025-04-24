@@ -58,8 +58,8 @@ int sem_get(key_t key, int nsems, bool init, int semval) {
     return semid;
 }
 
-int sem_get_val(key_t semid, int nsems) {
-    return semctl(semid, nsems, GETVAL);
+int sem_get_val(int semid, int sn) {
+    return semctl(semid, sn, GETVAL);
 }
 
 void Wait(int semid, int sn) {

@@ -148,9 +148,22 @@ CMakeFiles/linux_hw.dir/src/mp.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/linux_hw.dir/src/mp.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Code/c++/linux_hw/src/mp.cpp -o CMakeFiles/linux_hw.dir/src/mp.cpp.s
 
+CMakeFiles/linux_hw.dir/src/process.cpp.o: CMakeFiles/linux_hw.dir/flags.make
+CMakeFiles/linux_hw.dir/src/process.cpp.o: ../src/process.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/d/Code/c++/linux_hw/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/linux_hw.dir/src/process.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/linux_hw.dir/src/process.cpp.o -c /mnt/d/Code/c++/linux_hw/src/process.cpp
+
+CMakeFiles/linux_hw.dir/src/process.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/linux_hw.dir/src/process.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/Code/c++/linux_hw/src/process.cpp > CMakeFiles/linux_hw.dir/src/process.cpp.i
+
+CMakeFiles/linux_hw.dir/src/process.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/linux_hw.dir/src/process.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Code/c++/linux_hw/src/process.cpp -o CMakeFiles/linux_hw.dir/src/process.cpp.s
+
 CMakeFiles/linux_hw.dir/src/test.cpp.o: CMakeFiles/linux_hw.dir/flags.make
 CMakeFiles/linux_hw.dir/src/test.cpp.o: ../src/test.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/d/Code/c++/linux_hw/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/linux_hw.dir/src/test.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/d/Code/c++/linux_hw/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/linux_hw.dir/src/test.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/linux_hw.dir/src/test.cpp.o -c /mnt/d/Code/c++/linux_hw/src/test.cpp
 
 CMakeFiles/linux_hw.dir/src/test.cpp.i: cmake_force
@@ -163,7 +176,7 @@ CMakeFiles/linux_hw.dir/src/test.cpp.s: cmake_force
 
 CMakeFiles/linux_hw.dir/src/txt_reader.cpp.o: CMakeFiles/linux_hw.dir/flags.make
 CMakeFiles/linux_hw.dir/src/txt_reader.cpp.o: ../src/txt_reader.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/d/Code/c++/linux_hw/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/linux_hw.dir/src/txt_reader.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/d/Code/c++/linux_hw/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/linux_hw.dir/src/txt_reader.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/linux_hw.dir/src/txt_reader.cpp.o -c /mnt/d/Code/c++/linux_hw/src/txt_reader.cpp
 
 CMakeFiles/linux_hw.dir/src/txt_reader.cpp.i: cmake_force
@@ -174,19 +187,6 @@ CMakeFiles/linux_hw.dir/src/txt_reader.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/linux_hw.dir/src/txt_reader.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Code/c++/linux_hw/src/txt_reader.cpp -o CMakeFiles/linux_hw.dir/src/txt_reader.cpp.s
 
-CMakeFiles/linux_hw.dir/include/process.cpp.o: CMakeFiles/linux_hw.dir/flags.make
-CMakeFiles/linux_hw.dir/include/process.cpp.o: ../include/process.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/d/Code/c++/linux_hw/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/linux_hw.dir/include/process.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/linux_hw.dir/include/process.cpp.o -c /mnt/d/Code/c++/linux_hw/include/process.cpp
-
-CMakeFiles/linux_hw.dir/include/process.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/linux_hw.dir/include/process.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/d/Code/c++/linux_hw/include/process.cpp > CMakeFiles/linux_hw.dir/include/process.cpp.i
-
-CMakeFiles/linux_hw.dir/include/process.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/linux_hw.dir/include/process.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/d/Code/c++/linux_hw/include/process.cpp -o CMakeFiles/linux_hw.dir/include/process.cpp.s
-
 # Object files for target linux_hw
 linux_hw_OBJECTS = \
 "CMakeFiles/linux_hw.dir/src/Car.cpp.o" \
@@ -196,9 +196,9 @@ linux_hw_OBJECTS = \
 "CMakeFiles/linux_hw.dir/src/mailbox.cpp.o" \
 "CMakeFiles/linux_hw.dir/src/main.cpp.o" \
 "CMakeFiles/linux_hw.dir/src/mp.cpp.o" \
+"CMakeFiles/linux_hw.dir/src/process.cpp.o" \
 "CMakeFiles/linux_hw.dir/src/test.cpp.o" \
-"CMakeFiles/linux_hw.dir/src/txt_reader.cpp.o" \
-"CMakeFiles/linux_hw.dir/include/process.cpp.o"
+"CMakeFiles/linux_hw.dir/src/txt_reader.cpp.o"
 
 # External object files for target linux_hw
 linux_hw_EXTERNAL_OBJECTS =
@@ -210,9 +210,9 @@ linux_hw_EXTERNAL_OBJECTS =
 ../linux_hw: CMakeFiles/linux_hw.dir/src/mailbox.cpp.o
 ../linux_hw: CMakeFiles/linux_hw.dir/src/main.cpp.o
 ../linux_hw: CMakeFiles/linux_hw.dir/src/mp.cpp.o
+../linux_hw: CMakeFiles/linux_hw.dir/src/process.cpp.o
 ../linux_hw: CMakeFiles/linux_hw.dir/src/test.cpp.o
 ../linux_hw: CMakeFiles/linux_hw.dir/src/txt_reader.cpp.o
-../linux_hw: CMakeFiles/linux_hw.dir/include/process.cpp.o
 ../linux_hw: CMakeFiles/linux_hw.dir/build.make
 ../linux_hw: CMakeFiles/linux_hw.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/d/Code/c++/linux_hw/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable ../linux_hw"

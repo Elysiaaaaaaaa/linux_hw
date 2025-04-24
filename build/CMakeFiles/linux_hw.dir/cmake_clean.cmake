@@ -1,7 +1,6 @@
 file(REMOVE_RECURSE
   "../linux_hw"
   "../linux_hw.pdb"
-  "CMakeFiles/linux_hw.dir/include/process.cpp.o"
   "CMakeFiles/linux_hw.dir/src/Car.cpp.o"
   "CMakeFiles/linux_hw.dir/src/Tunnel.cpp.o"
   "CMakeFiles/linux_hw.dir/src/ipc.cpp.o"
@@ -9,6 +8,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/linux_hw.dir/src/mailbox.cpp.o"
   "CMakeFiles/linux_hw.dir/src/main.cpp.o"
   "CMakeFiles/linux_hw.dir/src/mp.cpp.o"
+  "CMakeFiles/linux_hw.dir/src/process.cpp.o"
   "CMakeFiles/linux_hw.dir/src/test.cpp.o"
   "CMakeFiles/linux_hw.dir/src/txt_reader.cpp.o"
 )
