@@ -155,7 +155,7 @@ bool Car::overtime(time_t ct){
 }
 
 void Car::show() const {
-    std::cout << "1-----------------------" << std::endl;
+    std::cout << "-----------------------" << std::endl;
     std::cout << "Car ID: " << car_id << std::endl;
     std::cout << "Direction: " << getDirectionStr() << std::endl;
     std::cout << "tunnel_travel_time:" << cost_time <<std::endl;

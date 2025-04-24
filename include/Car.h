@@ -29,6 +29,7 @@ struct Operation {
     int time; // 操作时间
     int mailbox; // 邮箱编号
     int length; // 读操作的数据长度
+
 };
 class Car {
 public:

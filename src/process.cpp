@@ -121,7 +121,20 @@ void process::main_process(){
 //        个数组，访问操作操作包括：r和w），这样，隧道内的车辆就在进隧道后保持其手机通讯（隧
 //        道将阻塞手机信号）。隧道外的汽车则不需要访问该共享内存段。
 
-        cars[i].main_process();
+        for (const auto& op : cars[i].operations) {
+            if (op.isWrite) {
+                std::cout << "  Write operation: "
+                          << "Data: " << op.data << ", "
+                          << "Time: " << op.time << ", "
+                          << "Mailbox: " << op.mailbox << ", "
+                          << "Length: " << op.length << std::endl;
+            } else {
+                std::cout << "  Read operation: "
+                          << "Time: " << op.time << ", "
+                          << "Mailbox: " << op.mailbox << ", "
+                          << "Length: " << op.length << std::endl;
+            }
+        }
 
 
         leave(&cars[i]);
