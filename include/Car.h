@@ -70,7 +70,7 @@ public:
     int car_id;       // 车的编号
     Direction direction_; // 方向
     std::chrono::time_point<std::chrono::high_resolution_clock> start_time; // 汽车开始穿越隧道的时间
-    std::chrono::time_point<std::chrono::high_resolution_clock> cost_time; // 汽车穿越隧道预计使用的时间
+    std::chrono::milliseconds cost_time; // 汽车穿越隧道预计使用的时间
     State state;//汽车的当前状态，1未进入隧道，2已经隧道中，3出隧道
     string model_str;//手机内存
     std::vector<Operation> operations; // 操作列表

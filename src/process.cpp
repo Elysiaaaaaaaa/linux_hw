@@ -158,50 +158,54 @@ void process::main_process(){
             auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(
                     current_time - start_time).count();
             if (elapsed_time > op.time) {
-                Logger::log(LogLevel::WARN,
-                            "Car " + std::to_string(cars[i].car_id) + " has timed out for write operation.");
+                if(op.isWrite){
+                    Logger::log(LogLevel::WARN,
+                                "Car " + std::to_string(cars[i].car_id) + " has timed out for write operation.");
+                }else{
+                    Logger::log(LogLevel::WARN,
+                                "Car " + std::to_string(cars[i].car_id) + " has timed out for read operation.");
+                }
             } else {
+                Logger::log(LogLevel::WARN,
+                            "Car " + std::to_string(cars[i].car_id) + " YYY.");
                 if (op.isWrite) {
                     mail_box->writeMailbox(op.mailbox - 1, op.data, op.time, start_time);
-                    std::cout << "  Write operation: "
-                              << "Data: " << op.data << ", "
-                              << "Time: " << op.time << ", "
-                              << "Mailbox: " << op.mailbox << ", "
-                              << "Length: " << op.length << std::endl;
+//                    std::cout << "  Write operation: "
+//                              << "Data: " << op.data << ", "
+//                              << "Time: " << op.time << ", "
+//                              << "Mailbox: " << op.mailbox << ", "
+//                              << "Length: " << op.length << std::endl;
                 } else {
                     char buffer[1024];
                     mail_box->readMailbox(op.mailbox - 1, buffer, op.length, op.time, start_time);
                     cars[i].model_str += buffer;
-                    std::cout << "  Read operation: "
-                              << "Time: " << op.time << ", "
-                              << "Mailbox: " << op.mailbox << ", "
-                              << "Length: " << op.length << std::endl;
                 }
             }
         }
 
+        // 计算预计结束时间
+        auto end_time = cars[i].start_time + cars[i].cost_time;
 
+        // 获取当前时间
         auto current_time = std::chrono::high_resolution_clock::now();
-        auto stayed_time = std::chrono::duration_cast<std::chrono::milliseconds>(current_time - cars[i].start_time).count(); // 转换为毫秒
-        int wait_time = static_cast<int>(cars[i].cost_time - stayed_time); // 确保单位一致，转换为 long 类型
-        if (wait_time > 0) {
-            // 使用 usleep，单位为微秒
-            usleep(wait_time * 1000); // 转换为微秒
-        }
 
+        // 计算需要睡眠的时间
+        auto sleep_duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - current_time);
+
+        // 如果需要睡眠（即当前时间还未到预计结束时间）
+        if (sleep_duration.count() > 0) {
+            // 使用 std::this_thread::sleep_for 进行阻塞（usleep 不支持 std::chrono 类型，这里使用 std::this_thread::sleep_for）
+            usleep(sleep_duration.count()*1000);
+        }
         leave(&cars[i]);
         Logger::log(LogLevel::INFO,cars[i].model_str);
-
 //        Signal(total_number_of_cars_tunnel, 0); // 完成后释放信号量
         exit(0); // 子进程完成后退出，避免继续执行父进程代码
     } else {
-        // 父进程逻辑
-
         // 等待所有子进程退出
         for (int j = 0; j < total_number_of_cars; ++j) {
             wait((int*)0);
         }
-
         Logger::log(LogLevel::INFO, "PROCESS FINISH");
     }
 }
