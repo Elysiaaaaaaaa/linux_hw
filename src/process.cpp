@@ -77,7 +77,7 @@ void process::enter(Car *car){
             // 隧道没有车，设置方向并进入
             tunnel->current_direction_ = car->direction_;
             tunnel->car_count_ += 1;
-            car->start_time = time(0);
+            car->start_time = std::chrono::high_resolution_clock::now();
             car->state = State::INNER;
             Logger::log(LogLevel::INFO, "Car " + std::to_string(car->car_id) +
                                         " entering tunnel in direction " + std::to_string(static_cast<int>(car->direction_)) +
@@ -86,7 +86,7 @@ void process::enter(Car *car){
         } else if (tunnel->current_direction_ == car->direction_ && tunnel->car_count_ < maximum_number_of_cars_in_tunnel) {
             // 同一方向且未达到最大容量，进入
             (tunnel->car_count_)++;
-            car->start_time = time(0);
+            car->start_time = std::chrono::high_resolution_clock::now();
             car->state = State::INNER;
             Logger::log(LogLevel::INFO, "Car " + std::to_string(car->car_id) +
                                         " entering tunnel in direction " + std::to_string(static_cast<int>(car->direction_)) +
@@ -127,11 +127,12 @@ void process::leave(Car *car){
     Signal(tunnel->mutex_, 0); // 解锁
 }
 void process::main_process(){
+    start_time = std::chrono::high_resolution_clock::now(); // 记录起始时间
+    Logger::setBaseTime(start_time);
     Logger::log(LogLevel::INFO, "PROCESS BEGAN");
 
     pid_t id;
     int i = 0;
-
     // 为每辆车创建一个子进程
     for (; i < total_number_of_cars; ++i) {
         id = Fork();
@@ -147,30 +148,46 @@ void process::main_process(){
 //        Wait(total_number_of_cars_tunnel, 0);   // 等待信号量资源
         enter(&cars[i]);
         tunnel->show();
-        sleep(1);
+//        sleep(1);
 //        隧道内的每辆车都可以访问和修改一个用以模拟隧道邮箱系统的共享内存段（可以看成是一
 //        个数组，访问操作操作包括：r和w），这样，隧道内的车辆就在进隧道后保持其手机通讯（隧
 //        道将阻塞手机信号）。隧道外的汽车则不需要访问该共享内存段。
 
         for (const auto& op : cars[i].operations) {
-            if (op.isWrite) {
-                mail_box->writeMailbox(op.mailbox-1,op.data);
-                std::cout << "  Write operation: "
-                          << "Data: " << op.data << ", "
-                          << "Time: " << op.time << ", "
-                          << "Mailbox: " << op.mailbox << ", "
-                          << "Length: " << op.length << std::endl;
+            auto current_time = std::chrono::high_resolution_clock::now();
+            auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    current_time - start_time).count();
+            if (elapsed_time > op.time) {
+                Logger::log(LogLevel::WARN,
+                            "Car " + std::to_string(cars[i].car_id) + " has timed out for write operation.");
             } else {
-                char buffer[1024];
-                mail_box->readMailbox(op.mailbox-1,buffer,op.length);
-                cars[i].model_str += buffer;
-                std::cout << "  Read operation: "
-                          << "Time: " << op.time << ", "
-                          << "Mailbox: " << op.mailbox << ", "
-                          << "Length: " << op.length << std::endl;
+                if (op.isWrite) {
+                    mail_box->writeMailbox(op.mailbox - 1, op.data, op.time, start_time);
+                    std::cout << "  Write operation: "
+                              << "Data: " << op.data << ", "
+                              << "Time: " << op.time << ", "
+                              << "Mailbox: " << op.mailbox << ", "
+                              << "Length: " << op.length << std::endl;
+                } else {
+                    char buffer[1024];
+                    mail_box->readMailbox(op.mailbox - 1, buffer, op.length, op.time, start_time);
+                    cars[i].model_str += buffer;
+                    std::cout << "  Read operation: "
+                              << "Time: " << op.time << ", "
+                              << "Mailbox: " << op.mailbox << ", "
+                              << "Length: " << op.length << std::endl;
+                }
             }
         }
 
+
+        auto current_time = std::chrono::high_resolution_clock::now();
+        auto stayed_time = std::chrono::duration_cast<std::chrono::milliseconds>(current_time - cars[i].start_time).count(); // 转换为毫秒
+        int wait_time = static_cast<int>(cars[i].cost_time - stayed_time); // 确保单位一致，转换为 long 类型
+        if (wait_time > 0) {
+            // 使用 usleep，单位为微秒
+            usleep(wait_time * 1000); // 转换为微秒
+        }
 
         leave(&cars[i]);
         Logger::log(LogLevel::INFO,cars[i].model_str);

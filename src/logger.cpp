@@ -11,27 +11,27 @@
 
 using namespace std;
 mutex logMutex;
+std::chrono::time_point<std::chrono::high_resolution_clock> Logger::baseTime;
+
+void Logger::setBaseTime(const std::chrono::time_point<std::chrono::high_resolution_clock>& startTime){
+    baseTime = std::chrono::high_resolution_clock::now();
+}
 
 void Logger::log(LogLevel level, const string& message) {
-//    lock_guard<mutex> lock(logMutex);  // 保证线程安全
+    // lock_guard<mutex> lock(logMutex);  // 保证线程安全
 
     cout << "[" << getTimestamp() << "] "
-              << "[" << levelToString(level) << "] "
-              << message << endl;
-//    cout.flush();
+         << "[" << levelToString(level) << "] "
+         << message << endl;
+    // cout.flush();
 }
 
 string Logger::getTimestamp() {
-    time_t now = time(0);
-    tm *ltm = localtime(&now);
+    auto now = std::chrono::high_resolution_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - baseTime).count();
 
     ostringstream oss;
-    oss << (1900 + ltm->tm_year) << "-"
-        << (1 + ltm->tm_mon) << "-"
-        << ltm->tm_mday << " "
-        << ltm->tm_hour << ":"
-        << ltm->tm_min << ":"
-        << ltm->tm_sec;
+    oss << elapsed;
 
     return oss.str();
 }

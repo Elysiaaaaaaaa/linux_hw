@@ -23,7 +23,19 @@ Car::Car(int car_id, Direction dir, txt_reader& reader)
     // Get or create shared memory
 //    shmid_ = shm_init(key_, shm_size, IPC_CREAT | 0666);
     this->car_id = car_id;
-    cost_time = int(tunnel_travel_time * (0.7 + (static_cast<double>(rand()) / RAND_MAX) * 0.6));
+    // 计算最大波动值（30%）
+    // 计算最大波动值（30%）
+    int max_fluctuation = tunnel_travel_time * 30 / 100;
+
+    // 生成 -30% ~ +30% 范围的随机整数波动
+    int fluctuation = (rand() % (2 * max_fluctuation + 1)) - max_fluctuation;
+
+    // 得到带波动的 travel time
+    int adjusted_travel_time = tunnel_travel_time + fluctuation;
+
+    // 初始化 cost_time 为当前时间点 + adjusted_travel_time 毫秒
+    cost_time = std::chrono::high_resolution_clock::now() + std::chrono::milliseconds(adjusted_travel_time);
+
     state = State::WAITING;
     model_str = "";
     // Attach to shared memory
@@ -146,19 +158,14 @@ bool Car::exet_op(){
 const std::vector<Operation>& Car::getOperations() const {
     return operations;
 }
-bool Car::overtime(time_t ct){
-    if(ct==-1){
-        return (time(0) - start_time) > cost_time;
-    }else{
-        return (time(0) - start_time) > ct;
-    }
-}
+
 
 void Car::show() const {
     std::cout << "-----------------------" << std::endl;
     std::cout << "Car ID: " << car_id << std::endl;
     std::cout << "Direction: " << getDirectionStr() << std::endl;
-    std::cout << "tunnel_travel_time:" << cost_time <<std::endl;
+    std::cout << "tunnel_travel_time (adjusted): " << adjusted_travel_time << " ms" << std::endl;
+
     std::cout << "Operations:" << std::endl;
     for (const auto& op : operations) {
         if (op.isWrite) {

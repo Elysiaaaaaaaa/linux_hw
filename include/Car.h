@@ -18,6 +18,10 @@
 #include <string>
 #include <ctime>
 #include <vector>
+#include <chrono>
+
+
+
 enum class Direction { Eastbound, Westbound }; // 新增方向枚举
 enum class State { WAITING, INNER, OUT }; // 新增状态枚举
 class Tunnel;
@@ -51,7 +55,6 @@ public:
     void addOperation(const Operation& op);
     const std::vector<Operation>& getOperations() const;
     bool exet_op();
-    bool overtime(time_t ct = -1);
     void show() const;
     bool main_process(int& semid_tunnel_can_enter, Tunnel* tunnel);
 
@@ -61,12 +64,13 @@ private:
 //    int shmid_;        // Shared memory ID
 //    void* shmaddr_;    // Shared memory address
     vector<int> m;      //每个邮箱维护的读指针
+    int adjusted_travel_time;
 
 public:
     int car_id;       // 车的编号
     Direction direction_; // 方向
-    time_t start_time;//汽车穿越隧道当前使用的时间
-    int cost_time;//汽车穿越隧道使用的时间
+    std::chrono::time_point<std::chrono::high_resolution_clock> start_time; // 汽车开始穿越隧道的时间
+    std::chrono::time_point<std::chrono::high_resolution_clock> cost_time; // 汽车穿越隧道预计使用的时间
     State state;//汽车的当前状态，1未进入隧道，2已经隧道中，3出隧道
     string model_str;//手机内存
     std::vector<Operation> operations; // 操作列表

@@ -9,9 +9,11 @@
 #include <iostream>
 #include <cstring>
 #include <vector>
+#include <chrono>
 #define PROJ_SEMKEY_KEY_OFFSET 5
 #define PROJ_READER_KEY_OFFSET 6
 #define PROJ_MEMORY_KEY_OFFSET 7
+using namespace std;
 class mailbox {
 private:
     int semid;
@@ -58,7 +60,7 @@ public:
         }
     }
 
-    void readMailbox(int mailbox_index, char* buffer, int length) {
+    void readMailbox(int mailbox_index, char* buffer, int length, int op_time, const std::chrono::time_point<std::chrono::high_resolution_clock>& start_time) {
         // 增加读者计数
         Wait(reader_count_semid, mailbox_index);
         reader_counts[mailbox_index]++;
@@ -67,7 +69,11 @@ public:
             Wait(semid, mailbox_index);
         }
         Signal(reader_count_semid, mailbox_index);
-
+        auto current_time = std::chrono::high_resolution_clock::now();
+        auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(current_time - start_time).count();
+        if (elapsed_time < op_time) {
+            usleep((op_time - elapsed_time) * 1000); // 使用 usleep 等待剩余的毫秒数
+        }
         // 检查是否还有字符可读
         int read_offset = reader_counts[mailbox_index + total_number_of_mailboxes];
         if (read_offset >= memory_segment_size) {
@@ -89,11 +95,16 @@ public:
         Signal(reader_count_semid, mailbox_index);
     }
 
-    void writeMailbox(int mailbox_index, const char* data) {
+    void writeMailbox(int mailbox_index, const char* data, int op_time, const std::chrono::time_point<std::chrono::high_resolution_clock>& start_time) {
         size_t data_len = strlen(data);
         size_t copy_len = (data_len > static_cast<size_t>(memory_segment_size)) ? static_cast<size_t>(memory_segment_size) : data_len;
         // 获取邮箱的信号量
         Wait(semid, mailbox_index);
+        auto current_time = std::chrono::high_resolution_clock::now();
+        auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(current_time - start_time).count();
+        if (elapsed_time < op_time) {
+            usleep((op_time - elapsed_time) * 1000); // 使用 usleep 等待剩余的毫秒数
+        }
         memcpy(shared_memory + mailbox_index * memory_segment_size, data, copy_len);
         // 截断多余的数据，添加终止符
         if (copy_len < data_len) {

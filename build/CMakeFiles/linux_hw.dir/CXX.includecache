@@ -23,9 +23,13 @@ ctime
 -
 vector
 -
+chrono
+-
 
 ../include/Logger.h
 string
+-
+chrono
 -
 
 ../include/ipc.h
@@ -47,6 +51,8 @@ logger.h
 ../include/logger.h
 string
 -
+chrono
+-
 
 ../include/mailbox.h
 ipc.h
@@ -58,6 +64,8 @@ iostream
 cstring
 -
 vector
+-
+chrono
 -
 
 ../include/mp.h
@@ -100,6 +108,8 @@ unistd.h
 pthread.h
 -
 semaphore.h
+-
+chrono
 -
 
 ../include/tunnel.h

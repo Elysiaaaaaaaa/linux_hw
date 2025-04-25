@@ -17,6 +17,7 @@
 #include <unistd.h>
 #include <pthread.h> // 引入 pthread 库用于互斥锁
 #include <semaphore.h>
+#include <chrono>
 #define SEM_NAME "/my_semaphore"
 
 extern int total_number_of_cars;
@@ -38,6 +39,7 @@ public:
     Tunnel* tunnel;
     mailbox* mail_box;
     std::vector<Car> cars;
+    std::chrono::time_point<std::chrono::high_resolution_clock> start_time; // 添加起始时间成员变量
 };
 
 
