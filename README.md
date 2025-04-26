@@ -5,6 +5,7 @@
 - [x] 毫秒级时间实现
 - [ ] 输出规格统一 car.show
 - [ ] 输出规格统一 process::leave>>car->model_str
+- [ ] readMailbox debug
 - [ ] 时间转换
 - [ ] 报告
 - [ ] 磕头

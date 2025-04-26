@@ -116,9 +116,6 @@ void process::leave(Car *car){
     (tunnel->car_count_)--;
     car->state = State::OUT;
 
-    Logger::log(LogLevel::INFO, "Car " + std::to_string(car->car_id) +
-                                " leaving tunnel,"+" Reader: "+car->model_str +" remaining cars: " + std::to_string(tunnel->car_count_) + ".");
-
     if (tunnel->car_count_ < maximum_number_of_cars_in_tunnel) {
         // 隧道未满，可以唤醒同方向的等待车
         Signal(tunnel->block_, 0);
@@ -152,22 +149,27 @@ void process::main_process(){
 //        隧道内的每辆车都可以访问和修改一个用以模拟隧道邮箱系统的共享内存段（可以看成是一
 //        个数组，访问操作操作包括：r和w），这样，隧道内的车辆就在进隧道后保持其手机通讯（隧
 //        道将阻塞手机信号）。隧道外的汽车则不需要访问该共享内存段。
-
+        int t = 0;
         for (const auto& op : cars[i].operations) {
+            t++;
             auto current_time = std::chrono::high_resolution_clock::now();
             auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(
                     current_time - start_time).count();
             if (elapsed_time > op.time) {
                 if(op.isWrite){
                     Logger::log(LogLevel::WARN,
-                                "Car " + std::to_string(cars[i].car_id) + " has timed out for write operation.");
+                                "Car " + std::to_string(cars[i].car_id) + ' ' + to_string(t) + " has timed out for write " + to_string(op.mailbox));
                 }else{
                     Logger::log(LogLevel::WARN,
-                                "Car " + std::to_string(cars[i].car_id) + " has timed out for read operation.");
+                                "Car " + std::to_string(cars[i].car_id) + ' ' + to_string(t) + " has timed out for read "+to_string(op.mailbox));
                 }
             } else {
+                auto remaining_time = op.time - elapsed_time;
+                if (remaining_time > 10) {
+                    usleep((remaining_time - 10) * 1000);
+                }
                 Logger::log(LogLevel::WARN,
-                            "Car " + std::to_string(cars[i].car_id) + " YYY.");
+                            "Car " + std::to_string(cars[i].car_id) + " lock " + to_string(op.mailbox));
                 if (op.isWrite) {
                     mail_box->writeMailbox(op.mailbox - 1, op.data, op.time, start_time);
 //                    std::cout << "  Write operation: "
@@ -176,10 +178,13 @@ void process::main_process(){
 //                              << "Mailbox: " << op.mailbox << ", "
 //                              << "Length: " << op.length << std::endl;
                 } else {
-                    char buffer[1024];
-                    mail_box->readMailbox(op.mailbox - 1, buffer, op.length, op.time, start_time);
-                    cars[i].model_str += buffer;
+                    std::string readResult;
+                    mail_box->readMailbox(op.mailbox - 1, readResult, op.time, start_time);
+                    std::cout << readResult << std::endl;
+                    cars[i].model_str = cars[i].model_str + readResult;
                 }
+                Logger::log(LogLevel::WARN,
+                            "Car " + std::to_string(cars[i].car_id) + " unlock " + to_string(op.mailbox));
             }
         }
 
@@ -198,7 +203,7 @@ void process::main_process(){
             usleep(sleep_duration.count()*1000);
         }
         leave(&cars[i]);
-        Logger::log(LogLevel::INFO,cars[i].model_str);
+//        Logger::log(LogLevel::INFO,cars[i].model_str);
 //        Signal(total_number_of_cars_tunnel, 0); // 完成后释放信号量
         exit(0); // 子进程完成后退出，避免继续执行父进程代码
     } else {
@@ -206,6 +211,12 @@ void process::main_process(){
         for (int j = 0; j < total_number_of_cars; ++j) {
             wait((int*)0);
         }
+        for (int i = 0; i < total_number_of_cars; ++i) {
+            Logger::log(LogLevel::INFO, "Car " + std::to_string(cars[i].car_id) +
+                                        " leaving tunnel,"+" Reader: " + cars[i].model_str + ".");
+        }
+
+
         Logger::log(LogLevel::INFO, "PROCESS FINISH");
     }
 }

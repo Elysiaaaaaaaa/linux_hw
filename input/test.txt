@@ -6,7 +6,7 @@
 
 car 1 0
 w 'hello' 20 5
-r 20 10 5
+r 20 25 5
 w 'xianzaishi' 30 10
 w '2021nian' 20 7
 end
@@ -17,7 +17,7 @@ w '6yue25ri' 20 13
 w 'xiamendaxue' 40 8
 end
 car 3 0
-w 'linux' 50 9
+w 'linux' 10 9
 r 20 15 13
 r 10 10 8
 end

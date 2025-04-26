@@ -60,7 +60,7 @@ public:
         }
     }
 
-    void readMailbox(int mailbox_index, char* buffer, int length, int op_time, const std::chrono::time_point<std::chrono::high_resolution_clock>& start_time) {
+    void readMailbox(int mailbox_index, std::string& result, int op_time, const std::chrono::time_point<std::chrono::high_resolution_clock>& start_time) {
         // 增加读者计数
         Wait(reader_count_semid, mailbox_index);
         reader_counts[mailbox_index]++;
@@ -69,19 +69,21 @@ public:
             Wait(semid, mailbox_index);
         }
         Signal(reader_count_semid, mailbox_index);
+
         auto current_time = std::chrono::high_resolution_clock::now();
         auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(current_time - start_time).count();
         if (elapsed_time < op_time) {
             usleep((op_time - elapsed_time) * 1000); // 使用 usleep 等待剩余的毫秒数
         }
+
         // 检查是否还有字符可读
         int read_offset = reader_counts[mailbox_index + total_number_of_mailboxes];
         if (read_offset >= memory_segment_size) {
             std::cout << "End of MailBox" << std::endl;
+            result.clear();
         } else {
-            int copy_len = (length > memory_segment_size - read_offset) ? memory_segment_size - read_offset : length;
-            memcpy(buffer, shared_memory + mailbox_index * memory_segment_size + read_offset, copy_len);
-            buffer[copy_len] = '\0';
+            int copy_len = memory_segment_size - read_offset;
+            result.assign(shared_memory + mailbox_index * memory_segment_size + read_offset, copy_len);
             reader_counts[mailbox_index + total_number_of_mailboxes] += copy_len;
         }
 
