@@ -83,8 +83,13 @@ public:
             result.clear();
         } else {
             int copy_len = memory_segment_size - read_offset;
-            result.assign(shared_memory + mailbox_index * memory_segment_size + read_offset, copy_len);
-            reader_counts[mailbox_index + total_number_of_mailboxes] += copy_len;
+            // 找到实际的字符串长度
+            int actual_len = 0;
+            while (actual_len < copy_len && shared_memory[mailbox_index * memory_segment_size + read_offset + actual_len] != '\0') {
+                actual_len++;
+            }
+            result.assign(shared_memory + mailbox_index * memory_segment_size + read_offset, actual_len);
+            reader_counts[mailbox_index + total_number_of_mailboxes] += actual_len;
         }
 
         // 减少读者计数
@@ -97,8 +102,8 @@ public:
         Signal(reader_count_semid, mailbox_index);
     }
 
-    void writeMailbox(int mailbox_index, const char* data, int op_time, const std::chrono::time_point<std::chrono::high_resolution_clock>& start_time) {
-        size_t data_len = strlen(data);
+    void writeMailbox(int mailbox_index, string data, int op_time, const std::chrono::time_point<std::chrono::high_resolution_clock>& start_time) {
+        size_t data_len = data.length();
         size_t copy_len = (data_len > static_cast<size_t>(memory_segment_size)) ? static_cast<size_t>(memory_segment_size) : data_len;
         // 获取邮箱的信号量
         Wait(semid, mailbox_index);
@@ -107,7 +112,7 @@ public:
         if (elapsed_time < op_time) {
             usleep((op_time - elapsed_time) * 1000); // 使用 usleep 等待剩余的毫秒数
         }
-        memcpy(shared_memory + mailbox_index * memory_segment_size, data, copy_len);
+        memcpy(shared_memory + mailbox_index * memory_segment_size, data.c_str(), copy_len);
         // 截断多余的数据，添加终止符
         if (copy_len < data_len) {
             shared_memory[mailbox_index * memory_segment_size + copy_len - 1] = '\0';
@@ -116,6 +121,18 @@ public:
         reader_counts[mailbox_index + total_number_of_mailboxes] = 0;
         // 释放邮箱的信号量
         Signal(semid, mailbox_index);
+    }
+
+    void show() {
+        for (int i = 0; i < total_number_of_mailboxes; i++) {
+            std::string mailboxData;
+            // 这里为了获取邮箱数据，调用 readMailbox 方法，由于只是展示，这里的时间参数可设为 0
+            std::chrono::time_point<std::chrono::high_resolution_clock> dummyStartTime = std::chrono::high_resolution_clock::now();
+            readMailbox(i, mailboxData, 0, dummyStartTime);
+
+            std::string message = "Mailbox: " + std::to_string(i) + " Info: Data: \"" + mailboxData + "\", Reader Count: " + std::to_string(reader_counts[i]);
+            Logger::log(LogLevel::INFO, message);
+        }
     }
 };
 #endif //LINUX_HW_MAILBOX_H

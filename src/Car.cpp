@@ -9,6 +9,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <random>
+#include<algorithm>
 using namespace std;
 
 
@@ -46,12 +47,12 @@ Car::Car(int car_id, Direction dir, txt_reader& reader)
             std::string data;
             int len;
             reader.buf >> st >> t >> n; // 字符串，时间，第几个邮箱
-            data = st.substr(1, st.length() - 1); // 去掉引号
+            data = st.substr(1, st.length() - 2); // 去掉引号
 //            data = st; // 去掉引号
             len = data.length();
             Operation op;
             op.isWrite = true;
-            op.data = data.c_str();
+            op.data = data; // 直接赋值
             op.time = t;
             op.mailbox = n;
             op.length = len;
@@ -75,6 +76,9 @@ Car::Car(int car_id, Direction dir, txt_reader& reader)
             break;
         }
     }
+    std::sort(operations.begin(), operations.end(), [](const Operation& a, const Operation& b) {
+        return a.time < b.time;
+    });
 }
 
 // Destructor
@@ -163,7 +167,7 @@ void Car::show() const {
     for (const auto& op : operations) {
         if (op.isWrite) {
             std::cout << "  Write operation: "
-                      << "Data: " << string(op.data) << ", "
+                      << "Data: " << op.data << ", "
                       << "Time: " << op.time << ", "
                       << "Mailbox: " << op.mailbox << ", "
                       << "Length: " << op.length << std::endl;

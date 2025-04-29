@@ -29,11 +29,10 @@ class Tunnel;
 extern int total_number_of_mailboxes;
 struct Operation {
     bool isWrite; // true 表示写操作，false 表示读操作
-    const char *data; // 写操作的数据
+    string data; // 写操作的数据
     int time; // 操作时间
     int mailbox; // 邮箱编号
     int length; // 读操作的数据长度
-
 };
 class Car {
 public:

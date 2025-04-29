@@ -3,9 +3,11 @@
 - [x] 同步组件
 - [x] 共享内存实现
 - [x] 毫秒级时间实现
-- [ ] 输出规格统一 car.show
-- [ ] 输出规格统一 process::leave>>car->model_str
-- [ ] readMailbox debug
-- [ ] 时间转换
+- [x] 输出规格统一 car.show
+- [x] 输出规格统一 process::leave>>car->model_str
+- [x] readMailbox debug
+- [x] 时间转换
 - [ ] 报告
+- [ ] 磕头
+- [ ] 磕头
 - [ ] 磕头

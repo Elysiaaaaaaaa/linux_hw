@@ -1,7 +1,3 @@
-//
-// Created by elysia on 2025/4/13.
-//
-
 #include "process.h"
 
 //#define PROJ_SHM_TUNNEL_OFFSET 8
@@ -48,8 +44,6 @@ process::process(int num_mailboxes, int mem_size, int proj_id, const char *pathn
     cars.reserve(total_number_of_cars);
 }
 
-
-
 process::~process() {
     // 析构 Tunnel 对象
     tunnel->~Tunnel();
@@ -63,13 +57,14 @@ process::~process() {
         perror("shmdt for mailbox failed");
     }
 }
+
 void process::init_car(txt_reader& reader) {
     int idx;
     int direct;
     reader.buf >> idx >> direct;
     cars.emplace_back(idx, static_cast<Direction>(direct), reader);
-
 }
+
 void process::enter(Car *car){
     Wait(tunnel->mutex_, 0); // 获取信号量
     while (true) {
@@ -123,10 +118,17 @@ void process::leave(Car *car){
 
     Signal(tunnel->mutex_, 0); // 解锁
 }
+
 void process::main_process(){
     start_time = std::chrono::high_resolution_clock::now(); // 记录起始时间
     Logger::setBaseTime(start_time);
     Logger::log(LogLevel::INFO, "PROCESS BEGAN");
+
+    int pipefd[2];
+    if (pipe(pipefd) == -1) {
+        perror("pipe");
+        exit(EXIT_FAILURE);
+    }
 
     pid_t id;
     int i = 0;
@@ -135,6 +137,7 @@ void process::main_process(){
         id = Fork();
         if (id == 0) {
             // 子进程
+            close(pipefd[0]); // 关闭读端
             break;
         }
 //        sleep(1);
@@ -158,16 +161,16 @@ void process::main_process(){
             if (elapsed_time > op.time) {
                 if(op.isWrite){
                     Logger::log(LogLevel::WARN,
-                                "Car " + std::to_string(cars[i].car_id) + ' ' + to_string(t) + " has timed out for write " + to_string(op.mailbox));
+                                "Car " + std::to_string(cars[i].car_id) + " has timed out for write " + to_string(op.mailbox));
                 }else{
                     Logger::log(LogLevel::WARN,
-                                "Car " + std::to_string(cars[i].car_id) + ' ' + to_string(t) + " has timed out for read "+to_string(op.mailbox));
+                                "Car " + std::to_string(cars[i].car_id) + " has timed out for read "+to_string(op.mailbox));
                 }
             } else {
-                auto remaining_time = op.time - elapsed_time;
-                if (remaining_time > 10) {
-                    usleep((remaining_time - 10) * 1000);
-                }
+//                auto remaining_time = op.time - elapsed_time;
+//                if (remaining_time > 10) {
+//                    usleep((remaining_time - 10) * 1000);
+//                }
                 Logger::log(LogLevel::WARN,
                             "Car " + std::to_string(cars[i].car_id) + " lock " + to_string(op.mailbox));
                 if (op.isWrite) {
@@ -180,8 +183,9 @@ void process::main_process(){
                 } else {
                     std::string readResult;
                     mail_box->readMailbox(op.mailbox - 1, readResult, op.time, start_time);
-                    std::cout << readResult << std::endl;
+                    std::cout << "!!!!!!"<<readResult<<readResult.length() << std::endl;
                     cars[i].model_str = cars[i].model_str + readResult;
+                    std::cout << "!!!---!!!"<<cars[i].model_str<<readResult.length() << std::endl;
                 }
                 Logger::log(LogLevel::WARN,
                             "Car " + std::to_string(cars[i].car_id) + " unlock " + to_string(op.mailbox));
@@ -203,19 +207,40 @@ void process::main_process(){
             usleep(sleep_duration.count()*1000);
         }
         leave(&cars[i]);
+
+        // 发送数据到管道
+        const std::string& data = cars[i].model_str;
+        write(pipefd[1], data.c_str(), data.size());
+        close(pipefd[1]);
+
 //        Logger::log(LogLevel::INFO,cars[i].model_str);
 //        Signal(total_number_of_cars_tunnel, 0); // 完成后释放信号量
         exit(0); // 子进程完成后退出，避免继续执行父进程代码
     } else {
+        // 关闭写端
+        close(pipefd[1]);
+
         // 等待所有子进程退出
         for (int j = 0; j < total_number_of_cars; ++j) {
             wait((int*)0);
         }
+
+        // 从管道读取数据
+        for (int i = 0; i < total_number_of_cars; ++i) {
+            char buffer[1024];
+            ssize_t n = read(pipefd[0], buffer, sizeof(buffer));
+            if (n > 0) {
+                buffer[n] = '\0';
+                cars[i].model_str = buffer;
+            }
+        }
+        close(pipefd[0]);
+
         for (int i = 0; i < total_number_of_cars; ++i) {
             Logger::log(LogLevel::INFO, "Car " + std::to_string(cars[i].car_id) +
                                         " leaving tunnel,"+" Reader: " + cars[i].model_str + ".");
         }
-
+        mail_box->show();
 
         Logger::log(LogLevel::INFO, "PROCESS FINISH");
     }
