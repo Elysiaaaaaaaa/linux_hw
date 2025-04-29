@@ -3,14 +3,6 @@
 //
 
 #include "../include/Car.h"
-#include "../include/ipc.h"
-#include <cstdlib>
-#include <cstring>
-#include <iostream>
-#include <unistd.h>
-#include <random>
-#include<algorithm>
-using namespace std;
 
 
 // Constructor

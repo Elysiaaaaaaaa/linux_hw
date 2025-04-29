@@ -4,11 +4,6 @@
 
 #include "../include/mp.h"
 
-//
-// Created by elysia on 2025/4/4.
-//
-
-
 pid_t Fork(){
     pid_t pid = fork();
     if(pid<0){
@@ -23,4 +18,3 @@ pid_t Wait(int * stat_loc){
     pid_t pid = wait(stat_loc);
     return pid;
 }
-

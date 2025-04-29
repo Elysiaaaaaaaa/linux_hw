@@ -7,7 +7,6 @@
 
 #include <stdio.h>
 #include <sys/types.h>
-//#include <sys/ipc.h>
 #include <iostream>
 #include <sys/sem.h>
 #include <sys/shm.h>
@@ -33,13 +32,11 @@ void Signal(int sid,int sem_num);
 void sem_del(int semid);
 int sem_get_val(key_t semid, int nsems=0);
 
-
 //共享内存区
 int shm_init(int key,int size,int oflag=IPC_CREAT|0666);
 void* shm_conn(int shmid);
 void shm_disconn(void *shmaddr);
 void shm_del(int shmid);
-
 
 #endif //LINUX_HW_IPC_H
 

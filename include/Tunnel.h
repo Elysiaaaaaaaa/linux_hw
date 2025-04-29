@@ -23,7 +23,6 @@
 #define PROJ_TOTALCARS_KEY_OFFSET 4
 #define PROJ_SHM_TUNNEL_OFFSET 100
 
-
 extern int total_number_of_cars;
 extern int maximum_number_of_cars_in_tunnel;//隧道最大汽车容量
 enum class Direction;

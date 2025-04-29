@@ -10,7 +10,6 @@
 // Created by elysia on 2025/4/5.
 // Car class using IPC (Semaphore + Shared Memory)
 #include "mp.h"
-
 #include "ipc.h"
 #include "logger.h"
 #include "txt_reader.h"
@@ -19,7 +18,13 @@
 #include <ctime>
 #include <vector>
 #include <chrono>
-
+#include <cstdlib>
+#include <cstring>
+#include <iostream>
+#include <unistd.h>
+#include <random>
+#include<algorithm>
+using namespace std;
 
 
 enum class Direction { Eastbound, Westbound }; // 新增方向枚举
@@ -75,6 +80,5 @@ public:
     std::vector<Operation> operations; // 操作列表
     bool set_value();
 };
-
 #endif // CAR_H
 

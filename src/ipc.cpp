@@ -107,10 +107,6 @@ void sem_del(int semid) {
     }
 }
 
-
-
-
-
 // 共享内存区
 int shm_init(int key, int size, int oflag) {
     /**

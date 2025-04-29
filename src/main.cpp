@@ -12,8 +12,6 @@
 #include <../include/Tunnel.h>
 #include <../include/txt_reader.h>
 #include <../include/mailbox.h>
-#include <thread>
-
 
 
 using namespace std;

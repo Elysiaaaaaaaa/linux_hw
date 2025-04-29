@@ -1,6 +1,5 @@
 #include "process.h"
 
-//#define PROJ_SHM_TUNNEL_OFFSET 8
 #define PROJ_SHM_MAILBOX_OFFSET 8 // 假设的 mailbox 共享内存偏移量
 
 process::process(int num_mailboxes, int mem_size, int proj_id, const char *pathname) {

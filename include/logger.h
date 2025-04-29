@@ -4,7 +4,6 @@
 
 #ifndef LINUX_HW_LOGGER_H
 #define LINUX_HW_LOGGER_H
-
 #include <string>
 #include <chrono>
 
@@ -25,5 +24,4 @@ private:
     static std::string levelToString(LogLevel level);
 
 };
-
 #endif //LINUX_HW_LOGGER_H
