@@ -58,12 +58,11 @@ public:
     // 添加操作到操作列表
     void addOperation(const Operation& op);
     void show() const;
+private:
+    std::chrono::milliseconds calculateTravelTime();
+    void parseOperations(txt_reader& reader);
 
 private:
-//    key_t key_;        // IPC key
-//    int semid_tunnel_can_enter;        // 隧道容量可否继续进入车
-//    int shmid_;        // Shared memory ID
-//    void* shmaddr_;    // Shared memory address
     vector<int> m;      //每个邮箱维护的读指针
     int adjusted_travel_time;
 

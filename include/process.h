@@ -35,11 +35,15 @@ public:
     void enter(Car *car);
     void leave(Car *car);
     void main_process();
+    bool isGreenLight(Direction dir);
+
+    void switchDirection();
 public:
     Tunnel* tunnel;
     mailbox* mail_box;
     std::vector<Car> cars;
     std::chrono::time_point<std::chrono::high_resolution_clock> start_time; // 添加起始时间成员变量
+    bool direction_switched;
 };
 
 

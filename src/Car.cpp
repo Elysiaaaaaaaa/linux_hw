@@ -6,61 +6,44 @@
 
 
 Car::Car(int car_id, Direction dir, txt_reader& reader)
-        : direction_(dir) {
-    this->car_id = car_id;
-
-
-    // 计算最大波动值（30%）
-    int fluctuation = std::rand() % 61 - 30;
-    int fluctuated_time = static_cast<int>(tunnel_travel_time * (1 + (fluctuation / 100.0)));
-    cost_time = std::chrono::milliseconds(fluctuated_time);
-    state = State::WAITING;
-    model_str = "";
-    m.resize(total_number_of_mailboxes);
-    for (int i = 0; i < total_number_of_mailboxes; i++)
-        m[i] = 0;
-    string str;
-    while (reader.buf >> str) {
-        if (str == "w") { // 写入
-            std::string st;
-            int t;
-            int n;
-            std::string data;
-            int len;
-            reader.buf >> st >> t >> n; // 字符串，时间，第几个邮箱
-            data = st.substr(1, st.length() - 2); // 去掉引号
-            len = data.length();
-            Operation op;
-            op.isWrite = true;
-            op.data = data; // 直接赋值
-            op.time = t;
-            op.mailbox = n;
-            op.length = len;
-            addOperation(op);
-        }
-        else if (str == "r") { // 读入
-            int len;
-            int t;
-            int n;
-            reader.buf >> len >> t >> n;
-            Operation op;
-            op.isWrite = false;
-            op.time = t;
-            op.mailbox = n;
-            op.length = len;
-            addOperation(op);
-        }else if (str=="end"){
-            break;
-        }else{
-            Logger::log(LogLevel::ERROR, "unsupport model");
-            break;
-        }
-    }
+        :m(total_number_of_mailboxes, 0),
+          car_id(car_id),
+          direction_(dir),
+          cost_time(calculateTravelTime()),
+          state(State::WAITING),
+          model_str(""){
+    parseOperations(reader);
     std::sort(operations.begin(), operations.end(), [](const Operation& a, const Operation& b) {
         return a.time < b.time;
     });
 }
 
+std::chrono::milliseconds Car::calculateTravelTime() {
+    int fluctuation = std::rand() % 61 - 30;
+    int fluctuated_time = static_cast<int>(tunnel_travel_time * (1 + (fluctuation / 100.0)));
+    return std::chrono::milliseconds(fluctuated_time);
+}
+void Car::parseOperations(txt_reader& reader) {
+    std::string str;
+    while (reader.buf >> str) {
+        if (str == "w") {
+            std::string data;
+            int t, n;
+            reader.buf >> data >> t >> n;
+            data = data.substr(1, data.length() - 2);
+            operations.push_back({true, data, t, n, static_cast<int>(data.length())});
+        } else if (str == "r") {
+            int len, t, n;
+            reader.buf >> len >> t >> n;
+            operations.push_back({false, "", t, n, len});
+        } else if (str == "end") {
+            break;
+        } else {
+            Logger::log(LogLevel::ERROR, "unsupported model");
+            break;
+        }
+    }
+}
 // Destructor
 Car::~Car()
 {

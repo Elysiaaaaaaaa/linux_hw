@@ -54,26 +54,6 @@ mutex
 map
 -
 
-../include/Tunnel.h
-Car.h
-../include/Car.h
-ipc.h
-../include/ipc.h
-mp.h
-../include/mp.h
-Logger.h
-../include/Logger.h
-stdio.h
--
-unistd.h
--
-vector
--
-cstdio
--
-unistd.h
--
-
 ../include/ipc.h
 stdio.h
 -
@@ -106,6 +86,20 @@ mutex
 map
 -
 
+../include/mailbox.h
+ipc.h
+../include/ipc.h
+mp.h
+../include/mp.h
+iostream
+-
+cstring
+-
+vector
+-
+chrono
+-
+
 ../include/mp.h
 unistd.h
 -
@@ -121,6 +115,34 @@ stdlib.h
 -
 logger.h
 ../include/logger.h
+
+../include/process.h
+Car.h
+../include/Car.h
+mailbox.h
+../include/mailbox.h
+ipc.h
+../include/ipc.h
+mp.h
+../include/mp.h
+Logger.h
+../include/Logger.h
+stdio.h
+-
+unistd.h
+-
+vector
+-
+cstdio
+-
+unistd.h
+-
+pthread.h
+-
+semaphore.h
+-
+chrono
+-
 
 ../include/tunnel.h
 Car.h
@@ -154,7 +176,7 @@ fstream
 logger.h
 ../include/logger.h
 
-/mnt/d/Code/c++/linux_hw/src/Tunnel.cpp
-Tunnel.h
-/mnt/d/Code/c++/linux_hw/src/Tunnel.h
+/mnt/d/Code/c++/linux_hw/src/process.cpp
+process.h
+/mnt/d/Code/c++/linux_hw/src/process.h
 

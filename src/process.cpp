@@ -3,6 +3,7 @@
 #define PROJ_SHM_MAILBOX_OFFSET 8 // 假设的 mailbox 共享内存偏移量
 
 process::process(int num_mailboxes, int mem_size, int proj_id, const char *pathname) {
+
     // 获取 Tunnel 对象的共享内存 key
     key_t shm_key_tunnel = ftok(pathname, proj_id + PROJ_SHM_TUNNEL_OFFSET);
     int shmid_tunnel = shmget(shm_key_tunnel, sizeof(Tunnel), IPC_CREAT | 0666);
@@ -20,7 +21,7 @@ process::process(int num_mailboxes, int mem_size, int proj_id, const char *pathn
 
     // 使用 placement new 构造 Tunnel 实例在共享内存上
     tunnel = new (shmaddr_tunnel) Tunnel(proj_id, pathname);
-
+    tunnel->current_direction_ = Direction::Eastbound;
     // 获取 mailbox 对象的共享内存 key
     key_t shm_key_mailbox = ftok(pathname, proj_id + PROJ_SHM_MAILBOX_OFFSET);
     int shmid_mailbox = shmget(shm_key_mailbox, sizeof(mailbox), IPC_CREAT | 0666);
@@ -64,45 +65,87 @@ void process::init_car(txt_reader& reader) {
     cars.emplace_back(idx, static_cast<Direction>(direct), reader);
 }
 
-void process::enter(Car *car){
+
+void process::enter(Car *car) {
+//  无红绿灯
+    //    Wait(tunnel->mutex_, 0); // 获取信号量
+//    while (true) {
+//        if (isGreenLight(car->direction_)) { // 检查是否为绿灯
+//            if (tunnel->car_count_ == 0) {
+//                // 隧道内没有车辆，设置当前方向为车辆的方向
+//                tunnel->current_direction_ = car->direction_;
+//                tunnel->car_count_ += 1;
+//                car->start_time = std::chrono::high_resolution_clock::now();
+//                car->state = State::INNER;
+//                Logger::log(LogLevel::INFO, "Car " + std::to_string(car->car_id) +
+//                                            " entering tunnel in direction " + std::to_string(static_cast<int>(car->direction_)) +
+//                                            " (empty tunnel).");
+//                break;
+//            } else
+//            if (tunnel->car_count_ < maximum_number_of_cars_in_tunnel) {
+//                // 同一方向且未达到最大容量，车辆可以进入
+//                (tunnel->car_count_)++;
+//                car->start_time = std::chrono::high_resolution_clock::now();
+//                car->state = State::INNER;
+//                Logger::log(LogLevel::INFO, "Car " + std::to_string(car->car_id) +
+//                                            " entering tunnel in direction " + std::to_string(static_cast<int>(car->direction_)) +
+//                                            " (same direction, space available).");
+//                break;
+//            }
+//        }
+//        // 不满足进入条件，等待
+//        if (tunnel->current_direction_ != car->direction_) {
+//            Logger::log(LogLevel::WARN, "Car " + std::to_string(car->car_id) +
+//                                        " waiting due to opposite direction (direction " + std::to_string(static_cast<int>(car->direction_)) +
+//                                        "), tunnel occupied by direction " + std::to_string(static_cast<int>(tunnel->current_direction_)) + ".");
+//        } else {
+//            Logger::log(LogLevel::WARN, "Car " + std::to_string(car->car_id) +
+//                                        " waiting because tunnel full (direction " + std::to_string(static_cast<int>(car->direction_)) +
+//                                        ", cars in tunnel: " + std::to_string(tunnel->car_count_) + ").");
+//        }
+//        Signal(tunnel->mutex_, 0); // 释放信号量
+//        Wait(tunnel->block_, 0); // 等待信号量
+//        Wait(tunnel->mutex_, 0); // 再次获取信号量
+//    }
+//    Signal(tunnel->mutex_, 0); // 释放信号量
+
+//    有红绿灯
     Wait(tunnel->mutex_, 0); // 获取信号量
     while (true) {
-        if (tunnel->car_count_ == 0) {
-            // 隧道没有车，设置方向并进入
-            tunnel->current_direction_ = car->direction_;
-            tunnel->car_count_ += 1;
-            car->start_time = std::chrono::high_resolution_clock::now();
-            car->state = State::INNER;
-            Logger::log(LogLevel::INFO, "Car " + std::to_string(car->car_id) +
-                                        " entering tunnel in direction " + std::to_string(static_cast<int>(car->direction_)) +
-                                        " (empty tunnel).");
-            break;
-        } else if (tunnel->current_direction_ == car->direction_ && tunnel->car_count_ < maximum_number_of_cars_in_tunnel) {
-            // 同一方向且未达到最大容量，进入
+        if (isGreenLight(car->direction_) && tunnel->car_count_ < maximum_number_of_cars_in_tunnel) {
+            // 同一方向且未达到最大容量，车辆可以进入
             (tunnel->car_count_)++;
             car->start_time = std::chrono::high_resolution_clock::now();
             car->state = State::INNER;
             Logger::log(LogLevel::INFO, "Car " + std::to_string(car->car_id) +
-                                        " entering tunnel in direction " + std::to_string(static_cast<int>(car->direction_)) +
+                                        " entering tunnel in direction " +
+                                        std::to_string(static_cast<int>(car->direction_)) +
                                         " (same direction, space available).");
             break;
         } else if (tunnel->current_direction_ != car->direction_) {
-            // 方向不同，等待
+//            方向不同
+            Signal(tunnel->mutex_, 0); // 释放信号量
+            Wait(tunnel->mutex_, 0); // 再次获取信号量
             Logger::log(LogLevel::WARN, "Car " + std::to_string(car->car_id) +
-                                        " waiting due to opposite direction (direction " + std::to_string(static_cast<int>(car->direction_)) +
-                                        "), tunnel occupied by direction " + std::to_string(static_cast<int>(tunnel->current_direction_)) + ".");
+                                        " waiting due to opposite direction (direction " +
+                                        std::to_string(static_cast<int>(car->direction_)) +
+                                        "), tunnel occupied by direction " +
+                                        std::to_string(static_cast<int>(tunnel->current_direction_)) + ".");
         } else {
-            // 隧道已满，等待
             Logger::log(LogLevel::WARN, "Car " + std::to_string(car->car_id) +
-                                        " waiting because tunnel full (direction " + std::to_string(static_cast<int>(car->direction_)) +
+                                        " waiting because tunnel full (direction " +
+                                        std::to_string(static_cast<int>(car->direction_)) +
                                         ", cars in tunnel: " + std::to_string(tunnel->car_count_) + ").");
+//            车容量
+            Signal(tunnel->mutex_, 0); // 释放信号量
+            Wait(tunnel->block_, 0); // 等待信号量
+            Wait(tunnel->mutex_, 0); // 再次获取信号量
         }
-        Signal(tunnel->mutex_, 0); // 释放信号量
-        Wait(tunnel->block_, 0); // 等待阻塞信号量
-        Wait(tunnel->mutex_, 0); // 再次获取信号量
     }
+
     Signal(tunnel->mutex_, 0); // 释放信号量
 }
+
 
 void process::leave(Car *car){
     Wait(tunnel->mutex_, 0); // 加锁
@@ -110,16 +153,22 @@ void process::leave(Car *car){
     (tunnel->car_count_)--;
     car->state = State::OUT;
 
-    if (tunnel->car_count_ < maximum_number_of_cars_in_tunnel) {
+//    if (tunnel->car_count_ < maximum_number_of_cars_in_tunnel) {
         // 隧道未满，可以唤醒同方向的等待车
-        Signal(tunnel->block_, 0);
-    }
+    Signal(tunnel->block_, 0);
+//    }
 
     Signal(tunnel->mutex_, 0); // 解锁
-    Logger::log(LogLevel::INFO, "Car " + std::to_string(car->car_id) +
-                                " Leave.");
+    Logger::log(LogLevel::INFO, "Car " + std::to_string(car->car_id) + " Leave.");
+}
+bool process::isGreenLight(Direction dir) {
+    return tunnel->current_direction_ == dir; // 当前方向为绿灯
 }
 
+void process::switchDirection() {
+    tunnel->current_direction_ = (tunnel->current_direction_ == Direction::Eastbound) ? Direction::Westbound : Direction::Eastbound;
+    Logger::log(LogLevel::INFO, "Tunnel direction switched to " + std::string((tunnel->current_direction_ == Direction::Eastbound) ? "Eastbound" : "Westbound"));
+}
 void process::main_process(){
     start_time = std::chrono::high_resolution_clock::now(); // 记录起始时间
     Logger::setBaseTime();
@@ -168,11 +217,11 @@ void process::main_process(){
                                 "Car " + std::to_string(cars[i].car_id) + " has timed out for read "+to_string(op.mailbox));
                 }
             } else {
-//                auto remaining_time = op.time - elapsed_time;
-//                if (remaining_time > 10) {
-//                    usleep((remaining_time - 10) * 1000);
-//                }
-                Logger::log(LogLevel::WARN,
+                auto remaining_time = op.time - elapsed_time;
+                if (remaining_time > 10) {
+                    usleep((remaining_time - 10) * 1000);
+                }
+                Logger::log(LogLevel::INFO,
                             "Car " + std::to_string(cars[i].car_id) + " lock " + to_string(op.mailbox));
                 if (op.isWrite) {
                     mail_box->writeMailbox(op.mailbox - 1, op.data, op.time, start_time);
@@ -220,8 +269,22 @@ void process::main_process(){
         close(pipefd[1]);
 
         // 等待所有子进程退出
-        for (int j = 0; j < total_number_of_cars; ++j) {
-            wait((int*)0);
+        auto last_switch_time = start_time;
+        while (true) {
+            auto current_time = std::chrono::high_resolution_clock::now();
+            auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(current_time - last_switch_time).count();
+            if (int(elapsed_time/200)%2) {
+                switchDirection();
+                last_switch_time = current_time;
+            }
+
+            // 检查是否所有子进程都已退出
+            int status;
+            pid_t pid = waitpid(-1, &status, WNOHANG);
+            if (pid == -1) {
+                // 没有更多子进程
+                break;
+            }
         }
 
         // 从管道读取数据
