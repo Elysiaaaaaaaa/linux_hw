@@ -2,28 +2,44 @@
 // Created by elysia on 2025/4/6.
 //
 
-#include "../include/Logger.h"
-#include <iostream>
-#include <ctime>
-#include <sstream>
-#include <mutex>
-#include <map>
+#include "Logger.h"
+
 
 using namespace std;
 mutex logMutex;
 std::chrono::time_point<std::chrono::high_resolution_clock> Logger::baseTime;
 
-void Logger::setBaseTime(const std::chrono::time_point<std::chrono::high_resolution_clock>& startTime){
+void Logger::setBaseTime(){
     baseTime = std::chrono::high_resolution_clock::now();
 }
 
 void Logger::log(LogLevel level, const string& message) {
-    // lock_guard<mutex> lock(logMutex);  // 保证线程安全
+    lock_guard<mutex> lock(logMutex);  // 保证线程安全
 
-    cout << "[" << getTimestamp() << "] "
+    string colorCode;
+    switch (level) {
+        case LogLevel::INFO:
+            colorCode = "\033[32m"; // 绿色
+            break;
+        case LogLevel::WARN:
+            colorCode = "\033[33m"; // 黄色
+            break;
+        case LogLevel::ERROR:
+            colorCode = "\033[31m"; // 红色
+            break;
+        default:
+            colorCode = "\033[0m";  // 默认
+            break;
+    }
+
+    string resetCode = "\033[0m";
+
+    cout << colorCode
+         << "[" << getTimestamp() << "] "
          << "[" << levelToString(level) << "] "
-         << message << endl;
-    // cout.flush();
+         << message
+         << resetCode << endl;
+    cout.flush();
 }
 
 string Logger::getTimestamp() {

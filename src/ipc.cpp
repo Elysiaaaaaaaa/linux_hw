@@ -2,9 +2,9 @@
 // Created by elysia on 2025/4/2.
 //
 
-#include "../include/ipc.h"
+#include "ipc.h"
 
-key_t Ftok(int proj_id, const char *pathname) {
+key_t Ftok(const char *pathname, int proj_id) {
     key_t key = ftok(pathname, proj_id);
     if (key == -1) {
         Logger::log(LogLevel::ERROR, "Ftok.ftok failed: path " + std::string(pathname) + " not exist, please cd to linux_hw");

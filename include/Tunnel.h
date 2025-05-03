@@ -37,6 +37,7 @@ struct SharedTunnelData {
 class Tunnel {
 public:
     Tunnel(int proj_id, const char *pathname);
+    ~Tunnel();
 //    void enter(Car *car);
 //    void leave(Car *car);
     void show(); // 新增 show 函数声明

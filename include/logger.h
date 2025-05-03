@@ -6,6 +6,11 @@
 #define LINUX_HW_LOGGER_H
 #include <string>
 #include <chrono>
+#include <iostream>
+#include <ctime>
+#include <sstream>
+#include <mutex>
+#include <map>
 
 enum class LogLevel {
     INFO,
@@ -15,7 +20,7 @@ enum class LogLevel {
 
 class Logger {
 public:
-    static void setBaseTime(const std::chrono::time_point<std::chrono::high_resolution_clock>& startTime);
+    static void setBaseTime();
     static void log(LogLevel level, const std::string& message);
 
 private:

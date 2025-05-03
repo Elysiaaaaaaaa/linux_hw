@@ -12,8 +12,6 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/mnt/d/Code/c++/linux_hw/src/main.cpp" "/mnt/d/Code/c++/linux_hw/build/CMakeFiles/linux_hw.dir/src/main.cpp.o"
   "/mnt/d/Code/c++/linux_hw/src/mp.cpp" "/mnt/d/Code/c++/linux_hw/build/CMakeFiles/linux_hw.dir/src/mp.cpp.o"
   "/mnt/d/Code/c++/linux_hw/src/process.cpp" "/mnt/d/Code/c++/linux_hw/build/CMakeFiles/linux_hw.dir/src/process.cpp.o"
-  "/mnt/d/Code/c++/linux_hw/src/test.cpp" "/mnt/d/Code/c++/linux_hw/build/CMakeFiles/linux_hw.dir/src/test.cpp.o"
-  "/mnt/d/Code/c++/linux_hw/src/txt_reader.cpp" "/mnt/d/Code/c++/linux_hw/build/CMakeFiles/linux_hw.dir/src/txt_reader.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

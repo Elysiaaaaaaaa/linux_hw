@@ -2,7 +2,7 @@
 // Created by elysia on 2025/4/5.
 //
 
-#include "../include/Tunnel.h"
+#include "Tunnel.h"
 
 extern int maximum_number_of_cars_in_tunnel;
 Tunnel::Tunnel(int proj_id, const char *pathname){
@@ -22,7 +22,6 @@ Tunnel::Tunnel(int proj_id, const char *pathname){
     // 普通变量：因为 Tunnel 放在共享内存中，这个成员变量才有意义
     car_count_ = 0;
 }
-
 
 //void Tunnel::enter(Car *car) {
 //    Wait(mutex_, 0); // 加锁
@@ -89,6 +88,10 @@ void Tunnel::show() {
     std::string logMessage = "Tunnel Status: Cars count: " + std::to_string(car_count_) +
                              ", Current direction: " + directionStr;
     Logger::log(LogLevel::INFO, logMessage);
+}
+
+Tunnel::~Tunnel() {
+
 }
 
 //

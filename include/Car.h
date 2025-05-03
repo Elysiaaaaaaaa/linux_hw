@@ -57,10 +57,7 @@ public:
 
     // 添加操作到操作列表
     void addOperation(const Operation& op);
-    const std::vector<Operation>& getOperations() const;
-    bool exet_op();
     void show() const;
-    bool main_process(int& semid_tunnel_can_enter, Tunnel* tunnel);
 
 private:
 //    key_t key_;        // IPC key
@@ -78,7 +75,6 @@ public:
     State state;//汽车的当前状态，1未进入隧道，2已经隧道中，3出隧道
     string model_str;//手机内存
     std::vector<Operation> operations; // 操作列表
-    bool set_value();
 };
 #endif // CAR_H
 

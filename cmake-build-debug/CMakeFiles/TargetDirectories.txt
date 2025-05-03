@@ -1,3 +1,0 @@
-D:/Code/c++/linux_hw/cmake-build-debug/CMakeFiles/linux_hw.dir
-D:/Code/c++/linux_hw/cmake-build-debug/CMakeFiles/edit_cache.dir
-D:/Code/c++/linux_hw/cmake-build-debug/CMakeFiles/rebuild_cache.dir

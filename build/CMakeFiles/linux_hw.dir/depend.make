@@ -60,9 +60,3 @@ CMakeFiles/linux_hw.dir/src/process.cpp.o: ../include/tunnel.h
 CMakeFiles/linux_hw.dir/src/process.cpp.o: ../include/txt_reader.h
 CMakeFiles/linux_hw.dir/src/process.cpp.o: ../src/process.cpp
 
-CMakeFiles/linux_hw.dir/src/test.cpp.o: ../src/test.cpp
-
-CMakeFiles/linux_hw.dir/src/txt_reader.cpp.o: ../include/logger.h
-CMakeFiles/linux_hw.dir/src/txt_reader.cpp.o: ../include/txt_reader.h
-CMakeFiles/linux_hw.dir/src/txt_reader.cpp.o: ../src/txt_reader.cpp
-

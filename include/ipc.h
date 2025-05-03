@@ -15,7 +15,6 @@
 using namespace std;
 
 
-key_t Ftok(int proj_id,const char *pathname="src/testfiles");
 
 
 //信号灯

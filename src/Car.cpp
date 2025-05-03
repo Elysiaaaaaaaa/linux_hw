@@ -2,19 +2,11 @@
 // Created by elysia on 2025/4/5.
 //
 
-#include "../include/Car.h"
+#include "Car.h"
 
 
-// Constructor
-//Car::Car(int proj_id, const std::string& path, int shm_size, int car_id, Direction dir, txt_reader& reader)
-//        : car_id(car_id), direction_(dir) {
 Car::Car(int car_id, Direction dir, txt_reader& reader)
         : direction_(dir) {
-//    key_ = Ftok(proj_id, path.c_str());
-    // Get or create a semaphore set with 1 semaphore, initialize to 1
-//    semid_tunnel_can_enter = sem_get(key_, 1, true, 1);
-    // Get or create shared memory
-//    shmid_ = shm_init(key_, shm_size, IPC_CREAT | 0666);
     this->car_id = car_id;
 
 
@@ -24,9 +16,6 @@ Car::Car(int car_id, Direction dir, txt_reader& reader)
     cost_time = std::chrono::milliseconds(fluctuated_time);
     state = State::WAITING;
     model_str = "";
-    // Attach to shared memory
-//    shmaddr_ = shm_conn(shmid_);
-//  init p 指针为0
     m.resize(total_number_of_mailboxes);
     for (int i = 0; i < total_number_of_mailboxes; i++)
         m[i] = 0;
@@ -40,7 +29,6 @@ Car::Car(int car_id, Direction dir, txt_reader& reader)
             int len;
             reader.buf >> st >> t >> n; // 字符串，时间，第几个邮箱
             data = st.substr(1, st.length() - 2); // 去掉引号
-//            data = st; // 去掉引号
             len = data.length();
             Operation op;
             op.isWrite = true;
@@ -76,38 +64,7 @@ Car::Car(int car_id, Direction dir, txt_reader& reader)
 // Destructor
 Car::~Car()
 {
-//    if (shmaddr_) {
-//        shm_disconn(shmaddr_);
-//        shmaddr_ = nullptr;
-//    }
-//    if (semid_tunnel_can_enter != -1) {
-//        sem_del(semid_tunnel_can_enter);
-//    }
-//    if (shmid_ != -1) {
-//        if (shmctl(shmid_, IPC_RMID, nullptr) == -1) {
-//            Logger::log(LogLevel::ERROR, "~Car.shmctl");
-//            exit(EXIT_FAILURE);
-//        }
-//    }
 }
-
-// Request access (P operation)
-//void Car::enter(int semid_tunnel_can_enter, Tunnel* tunnel)
-//{
-//    tunnel->enter(this);
-//}
-
-// Release access (V operation)
-//void Car::leave(int semid_tunnel_can_enter, Tunnel* tunnel)
-//{
-//    tunnel->leave(this);
-//}
-
-// Get pointer to shared memory
-//void* Car::getSharedMemory()
-//{
-//    return shmaddr_;
-//}
 
 // Get car id
 int Car::getCarId() const
@@ -132,22 +89,6 @@ std::string Car::getDirectionStr() const
 void Car::addOperation(const Operation& op) {
     operations.push_back(op);
 }
-bool Car::exet_op(){
-//    确保在隧道内
-    if(state!=State::INNER){
-        Logger::log(LogLevel::ERROR,"car state uncorrect");
-        exit(1);
-    }
-
-//    todo
-
-    return true;
-}
-// 实现 Car 类的 getOperations 方法
-const std::vector<Operation>& Car::getOperations() const {
-    return operations;
-}
-
 
 void Car::show() const {
     std::cout << "-----------------------" << std::endl;
@@ -172,12 +113,3 @@ void Car::show() const {
     }
     std::cout << "-----------------------" << std::endl;
 }
-
-
-//bool Car::main_process(int& semid_tunnel_can_enter, Tunnel* tunnel){
-////    车辆主进程，用来模拟一辆车在隧道中的动作，信号量由tunnel作为参数提供
-//    tunnel->enter(this);
-//    sleep(2);
-//    tunnel->leave(this);
-//    return true;
-//}

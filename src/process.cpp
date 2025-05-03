@@ -116,11 +116,13 @@ void process::leave(Car *car){
     }
 
     Signal(tunnel->mutex_, 0); // 解锁
+    Logger::log(LogLevel::INFO, "Car " + std::to_string(car->car_id) +
+                                " Leave.");
 }
 
 void process::main_process(){
     start_time = std::chrono::high_resolution_clock::now(); // 记录起始时间
-    Logger::setBaseTime(start_time);
+    Logger::setBaseTime();
     Logger::log(LogLevel::INFO, "PROCESS BEGAN");
 
     int pipefd[2];
@@ -182,12 +184,10 @@ void process::main_process(){
                 } else {
                     std::string readResult;
                     mail_box->readMailbox(op.mailbox - 1, readResult, op.time, start_time);
-                    std::cout << "!!!!!!"<<readResult<<readResult.length() << std::endl;
                     cars[i].model_str = cars[i].model_str + readResult;
-                    std::cout << "!!!---!!!"<<cars[i].model_str<<readResult.length() << std::endl;
                 }
-                Logger::log(LogLevel::WARN,
-                            "Car " + std::to_string(cars[i].car_id) + " unlock " + to_string(op.mailbox));
+                Logger::log(LogLevel::INFO, "Car " + std::to_string(cars[i].car_id) +
+                                            " Reader: " + cars[i].model_str + ".");
             }
         }
 
@@ -237,7 +237,7 @@ void process::main_process(){
 
         for (int i = 0; i < total_number_of_cars; ++i) {
             Logger::log(LogLevel::INFO, "Car " + std::to_string(cars[i].car_id) +
-                                        " leaving tunnel,"+" Reader: " + cars[i].model_str + ".");
+                                        " Reader: " + cars[i].model_str + ".");
         }
         mail_box->show();
 

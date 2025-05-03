@@ -24,7 +24,6 @@ int memory_segment_size=0;//每个邮箱的最大字数
 
 int main(int argc, char** argv){
     srand(static_cast<unsigned int>(time(nullptr)));
-    Logger::log(LogLevel::INFO,"begin_monitor");
     txt_reader reader(argv);
     cout << "total_number_of_cars_tunnel: " << total_number_of_cars << endl;
     cout << "maximum_number_of_cars_in_tunnel: " << maximum_number_of_cars_in_tunnel << endl;

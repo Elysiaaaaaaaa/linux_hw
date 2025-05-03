@@ -2,7 +2,7 @@
 // Created by elysia on 2025/4/4.
 //
 
-#include "../include/mp.h"
+#include "mp.h"
 
 pid_t Fork(){
     pid_t pid = fork();

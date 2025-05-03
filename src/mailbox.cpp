@@ -2,7 +2,7 @@
 // Created by elysia on 2025/4/8.
 //
 
-#include "../include/mailbox.h"
+#include "mailbox.h"
 // 获取信号量
 
 mailbox::mailbox(int num_mailboxes, int mem_size, int proj_id, const char *pathname) : total_number_of_mailboxes(num_mailboxes), memory_segment_size(mem_size) {

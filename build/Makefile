@@ -339,60 +339,6 @@ src/process.cpp.s:
 	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/src/process.cpp.s
 .PHONY : src/process.cpp.s
 
-src/test.o: src/test.cpp.o
-
-.PHONY : src/test.o
-
-# target to build an object file
-src/test.cpp.o:
-	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/src/test.cpp.o
-.PHONY : src/test.cpp.o
-
-src/test.i: src/test.cpp.i
-
-.PHONY : src/test.i
-
-# target to preprocess a source file
-src/test.cpp.i:
-	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/src/test.cpp.i
-.PHONY : src/test.cpp.i
-
-src/test.s: src/test.cpp.s
-
-.PHONY : src/test.s
-
-# target to generate assembly for a file
-src/test.cpp.s:
-	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/src/test.cpp.s
-.PHONY : src/test.cpp.s
-
-src/txt_reader.o: src/txt_reader.cpp.o
-
-.PHONY : src/txt_reader.o
-
-# target to build an object file
-src/txt_reader.cpp.o:
-	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/src/txt_reader.cpp.o
-.PHONY : src/txt_reader.cpp.o
-
-src/txt_reader.i: src/txt_reader.cpp.i
-
-.PHONY : src/txt_reader.i
-
-# target to preprocess a source file
-src/txt_reader.cpp.i:
-	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/src/txt_reader.cpp.i
-.PHONY : src/txt_reader.cpp.i
-
-src/txt_reader.s: src/txt_reader.cpp.s
-
-.PHONY : src/txt_reader.s
-
-# target to generate assembly for a file
-src/txt_reader.cpp.s:
-	$(MAKE) -f CMakeFiles/linux_hw.dir/build.make CMakeFiles/linux_hw.dir/src/txt_reader.cpp.s
-.PHONY : src/txt_reader.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -426,12 +372,6 @@ help:
 	@echo "... src/process.o"
 	@echo "... src/process.i"
 	@echo "... src/process.s"
-	@echo "... src/test.o"
-	@echo "... src/test.i"
-	@echo "... src/test.s"
-	@echo "... src/txt_reader.o"
-	@echo "... src/txt_reader.i"
-	@echo "... src/txt_reader.s"
 .PHONY : help
 
 
