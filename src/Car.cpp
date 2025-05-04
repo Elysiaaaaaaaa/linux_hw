@@ -11,7 +11,9 @@ Car::Car(int car_id, Direction dir, txt_reader& reader)
           direction_(dir),
           cost_time(calculateTravelTime()),
           state(State::WAITING),
-          model_str(""){
+          model_str(""),
+          handel(0),
+          wait_handel(0){
     parseOperations(reader);
     std::sort(operations.begin(), operations.end(), [](const Operation& a, const Operation& b) {
         return a.time < b.time;
@@ -27,12 +29,14 @@ void Car::parseOperations(txt_reader& reader) {
     std::string str;
     while (reader.buf >> str) {
         if (str == "w") {
+            wait_handel++;
             std::string data;
             int t, n;
             reader.buf >> data >> t >> n;
             data = data.substr(1, data.length() - 2);
             operations.push_back({true, data, t, n, static_cast<int>(data.length())});
         } else if (str == "r") {
+            wait_handel++;
             int len, t, n;
             reader.buf >> len >> t >> n;
             operations.push_back({false, "", t, n, len});

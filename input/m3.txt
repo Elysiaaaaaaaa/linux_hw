@@ -1,0 +1,225 @@
+40
+8
+500
+35
+40
+car 1 0
+w 'init_task_1' 12 3
+r 8 4 3
+w 'init_task_2' 22 10
+r 18 14 10
+end
+car 2 1
+r 18 40 6
+w 'start_job_1' 28 13
+r 24 20 13
+end
+car 3 0
+w 'stage1_1' 32 1
+r 28 24 1
+w 'stage1_2' 42 8
+r 38 34 8
+end
+car 4 1
+r 38 80 16
+w 'data_load_1' 48 20
+r 44 40 20
+end
+car 5 0
+w 'evaluate_1' 52 5
+r 48 44 5
+w 'evaluate_2' 62 12
+r 58 54 12
+end
+car 6 1
+r 58 120 19
+w 'adjustment_1' 68 23
+r 64 60 23
+end
+car 7 0
+w 'optimize_1' 72 9
+r 68 64 9
+w 'optimize_2' 82 16
+r 78 74 16
+end
+car 8 1
+r 78 160 22
+w 'secure_data_1' 88 26
+r 84 80 26
+end
+car 9 0
+w 'synchronize_1' 92 14
+r 88 84 14
+w 'synchronize_2' 102 21
+r 98 94 21
+end
+car 10 1
+r 98 200 25
+w 'calculate_1' 108 29
+r 104 100 29
+end
+car 11 0
+w 'phase2_start_1' 112 18
+r 108 104 18
+w 'phase2_start_2' 122 24
+r 118 114 24
+end
+car 12 1
+r 118 240 27
+w 'result_display_1' 128 31
+r 124 120 31
+end
+car 13 0
+w 'store_results_1' 132 22
+r 128 124 22
+w 'store_results_2' 142 28
+r 138 134 28
+end
+car 14 1
+r 138 280 30
+w 'backup_data_1' 148 33
+r 144 140 33
+end
+car 15 0
+w 'share_info_1' 152 26
+r 148 144 26
+w 'share_info_2' 162 32
+r 158 154 32
+end
+car 16 1
+r 158 320 35
+w 'validate_data_1' 168 37
+r 164 160 37
+end
+car 17 0
+w 'purge_old_1' 172 30
+r 168 164 30
+w 'purge_old_2' 182 36
+r 178 174 36
+end
+car 18 1
+r 178 360 38
+w 'reinitialize_1' 188 40
+r 184 180 40
+end
+car 19 0
+w 'audit_process_1' 192 34
+r 188 184 34
+w 'audit_process_2' 202 39
+r 198 194 39
+end
+car 20 1
+r 198 400 41
+w 'optimize_more_1' 208 43
+r 204 200 43
+end
+car 21 0
+w 'new_strategy_1' 212 38
+r 208 204 38
+w 'new_strategy_2' 222 44
+r 218 214 44
+end
+car 22 1
+r 218 440 46
+w 'test_run_1' 228 48
+r 224 220 48
+end
+car 23 0
+w 'pilot_project_1' 232 42
+r 228 224 42
+w 'pilot_project_2' 242 47
+r 238 234 47
+end
+car 24 1
+r 238 480 49
+w 'deploy_system_1' 248 51
+r 244 240 51
+end
+car 25 0
+w 'monitor_system_1' 252 45
+r 248 244 45
+w 'monitor_system_2' 262 50
+r 258 254 50
+end
+car 26 1
+r 258 520 52
+w 'improve_system_1' 268 54
+r 264 260 54
+end
+car 27 0
+w 'scale_up_1' 272 49
+r 268 264 49
+w 'scale_up_2' 282 53
+r 278 274 53
+end
+car 28 1
+r 278 560 55
+w 'expand_capacity_1' 288 57
+r 284 280 57
+end
+car 29 0
+w 'integrate_modules_1' 292 52
+r 288 284 52
+w 'integrate_modules_2' 302 56
+r 298 294 56
+end
+car 30 1
+r 298 600 58
+w 'innovate_approach_1' 308 60
+r 304 300 60
+end
+car 31 0
+w 'future_plan_1' 312 55
+r 308 304 55
+w 'future_plan_2' 322 59
+r 318 314 59
+end
+car 32 1
+r 318 640 61
+w 'explore_tech_1' 328 63
+r 324 320 63
+end
+car 33 0
+w 'research_tech_1' 332 58
+r 328 324 58
+w 'research_tech_2' 342 62
+r 338 334 62
+end
+car 34 1
+r 338 680 64
+w 'prototype_design_1' 348 66
+r 344 340 66
+end
+car 35 0
+w 'product_dev_1' 352 61
+r 348 344 61
+w 'product_dev_2' 362 65
+r 358 354 65
+end
+car 36 1
+r 358 720 67
+w 'launch_product_1' 368 69
+r 364 360 69
+end
+car 37 0
+w 'market_strategy_1' 372 64
+r 368 364 64
+w 'market_strategy_2' 382 68
+r 378 374 68
+end
+car 38 1
+r 378 760 70
+w 'customer_support_1' 388 72
+r 384 380 72
+end
+car 39 0
+w 'service_improve_1' 392 67
+r 388 384 67
+w 'service_improve_2' 402 71
+r 398 394 71
+end
+car 40 1
+r 398 800 73
+w 'final_goal_1' 408 75
+r 404 400 75
+end

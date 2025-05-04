@@ -21,7 +21,11 @@
 #define PROJ_CARCOUNT_KEY_OFFSET 2
 #define PROJ_MAXCARS_KEY_OFFSET 3
 #define PROJ_TOTALCARS_KEY_OFFSET 4
-#define PROJ_SHM_TUNNEL_OFFSET 100
+#define PROJ_SHM_MAILBOX_OFFSET 8 // 假设的 mailbox 共享内存偏移量
+#define PROJ_DIRECTION_TUNNEL_OFFSET 9
+#define PROJ_ZERO_CAR_OFFSET 10
+
+#define PROJ_SHM_TUNNEL_OFFSET 11
 
 extern int total_number_of_cars;
 extern int maximum_number_of_cars_in_tunnel;//隧道最大汽车容量
@@ -51,8 +55,12 @@ public:
     key_t mutex_key;
     key_t block_key;
     key_t car_count_key;
+    key_t direction_changed_key;
+    key_t zero_car_key;
     int mutex_;    // 用来保护内部状态
-    int block_;    // 用来阻塞不符合方向的车
+    int block_;    // 用来阻塞超过容量的车
+    int direction_changed_;    // 用来阻塞不符合方向的车
+    int zero_car_;    // 用来标识车辆是否为0
     Direction current_direction_; // 当前隧道中车的方向
 };
 

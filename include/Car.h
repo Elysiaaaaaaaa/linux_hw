@@ -74,6 +74,8 @@ public:
     State state;//汽车的当前状态，1未进入隧道，2已经隧道中，3出隧道
     string model_str;//手机内存
     std::vector<Operation> operations; // 操作列表
+    int handel;
+    int wait_handel;
 };
 #endif // CAR_H
 

@@ -110,7 +110,7 @@ void mailbox::show() {
         std::chrono::time_point<std::chrono::high_resolution_clock> dummyStartTime = std::chrono::high_resolution_clock::now();
         readMailbox(i, mailboxData, 0, dummyStartTime);
 
-        std::string message = "Mailbox: " + std::to_string(i) + " Info: Data: \"" + mailboxData + "\", Reader Count: " + std::to_string(reader_counts[i]);
+        std::string message = "Mailbox: " + std::to_string(1+i) + " Info: Data: \"" + mailboxData + "\", Reader Count: " + std::to_string(reader_counts[i]);
         Logger::log(LogLevel::INFO, message);
     }
 }

@@ -29,7 +29,7 @@ class Tunnel;
 class process {
 
 public:
-    process(int num_mailboxes, int mem_size, int proj_id, const char *pathname);
+    process(int switch_time, int num_mailboxes, int mem_size, int proj_id, const char *pathname);
     ~process(); // 销毁互斥锁
     void init_car(txt_reader& reader);
     void enter(Car *car);
@@ -39,11 +39,12 @@ public:
 
     void switchDirection();
 public:
+    bool use_rg = false;
     Tunnel* tunnel;
     mailbox* mail_box;
     std::vector<Car> cars;
     std::chrono::time_point<std::chrono::high_resolution_clock> start_time; // 添加起始时间成员变量
-    bool direction_switched;
+    int switch_time;
 };
 
 
