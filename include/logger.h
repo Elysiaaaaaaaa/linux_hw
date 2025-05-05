@@ -2,14 +2,15 @@
 // Created by elysia on 2025/4/6.
 //
 
-#ifndef LINUX_HW_LOGGER_H
-#define LINUX_HW_LOGGER_H
-#include <string>
-#include <chrono>
+#ifndef LOGGER_H
+#define LOGGER_H
+
 #include <iostream>
-#include <ctime>
+#include <fstream>
 #include <sstream>
+#include <string>
 #include <mutex>
+#include <chrono>
 #include <map>
 
 enum class LogLevel {
@@ -22,11 +23,15 @@ class Logger {
 public:
     static void setBaseTime();
     static void log(LogLevel level, const std::string& message);
+    static void initLogFile(const std::string& filename);
+    static void closeLogFile();
 
 private:
-    static std::chrono::time_point<std::chrono::high_resolution_clock> baseTime;
     static std::string getTimestamp();
     static std::string levelToString(LogLevel level);
 
+    static std::chrono::time_point<std::chrono::high_resolution_clock> baseTime;
+    static std::ofstream logFile;
 };
-#endif //LINUX_HW_LOGGER_H
+
+#endif // LOGGER_H

@@ -1,0 +1,215 @@
+35
+7
+450
+32
+38
+car 1 0
+w 'msg1' 10 1
+r 20 15 2
+w 'update1' 30 3
+r 40 18 4
+end
+car 2 1
+w 'msg2' 20 5
+r 40 22 6
+w 'update2' 60 7
+r 80 20 8
+end
+car 3 0
+w 'msg3' 30 9
+r 60 19 10
+w 'update3' 90 11
+r 120 22 12
+end
+car 4 1
+w 'msg4' 40 13
+r 80 21 14
+w 'update4' 120 15
+r 160 24 16
+end
+car 5 0
+w 'msg5' 50 17
+r 100 23 18
+w 'update5' 150 19
+r 200 26 20
+end
+car 6 1
+w 'msg6' 60 21
+r 120 25 22
+w 'update6' 180 23
+r 240 28 24
+end
+car 7 0
+w 'msg7' 70 25
+r 140 27 26
+w 'update7' 210 27
+r 280 30 28
+end
+car 8 1
+w 'msg8' 80 29
+r 160 29 30
+w 'update8' 240 31
+r 320 32 32
+end
+car 9 0
+w 'msg9' 90 1
+r 180 31 2
+w 'update9' 270 3
+r 360 34 4
+end
+car 10 0
+w 'msg10' 10 1
+r 200 33 6
+w 'update10' 15 2
+r 400 36 8
+end
+car 11 0
+w 'msg11' 110 9
+r 220 35 10
+w 'update11' 330 11
+r 440 38 12
+end
+car 12 1
+w 'msg12' 120 13
+r 240 37 14
+w 'update12' 360 15
+r 480 40 16
+end
+car 13 0
+w 'msg13' 130 17
+r 260 39 18
+w 'update13' 390 19
+r 520 42 20
+end
+car 14 1
+w 'msg14' 140 21
+r 280 41 22
+w 'update14' 420 23
+r 560 44 24
+end
+car 15 0
+w 'msg15' 150 25
+r 300 43 26
+w 'update15' 450 27
+r 600 46 28
+end
+car 16 1
+w 'msg16' 160 29
+r 320 45 30
+w 'update16' 480 31
+r 640 48 32
+end
+car 17 0
+w 'msg17' 170 1
+r 340 47 2
+w 'update17' 510 3
+r 680 50 4
+end
+car 18 1
+w 'msg18' 180 5
+r 360 49 6
+w 'update18' 540 7
+r 720 52 8
+end
+car 19 0
+w 'msg19' 190 9
+r 380 51 10
+w 'update19' 570 11
+r 760 54 12
+end
+car 20 1
+w 'msg20' 200 13
+r 400 53 14
+w 'update20' 600 15
+r 800 56 16
+end
+car 21 0
+w 'msg21' 210 17
+r 420 55 18
+w 'update21' 630 19
+r 840 58 20
+end
+car 22 1
+w 'msg22' 220 21
+r 440 57 22
+w 'update22' 660 23
+r 880 60 24
+end
+car 23 0
+w 'msg23' 230 25
+r 460 59 26
+w 'update23' 690 27
+r 920 62 28
+end
+car 24 1
+w 'msg24' 240 29
+r 480 61 30
+w 'update24' 720 31
+r 960 64 32
+end
+car 25 0
+w 'msg25' 250 1
+r 500 63 2
+w 'update25' 750 3
+r 1000 66 4
+end
+car 26 1
+w 'msg26' 260 5
+r 520 65 6
+w 'update26' 780 7
+r 1040 68 8
+end
+car 27 0
+w 'msg27' 270 9
+r 540 67 10
+w 'update27' 810 11
+r 1080 70 12
+end
+car 28 1
+w 'msg28' 280 13
+r 560 69 14
+w 'update28' 840 15
+r 1120 72 16
+end
+car 29 0
+w 'msg29' 290 17
+r 580 71 18
+w 'update29' 870 19
+r 1160 74 20
+end
+car 30 1
+w 'msg30' 300 21
+r 600 73 22
+w 'update30' 900 23
+r 1200 76 24
+end
+car 31 0
+w 'msg31' 310 25
+r 620 75 26
+w 'update31' 930 27
+r 1240 78 28
+end
+car 32 1
+w 'msg32' 320 29
+r 640 77 30
+w 'update32' 960 31
+r 1280 80 32
+end
+car 33 0
+w 'msg33' 330 1
+r 660 79 2
+w 'update33' 990 3
+r 1320 82 4
+end
+car 34 1
+w 'msg34' 340 5
+r 680 81 6
+w 'update34' 1020 7
+r 1360 84 8
+end
+car 35 0
+w 'msg35' 350 9
+r 700 83 10
+w 'update35' 1050 11
+r 1400 86 12
+end

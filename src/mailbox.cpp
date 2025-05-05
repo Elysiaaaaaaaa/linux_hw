@@ -102,15 +102,19 @@ void mailbox::writeMailbox(int mailbox_index, string data, int op_time, const st
     // 释放邮箱的信号量
     Signal(semid, mailbox_index);
 }
-
+void mailbox::read_one(int i) {
+    std::string mailboxData;
+    // 重置读指针到开头
+    int k = reader_counts[i + total_number_of_mailboxes];
+    reader_counts[i + total_number_of_mailboxes] = 0;
+    std::chrono::time_point<std::chrono::high_resolution_clock> dummyStartTime = std::chrono::high_resolution_clock::now();
+    readMailbox(i, mailboxData, 0, dummyStartTime);
+    reader_counts[i + total_number_of_mailboxes] = k;
+    std::string message = "Mailbox: " + std::to_string(1 + i) + " Info: Data: \"" + mailboxData + "\", Reader Count: " + std::to_string(reader_counts[i]);
+    Logger::log(LogLevel::INFO, message);
+}
 void mailbox::show() {
     for (int i = 0; i < total_number_of_mailboxes; i++) {
-        std::string mailboxData;
-        // 这里为了获取邮箱数据，调用 readMailbox 方法，由于只是展示，这里的时间参数可设为 0
-        std::chrono::time_point<std::chrono::high_resolution_clock> dummyStartTime = std::chrono::high_resolution_clock::now();
-        readMailbox(i, mailboxData, 0, dummyStartTime);
-
-        std::string message = "Mailbox: " + std::to_string(1+i) + " Info: Data: \"" + mailboxData + "\", Reader Count: " + std::to_string(reader_counts[i]);
-        Logger::log(LogLevel::INFO, message);
+        read_one(i);
     }
 }

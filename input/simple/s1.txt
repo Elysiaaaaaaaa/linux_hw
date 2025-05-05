@@ -1,0 +1,17 @@
+3
+3
+150
+4
+25
+car 1 0
+w 'info1' 15 2
+r 12 20 2
+end
+car 2 1
+r 18 22 3
+w 'info2' 20 4
+end
+car 3 0
+w 'info3' 18 1
+r 14 16 1
+end

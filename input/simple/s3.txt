@@ -1,0 +1,15 @@
+2
+4
+120
+3
+20
+car 1 0
+w 'init_data' 10 1
+r 8 12 1
+w 'update' 15 3
+end
+car 2 1
+r 11 15 2
+w 'finish' 13 1
+r 9 11 1
+end

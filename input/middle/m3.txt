@@ -1,0 +1,203 @@
+33
+5
+420
+30
+39
+car 1 0
+w 'info1' 10 1
+r 20 14 2
+w 'change1' 30 3
+r 40 17 4
+end
+car 2 1
+w 'info2' 20 5
+r 40 16 6
+w 'change2' 60 7
+r 80 19 8
+end
+car 3 0
+w 'info3' 30 9
+r 60 18 10
+w 'change3' 90 11
+r 120 21 12
+end
+car 4 1
+w 'info4' 40 13
+r 80 20 14
+w 'change4' 120 15
+r 160 23 16
+end
+car 5 0
+w 'info5' 50 17
+r 100 22 18
+w 'change5' 150 19
+r 200 25 20
+end
+car 6 1
+w 'info6' 60 21
+r 120 24 22
+w 'change6' 180 23
+r 240 27 24
+end
+car 7 0
+w 'info7' 70 25
+r 140 26 26
+w 'change7' 210 27
+r 280 29 28
+end
+car 8 1
+w 'info8' 80 29
+r 160 28 30
+w 'change8' 240 31
+r 320 31 32
+end
+car 9 0
+w 'info9' 90 1
+r 180 30 2
+w 'change9' 270 3
+r 360 33 4
+end
+car 10 1
+w 'info10' 100 5
+r 200 32 6
+w 'change10' 300 7
+r 400 35 8
+end
+car 11 0
+w 'info11' 110 9
+r 220 34 10
+w 'change11' 330 11
+r 440 37 12
+end
+car 12 1
+w 'info12' 120 13
+r 240 36 14
+w 'change12' 360 15
+r 480 39 16
+end
+car 13 0
+w 'info13' 130 17
+r 260 38 18
+w 'change13' 390 19
+r 520 41 20
+end
+car 14 1
+w 'info14' 140 21
+r 280 40 22
+w 'change14' 420 23
+r 560 43 24
+end
+car 15 0
+w 'info15' 150 25
+r 300 42 26
+w 'change15' 450 27
+r 600 45 28
+end
+car 16 1
+w 'info16' 160 29
+r 320 44 30
+w 'change16' 480 31
+r 640 47 32
+end
+car 17 0
+w 'info17' 170 1
+r 340 46 2
+w 'change17' 510 3
+r 680 49 4
+end
+car 18 1
+w 'info18' 180 5
+r 360 48 6
+w 'change18' 540 7
+r 720 51 8
+end
+car 19 0
+w 'info19' 190 9
+r 380 50 10
+w 'change19' 570 11
+r 760 53 12
+end
+car 20 1
+w 'info20' 200 13
+r 400 52 14
+w 'change20' 600 15
+r 800 55 16
+end
+car 21 0
+w 'info21' 210 17
+r 420 54 18
+w 'change21' 630 19
+r 840 57 20
+end
+car 22 1
+w 'info22' 220 21
+r 440 56 22
+w 'change22' 660 23
+r 880 59 24
+end
+car 23 0
+w 'info23' 230 25
+r 460 58 26
+w 'change23' 690 27
+r 920 61 28
+end
+car 24 1
+w 'info24' 240 29
+r 480 60 30
+w 'change24' 720 31
+r 960 63 32
+end
+car 25 0
+w 'info25' 250 1
+r 500 62 2
+w 'change25' 750 3
+r 1000 65 4
+end
+car 26 1
+w 'info26' 260 5
+r 520 64 6
+w 'change26' 780 7
+r 1040 67 8
+end
+car 27 0
+w 'info27' 270 9
+r 540 66 10
+w 'change27' 810 11
+r 1080 69 12
+end
+car 28 1
+w 'info28' 280 13
+r 560 68 14
+w 'change28' 840 15
+r 1120 71 16
+end
+car 29 0
+w 'info29' 290 17
+r 580 70 18
+w 'change29' 870 19
+r 1160 73 20
+end
+car 30 1
+w 'info30' 300 21
+r 600 72 22
+w 'change30' 900 23
+r 1200 75 24
+end
+car 31 0
+w 'info31' 310 25
+r 620 74 26
+w 'change31' 930 27
+r 1240 77 28
+end
+car 32 1
+w 'info32' 320 29
+r 640 76 30
+w 'change32' 960 31
+r 1280 79 32
+end
+car 33 0
+w 'info33' 330 1
+r 660 78 2
+w 'change33' 990 3
+r 1320 81 4
+end

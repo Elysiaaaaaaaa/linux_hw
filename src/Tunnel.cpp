@@ -9,20 +9,14 @@ Tunnel::Tunnel(int proj_id, const char *pathname){
     // 生成共享的信号量 key
     mutex_key = ftok(pathname, proj_id + PROJ_MUTEX_KEY_OFFSET);
     block_key = ftok(pathname, proj_id + PROJ_BLOCK_KEY_OFFSET);
-    car_count_key = ftok(pathname, proj_id + PROJ_CARCOUNT_KEY_OFFSET);
     direction_changed_key = ftok(pathname, proj_id + PROJ_DIRECTION_TUNNEL_OFFSET);
     zero_car_key = ftok(pathname, proj_id + PROJ_ZERO_CAR_OFFSET);
-    key_t maxcars_key = ftok(pathname, proj_id + PROJ_MAXCARS_KEY_OFFSET);
-    key_t totalcars_key = ftok(pathname, proj_id + PROJ_TOTALCARS_KEY_OFFSET);
 
     // 获取或创建信号量
     mutex_ = sem_get(mutex_key, 1, true, 1);
-    block_ = sem_get(block_key, 1, true, 0);
+    block_ = sem_get(block_key, 2, true, maximum_number_of_cars_in_tunnel);
     direction_changed_ = sem_get(direction_changed_key, 2, true, 0);
-    zero_car_ = sem_get(zero_car_key, 1, true, 1);
-
-    tunnel_number_of_cars = sem_get(maxcars_key, 1, true, maximum_number_of_cars_in_tunnel);
-    total_number_of_cars_tunnel = sem_get(totalcars_key, 1, true, total_number_of_cars);
+    zero_car_ = sem_get(zero_car_key, 2, true, 1);
 
     // 普通变量：因为 Tunnel 放在共享内存中，这个成员变量才有意义
     car_count_ = 0;
@@ -96,7 +90,19 @@ void Tunnel::show() {
 }
 
 Tunnel::~Tunnel() {
-
+    // 删除信号量
+    if (semctl(mutex_, 0, IPC_RMID) == -1) {
+        std::cerr << "Failed to delete mutex semaphore" << std::endl;
+    }
+    if (semctl(block_, 0, IPC_RMID) == -1) {
+        std::cerr << "Failed to delete block semaphore" << std::endl;
+    }
+    if (semctl(direction_changed_, 0, IPC_RMID) == -1) {
+        std::cerr << "Failed to delete direction_changed semaphore" << std::endl;
+    }
+    if (semctl(zero_car_, 0, IPC_RMID) == -1) {
+        std::cerr << "Failed to delete zero_car semaphore" << std::endl;
+    }
 }
 
 //

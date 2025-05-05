@@ -30,6 +30,7 @@ public:
     void readMailbox(int mailbox_index, std::string& result, int op_time, const std::chrono::time_point<std::chrono::high_resolution_clock>& start_time);
     void writeMailbox(int mailbox_index, string data, int op_time, const std::chrono::time_point<std::chrono::high_resolution_clock>& start_time);
     void show();
+    void read_one(int i);
 };
 #endif //LINUX_HW_MAILBOX_H
 

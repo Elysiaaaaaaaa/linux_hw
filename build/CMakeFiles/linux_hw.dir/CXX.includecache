@@ -39,17 +39,17 @@ algorithm
 -
 
 ../include/Logger.h
-string
--
-chrono
--
 iostream
 -
-ctime
+fstream
 -
 sstream
 -
+string
+-
 mutex
+-
+chrono
 -
 map
 -
@@ -71,17 +71,17 @@ logger.h
 ../include/logger.h
 
 ../include/logger.h
-string
--
-chrono
--
 iostream
 -
-ctime
+fstream
 -
 sstream
 -
+string
+-
 mutex
+-
+chrono
 -
 map
 -
@@ -162,6 +162,8 @@ vector
 cstdio
 -
 unistd.h
+-
+condition_variable
 -
 
 ../include/txt_reader.h

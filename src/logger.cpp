@@ -4,17 +4,32 @@
 
 #include "Logger.h"
 
-
 using namespace std;
 mutex logMutex;
-std::chrono::time_point<std::chrono::high_resolution_clock> Logger::baseTime;
+chrono::time_point<chrono::high_resolution_clock> Logger::baseTime;
+ofstream Logger::logFile;
 
-void Logger::setBaseTime(){
-    baseTime = std::chrono::high_resolution_clock::now();
+void Logger::setBaseTime() {
+    baseTime = chrono::high_resolution_clock::now();
+}
+
+void Logger::initLogFile(const string& filename) {
+    lock_guard<mutex> lock(logMutex);
+    logFile.open(filename, ios::out | ios::app);
+    if (!logFile.is_open()) {
+        cerr << "Failed to open log file: " << filename << endl;
+    }
+}
+
+void Logger::closeLogFile() {
+    lock_guard<mutex> lock(logMutex);
+    if (logFile.is_open()) {
+        logFile.close();
+    }
 }
 
 void Logger::log(LogLevel level, const string& message) {
-    lock_guard<mutex> lock(logMutex);  // 保证线程安全
+    lock_guard<mutex> lock(logMutex);
 
     string colorCode;
     switch (level) {
@@ -28,27 +43,33 @@ void Logger::log(LogLevel level, const string& message) {
             colorCode = "\033[31m"; // 红色
             break;
         default:
-            colorCode = "\033[0m";  // 默认
+            colorCode = "\033[0m";
             break;
     }
-
     string resetCode = "\033[0m";
 
-    cout << colorCode
-         << "[" << getTimestamp() << "] "
-         << "[" << levelToString(level) << "] "
-         << message
-         << resetCode << endl;
+    stringstream formatted;
+    formatted << "[" << getTimestamp() << "] "
+              << "[" << levelToString(level) << "] "
+              << message;
+
+    // 输出到终端（带颜色）
+    cout << colorCode << formatted.str() << resetCode << endl;
     cout.flush();
+
+    // 输出到文件（不带颜色）
+    if (logFile.is_open()) {
+        logFile << formatted.str() << endl;
+        logFile.flush();
+    }
 }
 
 string Logger::getTimestamp() {
-    auto now = std::chrono::high_resolution_clock::now();
-    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - baseTime).count();
+    auto now = chrono::high_resolution_clock::now();
+    auto elapsed = chrono::duration_cast<chrono::milliseconds>(now - baseTime).count();
 
     ostringstream oss;
     oss << elapsed;
-
     return oss.str();
 }
 
@@ -58,7 +79,6 @@ string Logger::levelToString(LogLevel level) {
             {LogLevel::WARN, "WARN"},
             {LogLevel::ERROR, "ERROR"}
     };
-
     auto it = levelToStr.find(level);
     return it != levelToStr.end() ? it->second : "UNKNOWN";
 }

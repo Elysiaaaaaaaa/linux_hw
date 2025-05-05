@@ -39,7 +39,10 @@ public:
 
     void switchDirection();
 public:
-    bool use_rg = false;
+    const char * pathname;
+    int proj_id;
+    bool use_rg = true;
+    bool ex_input = true;
     Tunnel* tunnel;
     mailbox* mail_box;
     std::vector<Car> cars;

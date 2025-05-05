@@ -1,0 +1,13 @@
+2
+5
+180
+3
+30
+car 1 1
+r 20 25 1
+w 'new_info' 22 2
+end
+car 2 0
+w 'test' 16 3
+r 15 18 3
+end

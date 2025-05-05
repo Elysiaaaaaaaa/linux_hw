@@ -76,6 +76,7 @@ public:
     std::vector<Operation> operations; // ²Ù×÷ÁÐ±í
     int handel;
     int wait_handel;
+    bool out = false;
 };
 #endif // CAR_H
 
