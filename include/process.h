@@ -41,7 +41,9 @@ public:
 public:
     const char * pathname;
     int proj_id;
-    bool use_rg = true;
+//    调度算法选择，是否使用红绿灯
+    bool use_rg = false;
+//    输入时间格式改变
     bool ex_input = true;
     Tunnel* tunnel;
     mailbox* mail_box;

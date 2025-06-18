@@ -2,7 +2,6 @@
 使用Linux高级IPC机制实现一个多进程系统来模拟一个双向隧道内的交通流量控制系统,详细表述见说明pdf
 
 ## 代码结构
-
 ```
 .
 ├── CMakeLists.txt
@@ -51,6 +50,15 @@ car_id direction分别指定车的标识符和方向（0/1）
 w '写入内容' 写入时间 目标邮箱
 r  读取长度  读取时间 目标邮箱
 ```
+## 调度参数调整
+可见`include/process.h`中`process`类的实现
+```
+//    调度算法选择，是否使用红绿灯
+bool use_rg = true;
+//    输入时间格式改变
+bool ex_input = true;
+```
+
 
 ## RUN
 1. `build` 目录下执行以下指令编译
